@@ -6,7 +6,7 @@
  *  @main
  */
 (function(global,paper) {
-    var animatePaper = {};
+    var animatePaper = {}; // namespace
     var debug = true;
     var _log = function() {
         if(!!debug) {
@@ -146,7 +146,7 @@
         self.settings = _initializeSettings(settings);
         self.item = item;
         self.tweens = [];
-        self.ticker;
+        self.ticker = null;
 
         for(var i in properties) {
             if(properties.hasOwnProperty(i)) {
@@ -243,7 +243,9 @@
             step: undefined,
             mode: "onFrame"
         };
-        typeof settings === "undefined" ? settings = {};
+        if(typeof settings === "undefined") {
+            settings = {};
+        }
 
         // .duration must exist, and be a positive Number
         if(typeof settings.duration === "undefined") {
