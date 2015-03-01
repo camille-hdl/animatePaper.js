@@ -141,7 +141,7 @@
     function Animation(item,properties,settings) {
         var self = this;
         self.stopped = false;
-        self.index = 0;
+        
         self.startTime = new Date().getTime();
         self.settings = _initializeSettings(settings);
         self.item = item;
@@ -155,10 +155,11 @@
         }
 
         if(self.settings.mode === "onFrame") {
-            self.ticker = animatePaper.frameManager.add(self.item,"_animate"+startTime,function() {
+            self.ticker = animatePaper.frameManager.add(self.item,"_animate"+self.startTime,function() {
                 self.tick();
             });
         }
+        
     }
     /**
      *  Called on each step of the animation.
@@ -171,6 +172,7 @@
         var remaining = Math.max(0,self.startTime + self.settings.duration - currentTime);
         var temp = remaining / self.settings.duration || 0;
         var percent = 1 - temp;
+        
         for(var i = 0,l = self.tweens.length; i < l; i++) {
             self.tweens[i].run(percent);
         }
@@ -178,12 +180,13 @@
         if(typeof self.settings.step !== "undefined") {
             self.settings.step.call(self.item,{percent:percent,remaining:remaining});
         }
-
+        self.item.project.view.draw();
+        
         // if the Animation is in timeout mode, we must force a View update
         if(self.settings.mode === "timeout") {
             //
         }
-        if(percent < 1 && length) {
+        if(percent < 1 && l) {
             return remaining;
         }
         else {
@@ -300,9 +303,30 @@
                 return output;
             },
             set: function(tween) {
-                tween.item[tween.prop] = tween.now;
+                
+                var toSet = {};
+                toSet[tween.prop] = tween.now;
+                tween.item.set(toSet);
             }
          
+        },
+        scale: {
+            get: function(tween) {
+                if(!tween.item.data._animatePaperVals) {
+                    tween.item.data._animatePaperVals = {};
+                }
+                if(typeof tween.item.data._animatePaperVals.scale === "undefined") {
+                    tween.item.data._animatePaperVals.scale = 1;
+                }
+                var output = tween.item.data._animatePaperVals.scale;
+
+                return output;
+            },
+            set: function(tween) {
+                console.log("set",tween.prop,"on ",tween.item,"with ",tween.now);
+                tween.item.data._animatePaperVals.scale = tween.now;
+                tween.item.scale(tween.now);
+            }
         }
     };
     /**
@@ -327,13 +351,13 @@
         var self = this;
         // should we use a special way to get the current value ? if not just use item[prop]
         var hooks = _tweenPropHooks[self.prop];
-        return hooks && hooks.get ? hooks.get(this) : _tweenPropHooks._default.get(this);
+        return hooks && hooks.get ? hooks.get(self) : _tweenPropHooks._default.get(self);
     };
     Tween.prototype.run = function(percent) {
         var self = this;
         var eased;
         var hooks = _tweenPropHooks[self.prop];
-        var settings = self.animation.settings;
+        var settings = self.A.settings;
         if(settings.duration) {
             self.pos = eased = easing[settings.easing](percent,settings.duration * percent, 0, 1, self.duration);
         }
@@ -343,12 +367,13 @@
         // refresh current value
         self.now = (self.end - self.start) * eased + self.start;
         if(hooks && hooks.set) {
-            hooks.set(this);
+            hooks.set(self);
         }
         else {
-            _tweenPropHooks._default.set(this);
+            _tweenPropHooks._default.set(self);
         }
-        return this;
+        //console.log("run",self);
+        return self;
     };
 
     
