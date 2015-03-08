@@ -8,18 +8,35 @@
   <script>
   document.addEventListener('DOMContentLoaded',function() {
 	  var scope = paper.setup('defCanvas');
-	  var circle = new paper.Shape.Circle(new paper.Point(80, 50), 30);
+	  var circle = new paper.Path.Circle(new paper.Point(500, 350), 30);
 	  circle.strokeColor = 'black';
 	  window.c = circle;
+
+	  var refCircle = circle.clone();
+	  refCircle.strokeColor = 'red';
+
+	  var refEndCircle = circle.clone();
+	  refEndCircle.strokeColor = 'green';
+	  refEndCircle.scale(2);
+
 	  animatePaper.animate(circle,{
 		properties: {
-		  scale: 1.2
+		  scale: 2
+		},
+		settings: {
+			complete: function() {
+				animatePaper.animate(circle,{
+					properties: {
+						scale: 1
+					}
+				});
+			}
 		}
 	  });
 	});
   </script>
 </head>
 <body>
-  <canvas id="defCanvas" width="300px" height="400px"></canvas>
+  <canvas id="defCanvas" width="1000px" height="700px"></canvas>
 </body>
 </html>

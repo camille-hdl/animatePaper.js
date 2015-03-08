@@ -319,13 +319,20 @@
                     tween.item.data._animatePaperVals.scale = 1;
                 }
                 var output = tween.item.data._animatePaperVals.scale;
-
                 return output;
             },
             set: function(tween) {
-                console.log("set",tween.prop,"on ",tween.item,"with ",tween.now);
+                
+                var curScaling = tween.item.data._animatePaperVals.scale;
+                var trueScaling = tween.now / curScaling;
+                console.log("set",tween.prop,"on ",tween.item,"with ",trueScaling);
                 tween.item.data._animatePaperVals.scale = tween.now;
-                tween.item.scale(tween.now);
+                tween.item.scale(trueScaling);
+                /*
+                newScaling = 1.4;
+                curScaling = 1.1
+                newWidth = curWidth * newScaling / curScaling
+                */
             }
         }
     };
