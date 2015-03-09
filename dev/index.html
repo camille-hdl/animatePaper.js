@@ -24,17 +24,53 @@
 		  scale: 2
 		},
 		settings: {
+			duration: 5000,
 			complete: function() {
 				animatePaper.animate(circle,{
 					properties: {
 						scale: 1
 					},
 					settings: {
-						easing: "swing"
+						duration: 1000,
+						easing: "easeInBack"
 					}
 				});
 			},
-			easing: "swing"
+			easing: "easeInBounce"
+		}
+	  });
+
+
+	  var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+	  square.strokeColor = 'black';
+	  window.s = square;
+
+	  var refSquare = square.clone();
+	  refSquare.strokeColor = 'red';
+
+	  var refEndSquare = square.clone();
+	  refEndSquare.strokeColor = 'green';
+	  refEndSquare.scale(2);
+	  refEndSquare.rotate(30);
+
+	  animatePaper.animate(square,{
+		properties: {
+		  scale: 2
+		},
+		settings: {
+			duration: 500,
+			complete: function() {
+				animatePaper.animate(square,{
+					properties: {
+						rotate: 30
+					},
+					settings: {
+						duration: 1000,
+						easing: "easeInElastic"
+					}
+				});
+			},
+			easing: "easeInElastic"
 		}
 	  });
 	});
