@@ -8,9 +8,9 @@
 (function(global,paper) {
     var animatePaper = {}; // namespace
     var debug = true;
-    var _log = function() {
+    var __log = function() {
         if(!!debug) {
-            console.debug.call(console,arguments.splice(0));
+            console.log.call(console,arguments.splice(0));
         }
     };
     /**
@@ -25,11 +25,12 @@
 	 */
 	function frameManagerHandler(ev) {
 		var item = this;
+        
 		if(typeof item.data._customHandlers !== "undefined" &&
 			item.data._customHandlersCount > 0
 			) {
 			// parcourir les handlers et les declencher
-			for(var i in item.data._customHandlers) {
+			for(var i in item.data._customHandlers) { 
 				if(item.data._customHandlers.hasOwnProperty(i)) {
 					if(typeof item.data._customHandlers[i] === "function") {
 						item.data._customHandlers[i].call(item,ev);
@@ -68,8 +69,10 @@
 			item.data._customHandlers[name] = callback;
 			item.data._customHandlersCount += 1;
 			if(item.data._customHandlersCount>0) {
+                
 				item.onFrame = frameManagerHandler;
 			}
+            
             return name;
 		},
 		/**
@@ -85,7 +88,7 @@
 				item.data._customHandlersCount -= 1;
 				if(item.data._customHandlersCount <= 0) {
 					item.data._customHandlersCount = 0;
-					item.onFrame = null;
+                   
 				}
 			}
 		}
@@ -156,6 +159,7 @@
 
         if(self.settings.mode === "onFrame") {
             self.ticker = animatePaper.frameManager.add(self.item,"_animate"+self.startTime,function() {
+                console.log('tick',self);
                 self.tick();
             });
         }
@@ -176,7 +180,6 @@
         for(var i = 0,l = self.tweens.length; i < l; i++) {
             self.tweens[i].run(percent);
         }
-
         if(typeof self.settings.step !== "undefined") {
             self.settings.step.call(self.item,{percent:percent,remaining:remaining});
         }
@@ -218,16 +221,19 @@
      */
     Animation.prototype.end = function() {
         var self = this;
+        
         if(self.settings.mode === "onFrame") {
             animatePaper.frameManager.remove(self.item,self.ticker);
         }
         if(typeof self.settings.complete !== "undefined") {
             self.settings.complete.call(self.item);
         }
+        
         // if the Animation is in timeout mode, we must force a View update
         if(self.settings.mode === "timeout") {
             //
         }
+        self = null;
     };
 
     /**
@@ -265,16 +271,15 @@
         if(typeof settings.easing === "undefined") {
             settings.easing = defaults.easing;
         }
-        else {
-           if(typeof(easing[settings.easing]) !== "undefined" && easing.hasOwnProperty(settings.easing)) {
+           if(typeof easing[settings.easing] !== "undefined" && easing.hasOwnProperty(settings.easing)) {
                settings.easingFunction = easing[settings.easing];
            }
            else {
                settings.easing = defaults.easing;
                settings.easingFunction = easing[defaults.easing];
            }
-        }
-
+        
+       
         // callbacks must be functions
         if(typeof settings.complete !== "function") {
             settings.complete = undefined;
@@ -325,14 +330,10 @@
                 
                 var curScaling = tween.item.data._animatePaperVals.scale;
                 var trueScaling = tween.now / curScaling;
-                console.log("set",tween.prop,"on ",tween.item,"with ",trueScaling);
+                
                 tween.item.data._animatePaperVals.scale = tween.now;
                 tween.item.scale(trueScaling);
-                /*
-                newScaling = 1.4;
-                curScaling = 1.1
-                newWidth = curWidth * newScaling / curScaling
-                */
+                
             }
         }
     };
@@ -352,6 +353,7 @@
         self.prop = property;
         self.end = value;
         self.start = self.now = self.cur();
+        self.direction = self.end > self.start ? "+":"-";
         
     }
     Tween.prototype.cur = function() {
@@ -364,6 +366,7 @@
         var self = this;
         var eased;
         var hooks = _tweenPropHooks[self.prop];
+        console.log('tween run',percent);
         var settings = self.A.settings;
         if(settings.duration) {
             self.pos = eased = easing[settings.easing](percent,settings.duration * percent, 0, 1, self.duration);
@@ -372,14 +375,17 @@
             self.pos = eased = percent;
         }
         // refresh current value
+       
+        
         self.now = (self.end - self.start) * eased + self.start;
+        
         if(hooks && hooks.set) {
             hooks.set(self);
         }
         else {
             _tweenPropHooks._default.set(self);
         }
-        //console.log("run",self);
+        
         return self;
     };
 
