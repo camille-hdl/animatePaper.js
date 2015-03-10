@@ -73,6 +73,21 @@
 			easing: "easeInElastic"
 		}
 	  });
+
+	  var star = new paper.Path.Star(new paper.Point(45,50),5,25,45);
+	  star.fillColor = "black";
+	  window.star = star;
+	  animatePaper.animate(star,{
+		  properties: {
+			  translate: new paper.Point(200,50),
+			  rotate: 200,
+			  scale: 2
+		  },
+		  settings: {
+			  duration:3000,
+			  easing:"swing"
+		  }
+	  });
 	});
   </script>
 </head>
