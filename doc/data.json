@@ -1,0 +1,322 @@
+{
+    "project": {
+        "name": "animatePaper.js",
+        "description": "An animation library for paper.js",
+        "version": "0.1"
+    },
+    "files": {
+        "src\\animatePaper.js": {
+            "name": "src\\animatePaper.js",
+            "modules": {
+                "animatePaper": 1
+            },
+            "classes": {
+                "Tween": 1,
+                "frameManager": 1,
+                "easing": 1,
+                "Animation": 1
+            },
+            "fors": {
+                "Tween": 1,
+                "frameManager": 1,
+                "animatePaper": 1
+            },
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "animatePaper": {
+            "name": "animatePaper",
+            "submodules": {},
+            "classes": {
+                "Tween": 1,
+                "frameManager": 1,
+                "animatePaper": 1,
+                "easing": 1,
+                "Animation": 1
+            },
+            "fors": {
+                "Tween": 1,
+                "frameManager": 1,
+                "animatePaper": 1
+            },
+            "namespaces": {},
+            "tag": "module",
+            "file": "src\\animatePaper.js",
+            "line": 208,
+            "description": "An animation library for paper.js\ncamille.hodoul@gmail.com",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "Tween": {
+            "name": "Tween",
+            "shortname": "Tween",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "animatePaper",
+            "namespace": "",
+            "file": "src\\animatePaper.js",
+            "line": 465,
+            "description": "Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "Property",
+                    "description": "name",
+                    "type": "String"
+                },
+                {
+                    "name": "Final",
+                    "description": "value",
+                    "type": "Mixed"
+                },
+                {
+                    "name": "animation",
+                    "description": "",
+                    "type": "Object"
+                }
+            ]
+        },
+        "frameManager": {
+            "name": "frameManager",
+            "shortname": "frameManager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "animatePaper",
+            "namespace": "",
+            "file": "src\\animatePaper.js",
+            "line": 73,
+            "description": "The `frameManager` is used to bind and unbind multiple callbacks to an object's\n`onFrame`. If an object has at least one handler, it's `onFrame` handler will be\n{{#crossLink \"frameManager/frameManagerHandler:method\"}}{{/crossLink}}.",
+            "static": 1
+        },
+        "animatePaper": {
+            "name": "animatePaper",
+            "shortname": "animatePaper",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "animatePaper",
+            "namespace": ""
+        },
+        "easing": {
+            "name": "easing",
+            "shortname": "easing",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "animatePaper",
+            "namespace": "",
+            "file": "src\\animatePaper.js",
+            "line": 148,
+            "description": "Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and\nimplementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js",
+            "static": 1
+        },
+        "Animation": {
+            "name": "Animation",
+            "shortname": "Animation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "animatePaper",
+            "namespace": "",
+            "file": "src\\animatePaper.js",
+            "line": 208,
+            "description": "Animation class.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "item",
+                    "description": "a paper.js Item instance, which will be animated.",
+                    "type": "Object"
+                },
+                {
+                    "name": "properties",
+                    "description": "properties to animate",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object"
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "src\\animatePaper.js",
+            "line": 17,
+            "description": "Performs an operation on two paper.Point() objects.\nReturns the result of : ` a operator b`.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_pointDiff",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "a `paper.Point` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "b",
+                    "description": "a `paper.Point` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "operator",
+                    "description": "either `+` or `-`",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "`{x: (a.x operator b.x), y: (a.y operator b.y)}`",
+                "type": "Object"
+            },
+            "class": "Tween",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 47,
+            "description": "This is the only function called in a objects `onFrame` handler.\nIf the objects has callbacks in it's `data._customHandlers` property,\neach of these is called.",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "frameManagerHandler",
+            "params": [
+                {
+                    "name": "ev",
+                    "description": "The event object",
+                    "type": "Object"
+                }
+            ],
+            "class": "frameManager",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 82,
+            "description": "Add a callback to a paper.js Item's `onFrame` event.\nThe Item itself will be the `thisValue` and the event object `ev` will be the first argument",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "paper.js Item",
+                    "type": "Object"
+                },
+                {
+                    "name": "name",
+                    "description": "An identifier for this callback",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "example": [
+                "\n     animatePaper.frameManager.add(circle,\"goUp\",function(ev) {\n         // Animation logic\n     });"
+            ],
+            "itemtype": "method",
+            "name": "add",
+            "class": "frameManager",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 109,
+            "description": "Remove a callback from an item's `onFrame` handler.",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "paper.js Item object",
+                    "type": "Object"
+                },
+                {
+                    "name": "name",
+                    "description": "The identifier of the callback you want to remove",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "remove",
+            "class": "frameManager",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 128,
+            "description": "The main animation interface.\nIt can take a single option object or an array of option objects\nif you want to chain animations without falling into Callback Hell.",
+            "itemtype": "method",
+            "name": "animate",
+            "class": "animatePaper",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 241,
+            "description": "Called on each step of the animation.",
+            "itemtype": "method",
+            "name": "tick",
+            "class": "Animation",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 275,
+            "description": "Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.",
+            "itemtype": "method",
+            "name": "stop",
+            "params": [
+                {
+                    "name": "goToEnd",
+                    "description": "",
+                    "type": "Bool"
+                }
+            ],
+            "class": "Animation",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 293,
+            "description": "Called when the animations ends, naturally or using `.stop(true)`.",
+            "itemtype": "method",
+            "name": "end",
+            "class": "Animation",
+            "module": "animatePaper"
+        },
+        {
+            "file": "src\\animatePaper.js",
+            "line": 314,
+            "description": "Normalizes existing values from an Animation settings argument\nand provides default values if needed.",
+            "itemtype": "method",
+            "name": "_initializeSettings",
+            "params": [
+                {
+                    "name": "settings",
+                    "description": "a `settings` object or undefined",
+                    "type": "Mixed"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "Animation",
+            "module": "animatePaper"
+        }
+    ],
+    "warnings": []
+}

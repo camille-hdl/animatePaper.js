@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src\animatePaper.js - animatePaper.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/animatePaper.html">animatePaper</a></li>
+                                <li><a href="../classes/Animation.html">Animation</a></li>
+                                <li><a href="../classes/easing.html">easing</a></li>
+                                <li><a href="../classes/frameManager.html">frameManager</a></li>
+                                <li><a href="../classes/Tween.html">Tween</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/animatePaper.html">animatePaper</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src\animatePaper.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  An animation library for paper.js
+ *  camille.hodoul@gmail.com
+ *
+ *  @module animatePaper
+ *  @main
+ */
+(function(global, paper) {
+    var animatePaper = {}; // namespace
+    var debug = true;
+    var __log = function() {
+        if (!!debug) {
+            console.log.call(console, arguments.splice(0));
+        }
+    };
+
+    /**
+     *  Performs an operation on two paper.Point() objects.
+     *  Returns the result of : &#x60; a operator b&#x60;.
+     *  @private
+     *  @method _pointDiff
+     *  @param {Object} a a &#x60;paper.Point&#x60; object
+     *  @param {Object} b a &#x60;paper.Point&#x60; object
+     *  @param {String} operator either &#x60;+&#x60; or &#x60;-&#x60;
+     *  @return {Object} &#x60;{x: (a.x operator b.x), y: (a.y operator b.y)}&#x60;
+     *  @for Tween
+     */
+    function _pointDiff(a, b, operator) {
+        if ([&#x27;+&#x27;, &#x27;-&#x27;].indexOf(operator) === -1) return;
+        if (typeof a === &quot;undefined&quot; || typeof b === &quot;undefined&quot;) return;
+
+
+        var ax, bx, ay, by;
+        ax = a.x || 0;
+        bx = b.x || 0;
+        ay = a.y || 0;
+        by = b.y || 0;
+        var output = new paper.Point(
+            eval(ax + operator + bx),
+            eval(ay + operator + by)
+        );
+
+        return output;
+    }
+
+
+    /**
+     *  This is the only function called in a objects &#x60;onFrame&#x60; handler.
+     *  If the objects has callbacks in it&#x27;s &#x60;data._customHandlers&#x60; property,
+     *  each of these is called.
+     *
+     *  @private
+     *  @method frameManagerHandler
+     *  @param {Object} ev The event object
+     *  @for frameManager
+     */
+    function frameManagerHandler(ev) {
+            var item = this;
+
+            if (typeof item.data._customHandlers !== &quot;undefined&quot; &amp;&amp;
+                item.data._customHandlersCount &gt; 0
+            ) {
+                // parcourir les handlers et les declencher
+                for (var i in item.data._customHandlers) {
+                    if (item.data._customHandlers.hasOwnProperty(i)) {
+                        if (typeof item.data._customHandlers[i] === &quot;function&quot;) {
+                            item.data._customHandlers[i].call(item, ev);
+                        }
+                    }
+                }
+            }
+        }
+        /**
+         *  The &#x60;frameManager&#x60; is used to bind and unbind multiple callbacks to an object&#x27;s
+         *  &#x60;onFrame&#x60;. If an object has at least one handler, it&#x27;s &#x60;onFrame&#x60; handler will be
+         *  {{#crossLink &quot;frameManager/frameManagerHandler:method&quot;}}{{/crossLink}}.
+         *
+         *  @class frameManager
+         *  @static
+         */
+    animatePaper.frameManager = {
+        /**
+         * Add a callback to a paper.js Item&#x27;s &#x60;onFrame&#x60; event.
+         * The Item itself will be the &#x60;thisValue&#x60; and the event object &#x60;ev&#x60; will be the first argument
+         * 
+         * @param {Object} item paper.js Item
+         * @param {String} name An identifier for this callback
+         * @param {Function} callback
+         * @example
+         *      animatePaper.frameManager.add(circle,&quot;goUp&quot;,function(ev) {
+         *          // Animation logic
+         *      });
+         * @method add
+         */
+        add: function(item, name, callback) {
+            if (typeof item.data._customHandlers === &quot;undefined&quot;) {
+                item.data._customHandlers = {};
+                item.data._customHandlersCount = 0;
+            }
+            item.data._customHandlers[name] = callback;
+            item.data._customHandlersCount += 1;
+            if (item.data._customHandlersCount &gt; 0) {
+
+                item.onFrame = frameManagerHandler;
+            }
+
+            return name;
+        },
+        /**
+         * Remove a callback from an item&#x27;s &#x60;onFrame&#x60; handler.
+         * 
+         * @param {Object} item paper.js Item object
+         * @param {String} name The identifier of the callback you want to remove
+         * @method remove
+         */
+        remove: function(item, name) {
+            if (typeof item.data._customHandlers !== &quot;undefined&quot;) {
+                item.data._customHandlers[name] = null;
+                item.data._customHandlersCount -= 1;
+                if (item.data._customHandlersCount &lt;= 0) {
+                    item.data._customHandlersCount = 0;
+
+                }
+            }
+        }
+    };
+
+    /**
+     *  The main animation interface.
+     *  It can take a single option object or an array of option objects
+     *  if you want to chain animations without falling into Callback Hell.
+     *
+     *  @method animate
+     *  @for animatePaper
+     */
+    animatePaper.animate = function(item, animation) {
+        var animations = [];
+        var output;
+
+        if (animation instanceof Array) {
+            animations = animation;
+        } else {
+            animations.push(animation);
+        }
+        return new Animation(item, animation.properties, animation.settings);
+    };
+
+    /**
+     *  Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and
+     *  implementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js
+     *  
+     *  @class easing
+     *  @static
+     */
+    var easing = {
+        linear: function(p) {
+            return p;
+        },
+        swing: function(p) {
+            return 0.5 - Math.cos(p * Math.PI) / 2;
+        },
+        Sine: function(p) {
+            return 1 - Math.cos(p * Math.PI / 2);
+        },
+        Circ: function(p) {
+            return 1 - Math.sqrt(1 - p * p);
+        },
+        Elastic: function(p) {
+            return p === 0 || p === 1 ? p :
+                -Math.pow(2, 8 * (p - 1)) * Math.sin(((p - 1) * 80 - 7.5) * Math.PI / 15);
+        },
+        Back: function(p) {
+            return p * p * (3 * p - 2);
+        },
+        Bounce: function(p) {
+            var pow2,
+                bounce = 4;
+
+            while (p &lt; ((pow2 = Math.pow(2, --bounce)) - 1) / 11) {}
+            return 1 / Math.pow(4, 3 - bounce) - 7.5625 * Math.pow((pow2 * 3 - 2) / 22 - p, 2);
+        }
+    };
+    var __tempEasing = [&quot;Quad&quot;, &quot;Cubic&quot;, &quot;Quart&quot;, &quot;Quint&quot;, &quot;Expo&quot;];
+    for (var i = 0, l = __tempEasing.length; i &lt; l; i++) {
+        easing[__tempEasing[i]] = function(p) {
+            return Math.pow(p, i + 2);
+        };
+    }
+    __tempEasing = null;
+    for (var name in easing) {
+        if (easing.hasOwnProperty(name)) {
+            var easeIn = easing[name];
+
+            easing[&quot;easeIn&quot; + name] = easeIn;
+            easing[&quot;easeOut&quot; + name] = function(p) {
+                return 1 - easeIn(1 - p);
+            };
+            easing[&quot;easeInOut&quot; + name] = function(p) {
+                return p &lt; 0.5 ?
+                    easeIn(p * 2) / 2 :
+                    1 - easeIn(p * -2 + 2) / 2;
+            };
+        }
+    }
+
+
+
+    /**
+     *  Animation class.
+     *  
+     *  @class Animation
+     *  @constructor
+     *  @param {Object} item a paper.js Item instance, which will be animated.
+     *  @param {Object} properties properties to animate
+     *  @param {Object} settings
+     */
+    function Animation(item, properties, settings) {
+            var self = this;
+            self.stopped = false;
+
+            self.startTime = new Date().getTime();
+            self.settings = _initializeSettings(settings);
+            self.item = item;
+            self.tweens = [];
+            self.ticker = null;
+
+            for (var i in properties) {
+                if (properties.hasOwnProperty(i)) {
+                    self.tweens.push(new Tween(i, properties[i], self));
+                }
+            }
+
+            if (self.settings.mode === &quot;onFrame&quot;) {
+                self.ticker = animatePaper.frameManager.add(self.item, &quot;_animate&quot; + self.startTime, function() {
+
+                    self.tick();
+                });
+            }
+
+        }
+        /**
+         *  Called on each step of the animation.
+         *
+         *  @method tick
+         */
+    Animation.prototype.tick = function() {
+        var self = this;
+        var currentTime = new Date().getTime();
+        var remaining = Math.max(0, self.startTime + self.settings.duration - currentTime);
+        var temp = remaining / self.settings.duration || 0;
+        var percent = 1 - temp;
+
+        for (var i = 0, l = self.tweens.length; i &lt; l; i++) {
+            self.tweens[i].run(percent);
+        }
+        if (typeof self.settings.step !== &quot;undefined&quot;) {
+            self.settings.step.call(self.item, {
+                percent: percent,
+                remaining: remaining
+            });
+        }
+        self.item.project.view.draw();
+
+        // if the Animation is in timeout mode, we must force a View update
+        if (self.settings.mode === &quot;timeout&quot;) {
+            //
+        }
+        if (percent &lt; 1 &amp;&amp; l) {
+            return remaining;
+        } else {
+            self.end();
+            return false;
+        }
+    };
+    /**
+     *  Interrupts the animation. If &#x60;goToEnd&#x60; is true, all the properties are set to their final value.
+     *  @method stop
+     *  @param {Bool} goToEnd
+     */
+    Animation.prototype.stop = function(goToEnd) {
+        var self = this;
+        var i = 0;
+        var l = goToEnd ? self.tweens.length : 0;
+        if (!!self.stopped) return self;
+        self.stopped = true;
+        for (; i &lt; l; i++) {
+            self.tweens[i].run(1);
+        }
+        if (!!goToEnd) {
+            self.end();
+        }
+    };
+    /**
+     *  Called when the animations ends, naturally or using &#x60;.stop(true)&#x60;.
+     *  @method end
+     */
+    Animation.prototype.end = function() {
+        var self = this;
+
+        if (self.settings.mode === &quot;onFrame&quot;) {
+            animatePaper.frameManager.remove(self.item, self.ticker);
+        }
+        if (typeof self.settings.complete !== &quot;undefined&quot;) {
+            self.settings.complete.call(self.item);
+        }
+
+        // if the Animation is in timeout mode, we must force a View update
+        if (self.settings.mode === &quot;timeout&quot;) {
+            //
+        }
+        self = null;
+    };
+
+    /**
+     *  Normalizes existing values from an Animation settings argument
+     *  and provides default values if needed.
+     *
+     *  @method _initializeSettings
+     *  @param {mixed} settings a &#x60;settings&#x60; object or undefined
+     *  @private
+     */
+    function _initializeSettings(settings) {
+        var defaults = {
+            duration: 400,
+            easing: &quot;linear&quot;,
+            complete: undefined,
+            step: undefined,
+            mode: &quot;onFrame&quot;
+        };
+        if (typeof settings === &quot;undefined&quot;) {
+            settings = {};
+        }
+
+        // .duration must exist, and be a positive Number
+        if (typeof settings.duration === &quot;undefined&quot;) {
+            settings.duration = defaults.duration;
+        } else {
+            settings.duration = Number(settings.duration);
+            if (settings.duration &lt; 1) {
+                settings.duration = defaults.duration;
+            }
+        }
+
+        // .easing must be defined in &#x60;easing&#x60;
+        if (typeof settings.easing === &quot;undefined&quot;) {
+            settings.easing = defaults.easing;
+        }
+        if (typeof easing[settings.easing] !== &quot;undefined&quot; &amp;&amp; easing.hasOwnProperty(settings.easing)) {
+            settings.easingFunction = easing[settings.easing];
+        } else {
+            settings.easing = defaults.easing;
+            settings.easingFunction = easing[defaults.easing];
+        }
+
+
+        // callbacks must be functions
+        if (typeof settings.complete !== &quot;function&quot;) {
+            settings.complete = undefined;
+        }
+        if (typeof settings.step !== &quot;function&quot;) {
+            settings.step = undefined;
+        }
+
+        // .mode must be either &quot;onFrame&quot; or &quot;timeout&quot;
+        if ([&quot;onFrame&quot;, &quot;timeout&quot;].indexOf(settings.mode) === -1) {
+            settings.mode = defaults.mode;
+        }
+
+        return settings;
+    }
+
+    // inspired by https://github.com/jquery/jquery/blob/10399ddcf8a239acc27bdec9231b996b178224d3/src/effects/Tween.js
+    var _tweenPropHooks = {
+        _default: {
+            get: function(tween) {
+                var output;
+                if (tween.item[tween.prop] != null) {
+                    output = tween.item[tween.prop];
+                }
+
+                return output;
+            },
+            set: function(tween) {
+
+                var toSet = {};
+                toSet[tween.prop] = tween.now;
+                tween.item.set(toSet);
+            }
+
+        },
+        scale: {
+            get: function(tween) {
+                if (!tween.item.data._animatePaperVals) {
+                    tween.item.data._animatePaperVals = {};
+                }
+                if (typeof tween.item.data._animatePaperVals.scale === &quot;undefined&quot;) {
+                    tween.item.data._animatePaperVals.scale = 1;
+                }
+                var output = tween.item.data._animatePaperVals.scale;
+                return output;
+            },
+            set: function(tween) {
+
+                var curScaling = tween.item.data._animatePaperVals.scale;
+                var trueScaling = tween.now / curScaling;
+
+                tween.item.data._animatePaperVals.scale = tween.now;
+                tween.item.scale(trueScaling);
+
+            }
+        },
+        rotate: {
+            get: function(tween) {
+                if (!tween.item.data._animatePaperVals) {
+                    tween.item.data._animatePaperVals = {};
+                }
+                if (typeof tween.item.data._animatePaperVals.rotate === &quot;undefined&quot;) {
+                    tween.item.data._animatePaperVals.rotate = -0;
+                }
+                var output = tween.item.data._animatePaperVals.rotate;
+                return output;
+            },
+            set: function(tween) {
+                var curRotate = tween.item.data._animatePaperVals.rotate;
+                var trueRotate = tween.now - curRotate;
+
+                tween.item.data._animatePaperVals.rotate = tween.now;
+                tween.item.rotate(trueRotate);
+            }
+        },
+        translate: {
+            get: function(tween) {
+                if (!tween.item.data._animatePaperVals) {
+                    tween.item.data._animatePaperVals = {};
+                }
+                if (typeof tween.item.data._animatePaperVals.translate === &quot;undefined&quot;) {
+                    tween.item.data._animatePaperVals.translate = new paper.Point(0, 0);
+                }
+                var output = tween.item.data._animatePaperVals.translate;
+
+                return output;
+            },
+            set: function(tween) {
+                var cur = tween.item.data._animatePaperVals.translate;
+                var actual = _pointDiff(tween.now, cur, &quot;-&quot;);
+
+
+                tween.item.data._animatePaperVals.translate = tween.now;
+
+                tween.item.translate(actual);
+            },
+            ease: function(tween, eased) {
+
+                var temp = _pointDiff(tween.end, tween.start, &quot;-&quot;);
+                temp.x = temp.x * eased;
+                temp.y = temp.y * eased;
+
+                tween.now = _pointDiff(temp, tween.start, &quot;+&quot;);
+
+                return tween.now;
+            }
+        }
+
+    };
+    /**
+     *  Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )
+     *  
+     *  @class Tween
+     *  @constructor
+     *  @param {String} Property name
+     *  @param {mixed} Final value
+     *  @param {Object} animation
+     */
+    function Tween(property, value, animation) {
+        var self = this;
+        self.A = animation;
+        self.item = animation.item;
+        self.prop = property;
+        self.end = value;
+        self.start = self.cur();
+        self.now = self.cur();
+        self.direction = self.end &gt; self.start ? &quot;+&quot; : &quot;-&quot;;
+
+
+    }
+    Tween.prototype.cur = function() {
+        var self = this;
+        // should we use a special way to get the current value ? if not just use item[prop]
+        var hooks = _tweenPropHooks[self.prop];
+
+        return hooks &amp;&amp; hooks.get ? hooks.get(self) : _tweenPropHooks._default.get(self);
+    };
+    Tween.prototype.run = function(percent) {
+        var self = this;
+        var eased;
+        var hooks = _tweenPropHooks[self.prop];
+
+        var settings = self.A.settings;
+        if (settings.duration) {
+            self.pos = eased = easing[settings.easing](percent, settings.duration * percent, 0, 1, self.duration);
+        } else {
+            self.pos = eased = percent;
+        }
+        // refresh current value
+
+        if (hooks &amp;&amp; hooks.ease) {
+            hooks.ease(self, eased);
+        } else {
+            self.now = (self.end - self.start) * eased + self.start;
+        }
+
+        if (hooks &amp;&amp; hooks.set) {
+            hooks.set(self);
+        } else {
+            _tweenPropHooks._default.set(self);
+        }
+
+        return self;
+    };
+
+
+    global.animatePaper = animatePaper;
+})(window, paper);
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
