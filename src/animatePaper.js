@@ -520,4 +520,10 @@
 
 
     global.animatePaper = animatePaper;
+    // Extends paper.Item prototype
+    if(!paper.Item.prototype.animate) {
+        paper.Item.prototype.animate = function(animation) {
+            return animatePaper.animate(this,animation);
+        };
+    }
 })(window, paper);
