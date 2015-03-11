@@ -459,6 +459,31 @@
 
                 return tween.now;
             }
+        },
+        segmentGrow: {
+            get: function(tween) {
+                if(! (tween.item instanceof paper.Path)) {
+                    throw new Error("Only a Path object can be used with : segmentGrow");
+                }
+                
+               
+                var output = tween.item.lastSegment.point;
+                return output;
+            },
+            set: function(tween) {
+                
+                tween.item.add(tween.now);
+            },
+            ease: function(tween, eased) {
+
+                var temp = _pointDiff(tween.end, tween.start, "-");
+                temp.x = temp.x * eased;
+                temp.y = temp.y * eased;
+
+                tween.now = _pointDiff(temp, tween.start, "+");
+
+                return tween.now;
+            }
         }
 
     };
@@ -518,6 +543,36 @@
         return self;
     };
 
+    /**
+     * Effects : A collection of shorthands for nice animations.
+     * 
+     * @class fx
+     * @static
+     */
+    animatePaper.fx = {
+        /**
+         * Grow a path
+         *
+         * @method grow
+         * @param {Object} path a paper.js `Path` object
+         * @param {Object} settings
+         * @param {Object} settings.to an object with `x` and `y` properties
+         * @param {String} settings.easing defaults to `swing`
+         * @param {Function} settings.complete complete callback
+         */
+        grow: function(path,settings) {
+            animatePaper.animate(path,{
+                properties: {
+                    segmentGrow: settings.to
+                },
+                settings: {
+                        easing: settings.easing,
+                        complete: settings.complete
+                }
+            });
+            return path;
+        }
+    };
 
     global.animatePaper = animatePaper;
     // Extends paper.Item prototype

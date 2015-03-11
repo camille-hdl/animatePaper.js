@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.12/paper.js"></script>
+  <script src="../src/animatePaper.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <script>
+	(function(window,paper) {
+		function _seed() {
+			return (Math.floor(Math.random() * (6 - 1)) + 1) / 10 + 0.8;
+		}
+		function Trunk(settings) {
+			this.startPosition;
+			this.settings = settings;
+			this.seed = _seed();
+			this.branches = [];
+			this.init();
+		}
+		Trunk.prototype.init = function() {
+			var self = this;
+			// startPosition = bottom center
+			self.startPosition = new paper.Point(self.settings.w/2,self.settings.h);
+			
+			self.baseBranchLength = 30;
+			self.baseNodeRadius = 2;
+			self.baseTrunkLength = 40;
+			self.baseBranchGap = 100;
+			self.path = new paper.Path(self.startPosition);
+			self.path.strokeColor = "brown";
+			self.path.strokeWidth = 3;
+			self.grow();
+		};
+		Trunk.prototype.grow = function() {
+			var self = this;
+			var destination = {
+				x: self.startPosition.x,
+				y: (self.startPosition.y - (self.baseTrunkLength * self.seed))
+			};
+			self.path.animate({
+				properties: {
+					segmentGrow: new paper.Point(destination.x,destination.y)
+				},
+				settings: {
+					duration: 400 * self.seed,
+					easing: "swing",
+					complete: function() {
+						self.node();
+					}
+				}
+			});
+		};
+		Trunk.prototype.node = function() {
+			var self = this;
+			self.node = new paper.Path.Circle(self.path.lastSegment.point,self.baseNodeRadius * self.seed);
+			self.node.fillColor = self.path.strokeColor;
+			self.node.animate({
+				properties: {
+					scale: 5
+				},
+				settings: {
+					duration: 500,
+					easing: "easeInElastic",
+					complete: function(){
+						self.branch();
+					}
+				}
+			});
+		};
+		Trunk.prototype.branch = function() {
+			var self = this;
+			var branchNb = 2;
+			var baseGap = self.baseBranchGap*Math.floor(self.seed);
+			var gap = baseGap / branchNb;
+			var gaps = [];
+			if(branchNb == 2) {
+				gaps = [self.startPosition.x - (baseGap/2),self.startPosition.x + gap];
+			}
+			else {
+				gaps = [self.startPosition.x - (baseGap/2),self.startPosition.x - (baseGap/2) + gap,self.startPosition.x + gap];
+			}
+			for(var i = 0;i < branchNb; i++) {
+				self.branches.push(new Branch({
+					startPosition: self.path.lastSegment.point,
+					seed: self.seed,
+					x: gaps[i],
+					parent: self,
+					trunk: self
+				}));
+			}
+		};
+
+		function Branch(settings) {
+
+			this.startPosition = settings.startPosition;
+			this.settings = settings;
+			this.seed = (_seed() + settings.seed) / 2;
+			this.parent = settings.parent;
+			this.trunk = settings.trunk;
+			this.branches = [];
+			
+			this.init();
+		}
+		Branch.prototype.init = function() {
+			var self = this;
+			self.path = new paper.Path(self.startPosition);
+			self.path.strokeColor = "brown";
+			self.path.strokeWidth = 2;
+			self.grow();
+		};
+		Branch.prototype.grow = function() {
+			var self = this;
+			if(self.settings.x > 0 && self.startPosition.y>0 && self.settings.x < screen.availWidth) {
+				var destination = {
+					x: self.settings.x,
+					y: (self.startPosition.y - (self.trunk.baseBranchLength * self.seed))
+				};
+				self.path.animate({
+					properties: {
+						segmentGrow: new paper.Point(destination.x,destination.y)
+					},
+					settings: {
+						duration: 10000 * self.seed,
+						easing: "swing",
+						complete: function() {
+							self.branch();
+						}
+					}
+				});
+			}
+			else {
+				// end
+			}
+		};
+		Branch.prototype.node = function() {
+			var self = this;
+			var self = this;
+			self.node = new paper.Shape.Circle(self.path.lastSegment.point,self.trunk.baseNodeRadius * self.seed);
+			self.node.fillColor = self.path.strokeColor;
+			self.node.animate({
+				properties: {
+					scale: 5
+				},
+				settings: {
+					duration: 500,
+					easing: "easeInElastic",
+					complete: function(){
+						self.branch();
+					}
+				}
+			});
+		};
+		Branch.prototype.branch = function() {
+			var self = this;
+			var branchNb = Math.floor(Math.random() * (4 - 2)) + 2;
+			var baseGap = self.trunk.baseBranchGap*Math.floor(self.seed)+1;
+			var gap = baseGap / branchNb;
+			var gaps = [];
+			if(branchNb == 2) {
+				gaps = [self.settings.x - (baseGap/2),self.settings.x + gap];
+			}
+			else {
+				gaps = [self.settings.x - (baseGap/2),self.settings.x - (baseGap/2) + gap,self.settings.x + gap];
+			}
+			for(var i = 0;i < branchNb; i++) {
+				console.log(gaps[i]);
+				self.branches.push(new Branch({
+					startPosition: self.path.lastSegment.point,
+					seed: self.seed,
+					x: gaps[i],
+					parent: self,
+					trunk: self.trunk
+				}));
+			}
+			self.path.simplify();
+			
+		};
+		window.GrowTree = Trunk;
+	})(window,paper);
+	document.addEventListener('DOMContentLoaded',function() {
+	  
+	  var defCanvas = document.getElementById('defCanvas');
+	  defCanvas.width = screen.availWidth;
+	  defCanvas.height = screen.availHeight;
+
+	  var scope = paper.setup(defCanvas);
+
+	  var tree = new GrowTree({
+		  w: screen.availWidth,
+		  h: screen.availHeight
+	  });
+	  window.tree = tree;
+	});
+  </script>
+</head>
+<body>
+  <canvas id="defCanvas"></canvas>
+</body>
+</html>
