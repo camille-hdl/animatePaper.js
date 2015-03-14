@@ -1,6 +1,8 @@
 # animatePaper.js
 An animation library for [paper.js](http://paperjs.org/).
 
+The minified version is in `dist/animatePaper.min.js`.
+
 Features include :
 
  * Animation of multiple properties at the same time,
