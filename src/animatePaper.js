@@ -131,6 +131,7 @@
      *  if you want to chain animations without falling into Callback Hell.
      *
      *  @method animate
+     *  @chainable
      *  @for animatePaper
      */
     animatePaper.animate = function(item, animation) {
@@ -142,7 +143,14 @@
         } else {
             animations.push(animation);
         }
-        return new Animation(item, animation.properties, animation.settings);
+        var index = 0; // current index in the animations
+        new Animation(item, animations[index].properties, animations[index].settings, function _continue() {
+            index++;
+            if (typeof animations[index] !== "undefined") {
+                new Animation(item, animations[index].properties, animations[index].settings, _continue);
+            }
+        });
+        return item;
     };
 
     /**
@@ -202,6 +210,32 @@
             };
         }
     }
+    /**
+     *  Use this method to extend the private {{#crossLink "easing"}}{{/crossLink}} collection.
+     *
+     *  The `customEasings` object should like this :
+     *  ````
+     *      {
+     *          "easingName": function(p) { easing algorithm }
+     *      }
+     *  ````
+     *  When used, easing functions are passed the following arguments :
+     *   * `percent`
+     *   * `percent * duration`
+     *
+     *  Easing functions are obviously expected to return the eased percent.
+     *
+     *  @method extendEasing
+     *  @for animatePaper
+     *  @param {Object} customEasings A collection of easing functions
+     */
+    animatePaper.extendEasing = function(customEasings) {
+        for (var i in customEasings) {
+            if (customEasings.hasOwnProperty(i)) {
+                easing[i] = customEasings[i];
+            }
+        }
+    };
 
 
 
@@ -214,7 +248,7 @@
      *  @param {Object} properties properties to animate
      *  @param {Object} settings
      */
-    function Animation(item, properties, settings) {
+    function Animation(item, properties, settings, _continue) {
             var self = this;
             self.stopped = false;
 
@@ -223,7 +257,7 @@
             self.item = item;
             self.tweens = [];
             self.ticker = null;
-
+            self._continue = _continue;
             for (var i in properties) {
                 if (properties.hasOwnProperty(i)) {
                     self.tweens.push(new Tween(i, properties[i], self));
@@ -307,6 +341,9 @@
         // if the Animation is in timeout mode, we must force a View update
         if (self.settings.mode === "timeout") {
             //
+        }
+        if (typeof self._continue !== "undefined") {
+            self._continue.call(self.item);
         }
         self = null;
     };
@@ -406,7 +443,6 @@
 
                 tween.item.data._animatePaperVals.scale = tween.now;
                 tween.item.scale(trueScaling);
-
             }
         },
         rotate: {
@@ -462,16 +498,16 @@
         },
         segmentGrow: {
             get: function(tween) {
-                if(! (tween.item instanceof paper.Path)) {
+                if (!(tween.item instanceof paper.Path)) {
                     throw new Error("Only a Path object can be used with : segmentGrow");
                 }
-                
-               
+
+
                 var output = tween.item.lastSegment.point;
                 return output;
             },
             set: function(tween) {
-                
+
                 tween.item.add(tween.now);
             },
             ease: function(tween, eased) {
@@ -560,14 +596,14 @@
          * @param {String} settings.easing defaults to `swing`
          * @param {Function} settings.complete complete callback
          */
-        grow: function(path,settings) {
-            animatePaper.animate(path,{
+        grow: function(path, settings) {
+            animatePaper.animate(path, {
                 properties: {
                     segmentGrow: settings.to
                 },
                 settings: {
-                        easing: settings.easing,
-                        complete: settings.complete
+                    easing: settings.easing,
+                    complete: settings.complete
                 }
             });
             return path;
@@ -576,9 +612,9 @@
 
     global.animatePaper = animatePaper;
     // Extends paper.Item prototype
-    if(!paper.Item.prototype.animate) {
+    if (!paper.Item.prototype.animate) {
         paper.Item.prototype.animate = function(animation) {
-            return animatePaper.animate(this,animation);
+            return animatePaper.animate(this, animation);
         };
     }
 })(window, paper);

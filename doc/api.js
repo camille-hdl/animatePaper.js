@@ -5,7 +5,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Tween",
         "animatePaper",
         "easing",
-        "frameManager"
+        "frameManager",
+        "fx"
     ],
     "modules": [
         "animatePaper"

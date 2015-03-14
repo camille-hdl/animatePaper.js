@@ -6,6 +6,11 @@
   <meta charset="utf-8">
   <title>JS Bin</title>
   <script>
+  animatePaper.extendEasing({
+  	"triple": function(p) {
+  		return p*3;
+  	}
+  });
   document.addEventListener('DOMContentLoaded',function() {
 	  var scope = paper.setup('defCanvas');
 	  var circle = new paper.Path.Circle(new paper.Point(500, 350), 30);
@@ -32,7 +37,7 @@
 					},
 					settings: {
 						duration: 1000,
-						easing: "easeInBack"
+						easing: "triple"
 					}
 				});
 			},
@@ -77,17 +82,31 @@
 	  var star = new paper.Path.Star(new paper.Point(45,50),5,25,45);
 	  star.fillColor = "black";
 	  window.star = star;
-	  star.animate({
+	  star.opacity = 0;
+	  star.animate([{
 		  properties: {
 			  translate: new paper.Point(200,50),
 			  rotate: -200,
-			  scale: 2
+			  scale: 2,
+			  opacity:1
 		  },
 		  settings: {
 			  duration:3000,
 			  easing:"swing"
 		  }
-	  });
+	  },
+	  {
+		  properties: {
+			  translate: new paper.Point(0,50),
+			  rotate: 200,
+			  scale: 1,
+			  opacity:0
+		  },
+		  settings: {
+			  duration:3000,
+			  easing:"linear"
+		  }
+	  }]);
 
 	  var trunk = new paper.Path(new paper.Point(500,500));
 	  trunk.strokeColor = "blue";

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\animatePaper.js - animatePaper.js</title>
+    <title>/Users/camille/github/animatePaper.js/src/animatePaper.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/Animation.html">Animation</a></li>
                                 <li><a href="../classes/easing.html">easing</a></li>
                                 <li><a href="../classes/frameManager.html">frameManager</a></li>
+                                <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
                 
@@ -80,7 +81,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\animatePaper.js</h1>
+<h1 class="file-heading">File: /Users/camille/github/animatePaper.js/src/animatePaper.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -217,6 +218,7 @@
      *  if you want to chain animations without falling into Callback Hell.
      *
      *  @method animate
+     *  @chainable
      *  @for animatePaper
      */
     animatePaper.animate = function(item, animation) {
@@ -228,7 +230,14 @@
         } else {
             animations.push(animation);
         }
-        return new Animation(item, animation.properties, animation.settings);
+        var index = 0; // current index in the animations
+        new Animation(item, animations[index].properties, animations[index].settings, function _continue() {
+            index++;
+            if (typeof animations[index] !== &quot;undefined&quot;) {
+                new Animation(item, animations[index].properties, animations[index].settings, _continue);
+            }
+        });
+        return item;
     };
 
     /**
@@ -288,6 +297,32 @@
             };
         }
     }
+    /**
+     *  Use this method to extend the private {{#crossLink &quot;easing&quot;}}{{/crossLink}} collection.
+     *
+     *  The &#x60;customEasings&#x60; object should like this :
+     *  &#x60;&#x60;&#x60;&#x60;
+     *      {
+     *          &quot;easingName&quot;: function(p) { easing algorithm }
+     *      }
+     *  &#x60;&#x60;&#x60;&#x60;
+     *  When used, easing functions are passed the following arguments :
+     *   * &#x60;percent&#x60;
+     *   * &#x60;percent * duration&#x60;
+     *
+     *  Easing functions are obviously expected to return the eased percent.
+     *
+     *  @method extendEasing
+     *  @for animatePaper
+     *  @param {Object} customEasings A collection of easing functions
+     */
+    animatePaper.extendEasing = function(customEasings) {
+        for (var i in customEasings) {
+            if (customEasings.hasOwnProperty(i)) {
+                easing[i] = customEasings[i];
+            }
+        }
+    };
 
 
 
@@ -300,7 +335,7 @@
      *  @param {Object} properties properties to animate
      *  @param {Object} settings
      */
-    function Animation(item, properties, settings) {
+    function Animation(item, properties, settings, _continue) {
             var self = this;
             self.stopped = false;
 
@@ -309,7 +344,7 @@
             self.item = item;
             self.tweens = [];
             self.ticker = null;
-
+            self._continue = _continue;
             for (var i in properties) {
                 if (properties.hasOwnProperty(i)) {
                     self.tweens.push(new Tween(i, properties[i], self));
@@ -393,6 +428,9 @@
         // if the Animation is in timeout mode, we must force a View update
         if (self.settings.mode === &quot;timeout&quot;) {
             //
+        }
+        if (typeof self._continue !== &quot;undefined&quot;) {
+            self._continue.call(self.item);
         }
         self = null;
     };
@@ -492,7 +530,6 @@
 
                 tween.item.data._animatePaperVals.scale = tween.now;
                 tween.item.scale(trueScaling);
-
             }
         },
         rotate: {
@@ -534,6 +571,31 @@
                 tween.item.data._animatePaperVals.translate = tween.now;
 
                 tween.item.translate(actual);
+            },
+            ease: function(tween, eased) {
+
+                var temp = _pointDiff(tween.end, tween.start, &quot;-&quot;);
+                temp.x = temp.x * eased;
+                temp.y = temp.y * eased;
+
+                tween.now = _pointDiff(temp, tween.start, &quot;+&quot;);
+
+                return tween.now;
+            }
+        },
+        segmentGrow: {
+            get: function(tween) {
+                if (!(tween.item instanceof paper.Path)) {
+                    throw new Error(&quot;Only a Path object can be used with : segmentGrow&quot;);
+                }
+
+
+                var output = tween.item.lastSegment.point;
+                return output;
+            },
+            set: function(tween) {
+
+                tween.item.add(tween.now);
             },
             ease: function(tween, eased) {
 
@@ -604,8 +666,44 @@
         return self;
     };
 
+    /**
+     * Effects : A collection of shorthands for nice animations.
+     * 
+     * @class fx
+     * @static
+     */
+    animatePaper.fx = {
+        /**
+         * Grow a path
+         *
+         * @method grow
+         * @param {Object} path a paper.js &#x60;Path&#x60; object
+         * @param {Object} settings
+         * @param {Object} settings.to an object with &#x60;x&#x60; and &#x60;y&#x60; properties
+         * @param {String} settings.easing defaults to &#x60;swing&#x60;
+         * @param {Function} settings.complete complete callback
+         */
+        grow: function(path, settings) {
+            animatePaper.animate(path, {
+                properties: {
+                    segmentGrow: settings.to
+                },
+                settings: {
+                    easing: settings.easing,
+                    complete: settings.complete
+                }
+            });
+            return path;
+        }
+    };
 
     global.animatePaper = animatePaper;
+    // Extends paper.Item prototype
+    if (!paper.Item.prototype.animate) {
+        paper.Item.prototype.animate = function(animation) {
+            return animatePaper.animate(this, animation);
+        };
+    }
 })(window, paper);
     </pre>
 </div>

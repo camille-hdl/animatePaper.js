@@ -5,8 +5,8 @@
         "version": "0.1"
     },
     "files": {
-        "src\\animatePaper.js": {
-            "name": "src\\animatePaper.js",
+        "/Users/camille/github/animatePaper.js/src/animatePaper.js": {
+            "name": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "modules": {
                 "animatePaper": 1
             },
@@ -14,7 +14,8 @@
                 "Tween": 1,
                 "frameManager": 1,
                 "easing": 1,
-                "Animation": 1
+                "Animation": 1,
+                "fx": 1
             },
             "fors": {
                 "Tween": 1,
@@ -33,7 +34,8 @@
                 "frameManager": 1,
                 "animatePaper": 1,
                 "easing": 1,
-                "Animation": 1
+                "Animation": 1,
+                "fx": 1
             },
             "fors": {
                 "Tween": 1,
@@ -42,8 +44,8 @@
             },
             "namespaces": {},
             "tag": "module",
-            "file": "src\\animatePaper.js",
-            "line": 208,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 582,
             "description": "An animation library for paper.js\ncamille.hodoul@gmail.com",
             "itemtype": "main"
         }
@@ -59,8 +61,8 @@
             "extension_for": [],
             "module": "animatePaper",
             "namespace": "",
-            "file": "src\\animatePaper.js",
-            "line": 465,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 526,
             "description": "Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )",
             "is_constructor": 1,
             "params": [
@@ -91,7 +93,7 @@
             "extension_for": [],
             "module": "animatePaper",
             "namespace": "",
-            "file": "src\\animatePaper.js",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "line": 73,
             "description": "The `frameManager` is used to bind and unbind multiple callbacks to an object's\n`onFrame`. If an object has at least one handler, it's `onFrame` handler will be\n{{#crossLink \"frameManager/frameManagerHandler:method\"}}{{/crossLink}}.",
             "static": 1
@@ -117,8 +119,8 @@
             "extension_for": [],
             "module": "animatePaper",
             "namespace": "",
-            "file": "src\\animatePaper.js",
-            "line": 148,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 156,
             "description": "Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and\nimplementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js",
             "static": 1
         },
@@ -132,8 +134,8 @@
             "extension_for": [],
             "module": "animatePaper",
             "namespace": "",
-            "file": "src\\animatePaper.js",
-            "line": 208,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 242,
             "description": "Animation class.",
             "is_constructor": 1,
             "params": [
@@ -153,11 +155,26 @@
                     "type": "Object"
                 }
             ]
+        },
+        "fx": {
+            "name": "fx",
+            "shortname": "fx",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "animatePaper",
+            "namespace": "",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 582,
+            "description": "Effects : A collection of shorthands for nice animations.",
+            "static": 1
         }
     },
     "classitems": [
         {
-            "file": "src\\animatePaper.js",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "line": 17,
             "description": "Performs an operation on two paper.Point() objects.\nReturns the result of : ` a operator b`.",
             "access": "private",
@@ -189,7 +206,7 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "line": 47,
             "description": "This is the only function called in a objects `onFrame` handler.\nIf the objects has callbacks in it's `data._customHandlers` property,\neach of these is called.",
             "access": "private",
@@ -207,7 +224,7 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "line": 82,
             "description": "Add a callback to a paper.js Item's `onFrame` event.\nThe Item itself will be the `thisValue` and the event object `ev` will be the first argument",
             "params": [
@@ -236,7 +253,7 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "line": 109,
             "description": "Remove a callback from an item's `onFrame` handler.",
             "params": [
@@ -257,17 +274,34 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
             "line": 128,
             "description": "The main animation interface.\nIt can take a single option object or an array of option objects\nif you want to chain animations without falling into Callback Hell.",
             "itemtype": "method",
             "name": "animate",
+            "chainable": 1,
             "class": "animatePaper",
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
-            "line": 241,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 213,
+            "description": "Use this method to extend the private {{#crossLink \"easing\"}}{{/crossLink}} collection.\n\nThe `customEasings` object should like this :\n````\n    {\n        \"easingName\": function(p) { easing algorithm }\n    }\n````\nWhen used, easing functions are passed the following arguments :\n * `percent`\n * `percent * duration`\n\nEasing functions are obviously expected to return the eased percent.",
+            "itemtype": "method",
+            "name": "extendEasing",
+            "params": [
+                {
+                    "name": "customEasings",
+                    "description": "A collection of easing functions",
+                    "type": "Object"
+                }
+            ],
+            "class": "animatePaper",
+            "module": "animatePaper"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 275,
             "description": "Called on each step of the animation.",
             "itemtype": "method",
             "name": "tick",
@@ -275,8 +309,8 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
-            "line": 275,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 309,
             "description": "Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.",
             "itemtype": "method",
             "name": "stop",
@@ -291,8 +325,8 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
-            "line": 293,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 327,
             "description": "Called when the animations ends, naturally or using `.stop(true)`.",
             "itemtype": "method",
             "name": "end",
@@ -300,8 +334,8 @@
             "module": "animatePaper"
         },
         {
-            "file": "src\\animatePaper.js",
-            "line": 314,
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 351,
             "description": "Normalizes existing values from an Animation settings argument\nand provides default values if needed.",
             "itemtype": "method",
             "name": "_initializeSettings",
@@ -315,6 +349,44 @@
             "access": "private",
             "tagname": "",
             "class": "Animation",
+            "module": "animatePaper"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 589,
+            "description": "Grow a path",
+            "itemtype": "method",
+            "name": "grow",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "a paper.js `Path` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "to",
+                            "description": "an object with `x` and `y` properties",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "easing",
+                            "description": "defaults to `swing`",
+                            "type": "String"
+                        },
+                        {
+                            "name": "complete",
+                            "description": "complete callback",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "class": "fx",
             "module": "animatePaper"
         }
     ],

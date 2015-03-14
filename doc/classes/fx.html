@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>animatePaper - animatePaper.js</title>
+    <title>fx - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -81,10 +81,13 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>animatePaper Class</h1>
+<h1>fx Class</h1>
 <div class="box meta">
 
 
+        <div class="foundat">
+            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l582"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:582</code></a>
+        </div>
 
             Module: <a href="../modules/animatePaper.html">animatePaper</a>
 
@@ -92,7 +95,8 @@
 
 
 <div class="box intro">
-    
+    <p>Effects : A collection of shorthands for nice animations.</p>
+
 </div>
 
 
@@ -112,11 +116,7 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_animate">animate</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_extendEasing">extendEasing</a>
+                                <a href="#method_grow">grow</a>
 
                             </li>
                     </ul>
@@ -129,47 +129,16 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_animate" class="method item">
-    <h3 class="name"><code>animate</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-        <span class="flag chainable">chainable</span>
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l128"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:128</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The main animation interface.
-It can take a single option object or an array of option objects
-if you want to chain animations without falling into Callback Hell.</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_extendEasing" class="method item">
-    <h3 class="name"><code>extendEasing</code></h3>
+<div id="method_grow" class="method item">
+    <h3 class="name"><code>grow</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>customEasings</code>
+                        <code>path</code>
+                </li>
+                <li class="arg">
+                        <code>settings</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -184,7 +153,7 @@ if you want to chain animations without falling into Callback Hell.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l213"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:213</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l589"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:589</code></a>
         </p>
 
 
@@ -192,18 +161,7 @@ if you want to chain animations without falling into Callback Hell.</p>
     </div>
 
     <div class="description">
-        <p>Use this method to extend the private Easing collection.</p>
-<p>The <code>customEasings</code> object should like this :</p>
-<pre class="code prettyprint"><code>    {
-        "easingName": function(p) { easing algorithm }
-    }
-</code></pre>
-<p>When used, easing functions are passed the following arguments :</p>
-<ul>
-<li><code>percent</code></li>
-<li><code>percent * duration</code></li>
-</ul>
-<p>Easing functions are obviously expected to return the eased percent.</p>
+        <p>Grow a path</p>
 
     </div>
 
@@ -212,15 +170,57 @@ if you want to chain animations without falling into Callback Hell.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">customEasings</code>
+                        <code class="param-name">path</code>
                         <span class="type">Object</span>
 
 
                     <div class="param-description">
-                        <p>A collection of easing functions</p>
+                        <p>a paper.js <code>Path</code> object</p>
 
                     </div>
 
+                </li>
+                <li class="param">
+                        <code class="param-name">settings</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">to</code>
+                                    <span class="type">Object</span>
+
+                                <div class="param-description">
+                                    <p>an object with <code>x</code> and <code>y</code> properties</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">easing</code>
+                                    <span class="type">String</span>
+
+                                <div class="param-description">
+                                    <p>defaults to <code>swing</code></p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+
+                                <div class="param-description">
+                                    <p>complete callback</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
                 </li>
             </ul>
         </div>
