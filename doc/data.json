@@ -45,7 +45,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 582,
+            "line": 614,
             "description": "An animation library for paper.js\ncamille.hodoul@gmail.com",
             "itemtype": "main"
         }
@@ -62,7 +62,7 @@
             "module": "animatePaper",
             "namespace": "",
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 526,
+            "line": 558,
             "description": "Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )",
             "is_constructor": 1,
             "params": [
@@ -120,7 +120,7 @@
             "module": "animatePaper",
             "namespace": "",
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 156,
+            "line": 175,
             "description": "Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and\nimplementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js",
             "static": 1
         },
@@ -135,7 +135,7 @@
             "module": "animatePaper",
             "namespace": "",
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 242,
+            "line": 261,
             "description": "Animation class.",
             "is_constructor": 1,
             "params": [
@@ -167,7 +167,7 @@
             "module": "animatePaper",
             "namespace": "",
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 582,
+            "line": 614,
             "description": "Effects : A collection of shorthands for nice animations.",
             "static": 1
         }
@@ -285,7 +285,17 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 213,
+            "line": 156,
+            "description": "Stops all animations on the item. If `goToEnd` is `true`,\nthe animated properties will be set to their final values.",
+            "itemtype": "method",
+            "name": "stop",
+            "chainable": 1,
+            "class": "animatePaper",
+            "module": "animatePaper"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
+            "line": 232,
             "description": "Use this method to extend the private {{#crossLink \"easing\"}}{{/crossLink}} collection.\n\nThe `customEasings` object should like this :\n````\n    {\n        \"easingName\": function(p) { easing algorithm }\n    }\n````\nWhen used, easing functions are passed the following arguments :\n * `percent`\n * `percent * duration`\n\nEasing functions are obviously expected to return the eased percent.",
             "itemtype": "method",
             "name": "extendEasing",
@@ -301,7 +311,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 275,
+            "line": 302,
             "description": "Called on each step of the animation.",
             "itemtype": "method",
             "name": "tick",
@@ -310,7 +320,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 309,
+            "line": 337,
             "description": "Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.",
             "itemtype": "method",
             "name": "stop",
@@ -326,7 +336,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 327,
+            "line": 357,
             "description": "Called when the animations ends, naturally or using `.stop(true)`.",
             "itemtype": "method",
             "name": "end",
@@ -335,7 +345,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 351,
+            "line": 383,
             "description": "Normalizes existing values from an Animation settings argument\nand provides default values if needed.",
             "itemtype": "method",
             "name": "_initializeSettings",
@@ -353,7 +363,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animatePaper.js",
-            "line": 589,
+            "line": 621,
             "description": "Grow a path",
             "itemtype": "method",
             "name": "grow",

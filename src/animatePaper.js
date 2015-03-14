@@ -154,6 +154,25 @@
     };
 
     /**
+     *  Stops all animations on the item. If `goToEnd` is `true`,
+     *  the animated properties will be set to their final values.
+     *  
+     *  @method stop
+     *  @chainable
+     *  @for animatePaper
+     */
+    animatePaper.stop = function(item, goToEnd) {
+        if (!!item.data._animatePaperAnims) {
+            for (var i = 0, l = item.data._animatePaperAnims.length; i < l; i++) {
+                if (!!item.data._animatePaperAnims[i]) {
+                    item.data._animatePaperAnims[i].stop(goToEnd);
+                }
+            }
+        }
+        return item;
+    };
+
+    /**
      *  Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and
      *  implementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js
      *  
@@ -258,6 +277,15 @@
             self.tweens = [];
             self.ticker = null;
             self._continue = _continue;
+
+            // store the reference to the animation in the item's data
+            if (typeof item.data._animatePaperAnims === "undefined") {
+                self.item.data._animatePaperAnims = [];
+            }
+            self._dataIndex = self.item.data._animatePaperAnims.length;
+            self.item.data._animatePaperAnims[self._dataIndex] = self;
+
+
             for (var i in properties) {
                 if (properties.hasOwnProperty(i)) {
                     self.tweens.push(new Tween(i, properties[i], self));
@@ -266,7 +294,6 @@
 
             if (self.settings.mode === "onFrame") {
                 self.ticker = animatePaper.frameManager.add(self.item, "_animate" + self.startTime, function() {
-
                     self.tick();
                 });
             }
@@ -279,6 +306,7 @@
          */
     Animation.prototype.tick = function() {
         var self = this;
+        if (!!self.stopped) return false;
         var currentTime = new Date().getTime();
         var remaining = Math.max(0, self.startTime + self.settings.duration - currentTime);
         var temp = remaining / self.settings.duration || 0;
@@ -321,6 +349,8 @@
             self.tweens[i].run(1);
         }
         if (!!goToEnd) {
+            // stop further animation
+            if (!!self._continue) self._continue = null;
             self.end();
         }
     };
@@ -342,9 +372,11 @@
         if (self.settings.mode === "timeout") {
             //
         }
-        if (typeof self._continue !== "undefined") {
+        if (typeof self._continue === "function") {
             self._continue.call(self.item);
         }
+        // remove all references to the animation
+        self.item.data._animatePaperAnims[self._dataIndex] = null;
         self = null;
     };
 
@@ -611,10 +643,16 @@
     };
 
     global.animatePaper = animatePaper;
+
     // Extends paper.Item prototype
     if (!paper.Item.prototype.animate) {
         paper.Item.prototype.animate = function(animation) {
             return animatePaper.animate(this, animation);
+        };
+    }
+    if (!paper.Item.prototype.stop) {
+        paper.Item.prototype.stop = function(goToEnd) {
+            return animatePaper.stop(this, goToEnd);
         };
     }
 })(window, paper);
