@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/_tweenPropHooks.html">_tweenPropHooks</a></li>
                                 <li><a href="../classes/animatePaper.html">animatePaper</a></li>
                                 <li><a href="../classes/Animation.html">Animation</a></li>
                                 <li><a href="../classes/easing.html">easing</a></li>
@@ -47,7 +48,6 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/animatePaper.html">animatePaper</a></li>
                             </ul>
                         </div>
                     </div>
@@ -86,7 +86,6 @@
 
 
 
-            Module: <a href="../modules/animatePaper.html">animatePaper</a>
 
 </div>
 
@@ -120,6 +119,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_extendPropHooks">extendPropHooks</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_stop">stop</a>
 
                             </li>
@@ -149,7 +152,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l128"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:128</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_export.js.html#l2"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;export.js:2</code></a>
         </p>
 
 
@@ -188,7 +191,7 @@ if you want to chain animations without falling into Callback Hell.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l232"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:232</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_export.js.html#l47"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;export.js:47</code></a>
         </p>
 
 
@@ -232,6 +235,78 @@ if you want to chain animations without falling into Callback Hell.</p>
 
 
 </div>
+<div id="method_extendPropHooks" class="method item">
+    <h3 class="name"><code>extendPropHooks</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>customHooks</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/_Users_camille_github_animatePaper.js_src_export.js.html#l73"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;export.js:73</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Use this method to extend <a href="../classes/_tweenPropHooks.html" class="crosslink">_tweenPropHooks</a>.</p>
+<p>The <code>customHooks</code> object should like this :</p>
+<pre class="code prettyprint"><code>    {
+        "propertyName": {
+            set: function() {},
+            get: function() {},
+            ease: function() {}
+        }
+    }
+</code></pre>
+<p>Each hook can contain a <code>get</code>, <code>set</code> and <code>ease</code> functions. When these functions are used, they are passed only
+one argument : the <a href="../classes/Tween.html" class="crosslink">Tween</a> object, exept for the <code>ease()</code> function which gets the eased percent
+as second parameter.</p>
+<ul>
+<li>The <code>get()</code> function must return the current value of the <code>Tween.item</code>'s property.</li>
+<li>The <code>set()</code> function must set the value of the <code>Tween.item</code>'s property with <code>Tween.now</code> (which will
+most likely be the result of <code>get()</code> or <code>ease()</code>)</li>
+<li>The <code>ease()</code> function must return the eased value. The second parameter is the eased percent.</li>
+</ul>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">customHooks</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>A collection of objects</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_stop" class="method item">
     <h3 class="name"><code>stop</code></h3>
 
@@ -248,7 +323,7 @@ if you want to chain animations without falling into Callback Hell.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l156"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:156</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_export.js.html#l29"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;export.js:29</code></a>
         </p>
 
 

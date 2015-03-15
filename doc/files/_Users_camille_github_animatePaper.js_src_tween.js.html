@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>easing - animatePaper.js</title>
+    <title>/Users/camille/github/animatePaper.js/src/tween.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -81,44 +81,115 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>easing Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: /Users/camille/github/animatePaper.js/src/tween.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )
+ *  
+ *  @class Tween
+ *  @constructor
+ *  @param {String} Property name
+ *  @param {mixed} Final value
+ *  @param {Object} animation
+ */
+function Tween(property, value, animation) {
+        var self = this;
+        /**
+         *  Reference to the {{#crossLink &quot;Animation&quot;}}{{/crossLink}}
+         *  @property {Object} A
+         *  @readonly
+         */
+        self.A = animation;
+        /**
+         *  Animated &#x60;paper.Item&#x60; object
+         *  @property {Object} item
+         *  @readonly
+         */
+        self.item = animation.item;
+        /**
+         *  Name of the animated property
+         *  @property {String} prop
+         *  @readonly
+         */
+        self.prop = property;
+        /**
+         *  The value the property will have when the animation is over.
+         *  @property {mixed} end
+         *  @readonly
+         */
+        self.end = value;
+        /**
+         *  Value of the property when the animation starts. Set using {{#crossLink &quot;Tween/cur:method&quot;}}{{/crossLink}}
+         *  @property {mixed} start
+         *  @readonly
+         */
+        self.start = self.cur();
+        /**
+         *  Current value of the property. Set using {{#crossLink &quot;Tween/cur:method&quot;}}{{/crossLink}}
+         *  @property {mixed} now
+         */
+        self.now = self.cur();
+        /**
+         *  If the value of the property increases, &#x60;direction&#x60; will be &#x60;&#x27;+&#x27;&#x60;, if it decreases : &#x60;&#x27;-&#x27;&#x60;.
+         *  @property {String} direction
+         *  @readonly
+         */
+        self.direction = self.end &gt; self.start ? &quot;+&quot; : &quot;-&quot;;
 
 
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_easing.js.html#l1"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;easing.js:1</code></a>
-        </div>
+    }
+    /**
+     *  Get the current value of the animated property. Uses {{#crossLink &quot;_tweenPropHooks&quot;}}{{/crossLink}} if
+     *  available.
+     *  @method cur
+     *  @return {mixed} Current value
+     */
+Tween.prototype.cur = function() {
+    var self = this;
+    // should we use a special way to get the current value ? if not just use item[prop]
+    var hooks = _tweenPropHooks[self.prop];
 
+    return hooks &amp;&amp; hooks.get ? hooks.get(self) : _tweenPropHooks._default.get(self);
+};
+/**
+ *  Called on each {{#crossLink &quot;Animation/tick:method&quot;}}{{/crossLink}}. Set the value of the property
+ *  to the eased value. Uses {{#crossLink &quot;_tweenPropHooks&quot;}}{{/crossLink}} if available.
+ *  It takes the percentage of the animation duration as argument.
+ *  @method run
+ *  @param {Number} percent 
+ *  @return {Object} self
+ *  @chainable
+ */
+Tween.prototype.run = function(percent) {
+    var self = this;
+    var eased;
+    var hooks = _tweenPropHooks[self.prop];
 
-</div>
+    var settings = self.A.settings;
+    if (settings.duration) {
+        self.pos = eased = easing[settings.easing](percent, settings.duration * percent, 0, 1, self.duration);
+    } else {
+        self.pos = eased = percent;
+    }
+    // refresh current value
 
+    if (hooks &amp;&amp; hooks.ease) {
+        hooks.ease(self, eased);
+    } else {
+        self.now = (self.end - self.start) * eased + self.start;
+    }
 
-<div class="box intro">
-    <p>Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and
-implementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js</p>
+    if (hooks &amp;&amp; hooks.set) {
+        hooks.set(self);
+    } else {
+        _tweenPropHooks._default.set(self);
+    }
 
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+    return self;
+};
+    </pre>
 </div>
                     </div>
                 </div>

@@ -76,11 +76,22 @@ star.animate([{
 }]);
 ````
 
+You can stop all running animations on an item by calling :
+````
+animatePaper.stop(star);
+// or
+star.stop();
+````
+
+The `stop` method can take a `goToEnd` argument.
+If true, all the animations will take their final value and `complete` callbacks will be called.
+
+
 ### Add custom easing functions
 
 You can use `animatePaper.extendEasing(myEasingFunctions)` method to add your own easing functions or override any existing easing.
 
-The method takes only one argument : an object in which keys are easing names, and values are easin functions :
+The method takes only one argument : an object in which keys are easing names, and values are easing functions:
 
 ````
 animatePaper.extendEasing({
@@ -90,11 +101,39 @@ animatePaper.extendEasing({
 });
 ````
 
+### Extend property hooks
+
+If you want to add support for a new property or override the library's behavior for properties that are already supported,
+you can use `animatePaper.extendPropHooks(myPropHooks);`.
+
+`myPropHooks` should be an object in which keys are property names, and values are "hook objects".
+
+Each "hook object" can have a `get`, `set` and `ease` method, and will be used to interface the animation with the property.
+
+For example, say you want to add support for color animation:
+````
+animatePaper.extendPropHooks({
+  "fillColor": {
+    get: function(tween) {
+      // my code ...
+    },
+    ease: function(tween,easedPercent) {
+      // my code ...
+    }
+  }
+});
+````
+When these functions are used, they are passed only one argument : the Tween object (see the doc in doc/ for more details),
+exept for the `ease()` function which gets the eased percent as second parameter.
+
+ * The `get()` function must return the current value of the `Tween.item`'s property.
+ * The `set()` function must set the value of the `Tween.item`'s property with `Tween.now` (which will most likely be the result of `get()` or `ease()`)
+ * The `ease()` function must return the eased value. The second parameter is the eased percent.
 
 ## Todo
 
  * Add hooks for more properties
- * Add a way to stop all animations on an Item
+ * Add `fx` 
 
 ## Author
 camille dot hodoul at gmail dot com

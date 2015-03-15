@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/_tweenPropHooks.html">_tweenPropHooks</a></li>
                                 <li><a href="../classes/animatePaper.html">animatePaper</a></li>
                                 <li><a href="../classes/Animation.html">Animation</a></li>
                                 <li><a href="../classes/easing.html">easing</a></li>
@@ -47,7 +48,6 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/animatePaper.html">animatePaper</a></li>
                             </ul>
                         </div>
                     </div>
@@ -86,16 +86,22 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l261"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:261</code></a>
+            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l2"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:2</code></a>
         </div>
 
-            Module: <a href="../modules/animatePaper.html">animatePaper</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>Animation class.</p>
+    <p>Animation class. Default settings are :</p>
+<pre class="code prettyprint"><code>    var defaults = {
+         duration: 400,
+         easing: &quot;linear&quot;,
+         complete: undefined,
+         step: undefined
+    };
+</code></pre>
 
 </div>
 
@@ -128,7 +134,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l261"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:261</code></a>
+                <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l2"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:2</code></a>
                 </p>
         
         
@@ -174,6 +180,47 @@
                                  
                             </div>
         
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">duration</code>
+                                            <span class="type">Number</span>
+        
+                                        <div class="param-description">
+                                            <p>Duration of the animation, in ms</p>
+        
+                                        </div>
+        
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">easing</code>
+                                            <span class="type">String</span>
+        
+                                        <div class="param-description">
+                                            
+                                        </div>
+        
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">complete</code>
+                                            <span class="type">Function</span>
+        
+                                        <div class="param-description">
+                                            <p>Called when the animation is over, in <code>.end()</code>. The item is passed as argument</p>
+        
+                                        </div>
+        
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">step</code>
+                                            <span class="type">Function</span>
+        
+                                        <div class="param-description">
+                                            <p>Called on each <code>.tick()</code></p>
+        
+                                        </div>
+        
+                                    </li>
+                                </ul>
                         </li>
                     </ul>
                 </div>
@@ -188,6 +235,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -217,6 +265,44 @@
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__continue">_continue</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property__dataIndex">_dataIndex</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_item">item</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_settings">settings</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_startTime">startTime</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_stopped">stopped</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ticker">ticker</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_tweens">tweens</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -246,7 +332,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l383"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:383</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l175"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:175</code></a>
         </p>
 
 
@@ -295,7 +381,7 @@ and provides default values if needed.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l357"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:357</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l149"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:149</code></a>
         </p>
 
 
@@ -332,7 +418,7 @@ and provides default values if needed.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l337"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:337</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l129"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:129</code></a>
         </p>
 
 
@@ -379,7 +465,7 @@ and provides default values if needed.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l302"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:302</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l94"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:94</code></a>
         </p>
 
 
@@ -397,6 +483,213 @@ and provides default values if needed.</p>
 </div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property__continue" class="property item private">
+                        <h3 class="name"><code>_continue</code></h3>
+                        <span class="type">Function</span>
+                    
+                    
+                            <span class="flag private">private</span>
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l59"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:59</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Callback used when queueing animations.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property__dataIndex" class="property item private">
+                        <h3 class="name"><code>_dataIndex</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                            <span class="flag private">private</span>
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l71"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:71</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Index of the animation in the item's queue.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_item" class="property item">
+                        <h3 class="name"><code>item</code></h3>
+                        <span class="type">Object</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l41"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:41</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The animated <code>paper.Item</code></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_settings" class="property item">
+                        <h3 class="name"><code>settings</code></h3>
+                        <span class="type">Object</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l36"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:36</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Settings, after being normalized in _initializeSettings</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_startTime" class="property item">
+                        <h3 class="name"><code>startTime</code></h3>
+                        <span class="type">Timestamp</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l30"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:30</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Time when the Animation is created</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_stopped" class="property item">
+                        <h3 class="name"><code>stopped</code></h3>
+                        <span class="type">Bool</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l25"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:25</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>True if the animation is stopped</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ticker" class="property item">
+                        <h3 class="name"><code>ticker</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l52"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:52</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>If the Animation is in <code>onFrame</code> mode :
+                    Identifier of the FrameMamanger callback called on every tick.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_tweens" class="property item">
+                        <h3 class="name"><code>tweens</code></h3>
+                        <span class="type">Array</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_animation.js.html#l47"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animation.js:47</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p><a href="../classes/Tween.html" class="crosslink">Tween</a>s used by the Animation.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

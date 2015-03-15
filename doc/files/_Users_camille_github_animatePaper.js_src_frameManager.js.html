@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>animatePaper - animatePaper.js</title>
+    <title>/Users/camille/github/animatePaper.js/src/frameManager.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/_tweenPropHooks.html">_tweenPropHooks</a></li>
                                 <li><a href="../classes/animatePaper.html">animatePaper</a></li>
                                 <li><a href="../classes/Animation.html">Animation</a></li>
                                 <li><a href="../classes/easing.html">easing</a></li>
@@ -47,7 +48,6 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/animatePaper.html">animatePaper</a></li>
                             </ul>
                         </div>
                     </div>
@@ -81,64 +81,91 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>animatePaper Module</h1>
-<div class="box clearfix meta">
+<h1 class="file-heading">File: /Users/camille/github/animatePaper.js/src/frameManager.js</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  This is the only function called in a objects &#x60;onFrame&#x60; handler.
+ *  If the objects has callbacks in it&#x27;s &#x60;data._customHandlers&#x60; property,
+ *  each of these is called.
+ *
+ *  @private
+ *  @method frameManagerHandler
+ *  @param {Object} ev The event object
+ *  @for frameManager
+ */
+function frameManagerHandler(ev) {
+        var item = this;
 
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l614"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:614</code></a>
-        </div>
+        if (typeof item.data._customHandlers !== &quot;undefined&quot; &amp;&amp;
+            item.data._customHandlersCount &gt; 0
+        ) {
+            // parcourir les handlers et les declencher
+            for (var i in item.data._customHandlers) {
+                if (item.data._customHandlers.hasOwnProperty(i)) {
+                    if (typeof item.data._customHandlers[i] === &quot;function&quot;) {
+                        item.data._customHandlers[i].call(item, ev);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     *  The &#x60;frameManager&#x60; is used to bind and unbind multiple callbacks to an object&#x27;s
+     *  &#x60;onFrame&#x60;. If an object has at least one handler, it&#x27;s &#x60;onFrame&#x60; handler will be
+     *  {{#crossLink &quot;frameManager/frameManagerHandler:method&quot;}}{{/crossLink}}.
+     *
+     *  @class frameManager
+     *  @static
+     */
+animatePaper.frameManager = {
+    /**
+     * Add a callback to a paper.js Item&#x27;s &#x60;onFrame&#x60; event.
+     * The Item itself will be the &#x60;thisValue&#x60; and the event object &#x60;ev&#x60; will be the first argument
+     * 
+     * @param {Object} item paper.js Item
+     * @param {String} name An identifier for this callback
+     * @param {Function} callback
+     * @example
+     *      animatePaper.frameManager.add(circle,&quot;goUp&quot;,function(ev) {
+     *          // Animation logic
+     *      });
+     * @method add
+     */
+    add: function(item, name, callback) {
+        if (typeof item.data._customHandlers === &quot;undefined&quot;) {
+            item.data._customHandlers = {};
+            item.data._customHandlersCount = 0;
+        }
+        item.data._customHandlers[name] = callback;
+        item.data._customHandlersCount += 1;
+        if (item.data._customHandlersCount &gt; 0) {
 
-</div>
+            item.onFrame = frameManagerHandler;
+        }
 
+        return name;
+    },
+    /**
+     * Remove a callback from an item&#x27;s &#x60;onFrame&#x60; handler.
+     * 
+     * @param {Object} item paper.js Item object
+     * @param {String} name The identifier of the callback you want to remove
+     * @method remove
+     */
+    remove: function(item, name) {
+        if (typeof item.data._customHandlers !== &quot;undefined&quot;) {
+            item.data._customHandlers[name] = null;
+            item.data._customHandlersCount -= 1;
+            if (item.data._customHandlersCount &lt;= 0) {
+                item.data._customHandlersCount = 0;
 
-<div class="box intro">
-    <p>An animation library for paper.js
-camille.hodoul@gmail.com</p>
-
-</div>
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-            <p>This module provides the following classes:</p>
-
-            <ul class="module-classes">
-                <li class="module-class">
-                    <a href="../classes/animatePaper.html">
-                        animatePaper
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Animation.html">
-                        Animation
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/easing.html">
-                        easing
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/frameManager.html">
-                        frameManager
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/fx.html">
-                        fx
-                    </a>
-                </li>
-                <li class="module-class">
-                    <a href="../classes/Tween.html">
-                        Tween
-                    </a>
-                </li>
-            </ul>
-    </div>
-
-    <div class="yui3-u-1-2">
-    </div>
+            }
+        }
+    }
+};
+    </pre>
 </div>
                     </div>
                 </div>

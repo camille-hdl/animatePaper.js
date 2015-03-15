@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.1</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/_tweenPropHooks.html">_tweenPropHooks</a></li>
                                 <li><a href="../classes/animatePaper.html">animatePaper</a></li>
                                 <li><a href="../classes/Animation.html">Animation</a></li>
                                 <li><a href="../classes/easing.html">easing</a></li>
@@ -47,7 +48,6 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/animatePaper.html">animatePaper</a></li>
                             </ul>
                         </div>
                     </div>
@@ -86,10 +86,9 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l558"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:558</code></a>
+            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l1"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:1</code></a>
         </div>
 
-            Module: <a href="../modules/animatePaper.html">animatePaper</a>
 
 </div>
 
@@ -128,7 +127,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l558"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:558</code></a>
+                <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l1"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:1</code></a>
                 </p>
         
         
@@ -188,6 +187,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -202,9 +202,51 @@
                                 <a href="#method__pointDiff">_pointDiff</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_cur">cur</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_run">run</a>
+
+                            </li>
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_A">A</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_direction">direction</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_end">end</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_item">item</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_now">now</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_prop">prop</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_start">start</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -243,7 +285,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/_Users_camille_github_animatePaper.js_src_animatePaper.js.html#l17"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;animatePaper.js:17</code></a>
+        <a href="../files/_Users_camille_github_animatePaper.js_src_prophooks.js.html#l1"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;prophooks.js:1</code></a>
         </p>
 
 
@@ -308,8 +350,299 @@ Returns the result of : <code>a operator b</code>.</p>
 
 
 </div>
+<div id="method_cur" class="method item">
+    <h3 class="name"><code>cur</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Mixed</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l56"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:56</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Get the current value of the animated property. Uses <a href="../classes/_tweenPropHooks.html" class="crosslink">_tweenPropHooks</a> if
+available.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Mixed</span>:
+                    <p>Current value</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_run" class="method item">
+    <h3 class="name"><code>run</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>percent</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Object</span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l69"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:69</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called on each <a href="../classes/Animation.html#method_tick" class="crosslink">tick</a>. Set the value of the property
+to the eased value. Uses <a href="../classes/_tweenPropHooks.html" class="crosslink">_tweenPropHooks</a> if available.
+It takes the percentage of the animation duration as argument.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">percent</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Object</span>:
+                    <p>self</p>
+
+            </div>
+        </div>
+
+
+</div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_A" class="property item">
+                        <h3 class="name"><code>A</code></h3>
+                        <span class="type">Object</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l12"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:12</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Reference to the <a href="../classes/Animation.html" class="crosslink">Animation</a></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_direction" class="property item">
+                        <h3 class="name"><code>direction</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l47"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:47</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>If the value of the property increases, <code>direction</code> will be <code>'+'</code>, if it decreases : <code>'-'</code>.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_end" class="property item">
+                        <h3 class="name"><code>end</code></h3>
+                        <span class="type">Mixed</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l30"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:30</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The value the property will have when the animation is over.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_item" class="property item">
+                        <h3 class="name"><code>item</code></h3>
+                        <span class="type">Object</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l18"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:18</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Animated <code>paper.Item</code> object</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_now" class="property item">
+                        <h3 class="name"><code>now</code></h3>
+                        <span class="type">Mixed</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l42"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:42</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Current value of the property. Set using <a href="../classes/Tween.html#method_cur" class="crosslink">cur</a></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_prop" class="property item">
+                        <h3 class="name"><code>prop</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l24"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:24</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Name of the animated property</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_start" class="property item">
+                        <h3 class="name"><code>start</code></h3>
+                        <span class="type">Mixed</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/_Users_camille_github_animatePaper.js_src_tween.js.html#l36"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;tween.js:36</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Value of the property when the animation starts. Set using <a href="../classes/Tween.html#method_cur" class="crosslink">cur</a></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

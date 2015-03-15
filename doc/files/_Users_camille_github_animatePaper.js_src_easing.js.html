@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>easing - animatePaper.js</title>
+    <title>/Users/camille/github/animatePaper.js/src/easing.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -81,44 +81,68 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>easing Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: /Users/camille/github/animatePaper.js/src/easing.js</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *  Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and
+ *  implementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js
+ *  
+ *  @class easing
+ *  @static
+ */
+var easing = {
+    linear: function(p) {
+        return p;
+    },
+    swing: function(p) {
+        return 0.5 - Math.cos(p * Math.PI) / 2;
+    },
+    Sine: function(p) {
+        return 1 - Math.cos(p * Math.PI / 2);
+    },
+    Circ: function(p) {
+        return 1 - Math.sqrt(1 - p * p);
+    },
+    Elastic: function(p) {
+        return p === 0 || p === 1 ? p :
+            -Math.pow(2, 8 * (p - 1)) * Math.sin(((p - 1) * 80 - 7.5) * Math.PI / 15);
+    },
+    Back: function(p) {
+        return p * p * (3 * p - 2);
+    },
+    Bounce: function(p) {
+        var pow2,
+            bounce = 4;
 
-        <div class="foundat">
-            Defined in: <a href="../files/_Users_camille_github_animatePaper.js_src_easing.js.html#l1"><code>&#x2F;Users&#x2F;camille&#x2F;github&#x2F;animatePaper.js&#x2F;src&#x2F;easing.js:1</code></a>
-        </div>
+        while (p &lt; ((pow2 = Math.pow(2, --bounce)) - 1) / 11) {}
+        return 1 / Math.pow(4, 3 - bounce) - 7.5625 * Math.pow((pow2 * 3 - 2) / 22 - p, 2);
+    }
+};
+var __tempEasing = [&quot;Quad&quot;, &quot;Cubic&quot;, &quot;Quart&quot;, &quot;Quint&quot;, &quot;Expo&quot;];
+for (var i = 0, l = __tempEasing.length; i &lt; l; i++) {
+    easing[__tempEasing[i]] = function(p) {
+        return Math.pow(p, i + 2);
+    };
+}
+__tempEasing = null;
+for (var name in easing) {
+    if (easing.hasOwnProperty(name)) {
+        var easeIn = easing[name];
 
-
-</div>
-
-
-<div class="box intro">
-    <p>Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and
-implementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js</p>
-
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-
-
-        </div>
-
-
-
-
-    </div>
+        easing[&quot;easeIn&quot; + name] = easeIn;
+        easing[&quot;easeOut&quot; + name] = function(p) {
+            return 1 - easeIn(1 - p);
+        };
+        easing[&quot;easeInOut&quot; + name] = function(p) {
+            return p &lt; 0.5 ?
+                easeIn(p * 2) / 2 :
+                1 - easeIn(p * -2 + 2) / 2;
+        };
+    }
+}
+    </pre>
 </div>
                     </div>
                 </div>
