@@ -1,6 +1,8 @@
 # animatePaper.js
 An animation library for [paper.js](http://paperjs.org/).
 
+See a live demo [on jsbin](http://jsbin.com/jusumo/1/edit?html,js,output).
+
 The minified version is in `dist/animatePaper.min.js`.
 
 Features include :
