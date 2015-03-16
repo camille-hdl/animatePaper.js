@@ -13,7 +13,7 @@ Features include :
 
 This is a work in progress, and any help or feedback is more than welcome.
 
-So far, only `opacity`, `scale`, `rotate`, `translate` and `segmentGrow` are supported, but I add a bit more whenever I have the time.
+So far, only `opacity`, `position`, `scale`, `rotate`, `translate` and `segmentGrow` are supported, but I add a bit more whenever I have the time.
 
 
 ## Usage

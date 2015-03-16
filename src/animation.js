@@ -1,4 +1,6 @@
 var paper = global.paper;
+
+var dirRegexp = /^([+\-])(.+)/;
 /**
  *  Animation class. Default settings are :
  *  

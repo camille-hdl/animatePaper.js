@@ -84,7 +84,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 2,
+            "line": 4,
             "description": "Animation class. Default settings are :\n\n````\n    var defaults = {\n         duration: 400,\n         easing: \"linear\",\n         complete: undefined,\n         step: undefined\n    };\n````",
             "is_constructor": 1,
             "params": [
@@ -224,7 +224,7 @@
     "classitems": [
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 25,
+            "line": 27,
             "description": "True if the animation is stopped",
             "itemtype": "property",
             "name": "stopped",
@@ -233,7 +233,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 30,
+            "line": 32,
             "description": "Time when the Animation is created",
             "itemtype": "property",
             "name": "startTime",
@@ -243,7 +243,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 36,
+            "line": 38,
             "description": "Settings, after being normalized in {{#crossLink \"_initializeSettings\"}}{{/crossLink}}",
             "itemtype": "property",
             "name": "settings",
@@ -252,7 +252,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 41,
+            "line": 43,
             "description": "The animated `paper.Item`",
             "itemtype": "property",
             "name": "item",
@@ -262,7 +262,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 47,
+            "line": 49,
             "description": "{{#crossLink \"Tween\"}}{{/crossLink}}s used by the Animation.",
             "itemtype": "property",
             "name": "tweens",
@@ -271,7 +271,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 52,
+            "line": 54,
             "description": "If the Animation is in `onFrame` mode : \nIdentifier of the {{#crossLink \"frameMamanger\"}}{{/crossLink}} callback called on every tick.",
             "itemtype": "property",
             "name": "ticker",
@@ -281,7 +281,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 59,
+            "line": 61,
             "description": "Callback used when queueing animations.",
             "itemtype": "property",
             "name": "_continue",
@@ -293,7 +293,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 71,
+            "line": 73,
             "description": "Index of the animation in the item's queue.",
             "itemtype": "property",
             "name": "_dataIndex",
@@ -305,7 +305,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 94,
+            "line": 96,
             "description": "Called on each step of the animation.",
             "itemtype": "method",
             "name": "tick",
@@ -313,7 +313,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 129,
+            "line": 131,
             "description": "Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.",
             "itemtype": "method",
             "name": "stop",
@@ -328,7 +328,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 149,
+            "line": 151,
             "description": "Called when the animations ends, naturally or using `.stop(true)`.",
             "itemtype": "method",
             "name": "end",
@@ -336,7 +336,7 @@
         },
         {
             "file": "/Users/camille/github/animatePaper.js/src/animation.js",
-            "line": 175,
+            "line": 177,
             "description": "Normalizes existing values from an Animation settings argument\nand provides default values if needed.",
             "itemtype": "method",
             "name": "_initializeSettings",

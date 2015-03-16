@@ -108,6 +108,27 @@
 		  }
 	  }]);
 
+	  var otherSquare = new paper.Path.Rectangle(new paper.Point(75, 75), new paper.Size(50,50));
+	  otherSquare.strokeColor = 'green';
+	  otherSquare.animate({
+		  properties: {
+			  position: {
+			  	x: "+200",
+			  	y: 150
+			  }
+		  },
+		  settings: {
+			  duration:1500,
+			  easing:"easeInBounce"
+		  }
+	  });
+	  
+	  var otherSquareRef = new paper.Path.Rectangle(new paper.Point(75, 75), new paper.Size(50,50));
+	  otherSquareRef.fillColor = "red";
+	  otherSquareRef.position.x += 200;
+	  otherSquareRef.position.y = 150;
+
+
 	  var trunk = new paper.Path(new paper.Point(500,500));
 	  trunk.strokeColor = "blue";
 	  trunk.strokeWidth = 3;

@@ -49,8 +49,8 @@ function Tween(property, value, animation) {
          *  @property {String} direction
          *  @readonly
          */
-        self.direction = self.end > self.start ? "+" : "-";
-
+        self.direction = self.end > self.start ? "+" : "-";  
+        
 
     }
     /**

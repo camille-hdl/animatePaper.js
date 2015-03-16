@@ -49,7 +49,6 @@ var _tweenPropHooks = {
             toSet[tween.prop] = tween.now;
             tween.item.set(toSet);
         }
-
     },
     scale: {
         get: function(tween) {
@@ -144,6 +143,97 @@ var _tweenPropHooks = {
 
             tween.now = _pointDiff(temp, tween.start, "+");
 
+            return tween.now;
+        }
+    },
+    position: {
+        get: function(tween) {
+            return {
+                x: tween.item.position.x,
+                y: tween.item.position.y
+            };
+        },
+        set: function(tween) {
+
+            tween.item.position.x += tween.now.x;
+            tween.item.position.y += tween.now.y;
+            
+        },
+        ease: function(tween, eased) {
+            // If the values start with + or -,
+            // the values are relative to the current pos
+            var dirX = "";
+            var dirY = "";
+            var rX = null;
+            var rY = null;
+
+            // used to store value progess
+            if(typeof tween._easePositionCache === "undefined") {
+                tween._easePositionCache = {
+                    x: 0,
+                    y: 0
+                }
+            }
+
+
+            var endX = Number(tween.end.x || 0);
+            var endY = Number(tween.end.y || 0);
+            
+            if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
+            if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
+            if(!!rX) {
+                dirX = rX[1];
+                endX = Number(rX[2]);
+            }
+            if(!!rY) {
+                dirY = rY[1];
+                endY = Number(rY[2]);
+            }
+
+            var _ease = function(val) {
+                return ((val || 0) * eased);
+            };
+
+            if(typeof tween.end.x !== "undefined") {
+                if(dirX==="+") {
+                    tween.now.x = (_ease(endX) - tween._easePositionCache.x);
+                    tween._easePositionCache.x += tween.now.x;
+                }
+                else if(dirX==="-") {
+                    tween.now.x = _ease(endX) - tween._easePositionCache.x;
+                    tween._easePositionCache.x += tween.now.x;
+                    tween.now.x = - tween.now.x;
+                }
+                else {
+                    // absolute, not relative
+                    tween.now.x = ((endY - tween.start.x) * eased) - tween._easePositionCache.x;
+                    tween._easePositionCache.x += tween.now.x;
+                }
+            }
+            else {
+                tween.now.x = 0;
+            }
+            if(typeof tween.end.y !== "undefined") {
+                if(dirY==="+") {
+                    tween.now.y = _ease(endY) - tween._easePositionCache.y;
+                    tween._easePositionCache.y += tween.now.y;
+                }
+                else if(dirY==="-") {
+
+                    tween.now.y = _ease(endY) - tween._easePositionCache.y;
+                    tween._easePositionCache.y += tween.now.y;
+                    tween.now.y = - tween.now.y;
+                }
+                else {
+                    // absolute, not relative
+                    tween.now.y = ((endY - tween.start.y) * eased) - tween._easePositionCache.y;
+                    tween._easePositionCache.y += tween.now.y;
+                }
+            }
+            else {
+                tween.now.y = 0;
+            }
+            
             return tween.now;
         }
     }
