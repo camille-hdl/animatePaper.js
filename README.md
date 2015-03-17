@@ -13,7 +13,7 @@ Features include :
 
 This is a work in progress, and any help or feedback is more than welcome.
 
-So far, only `opacity`, `position`, `scale`, `rotate`, `translate` and `segmentGrow` are supported, but I add a bit more whenever I have the time.
+So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor`, `strokeColor` and `segmentGrow` are supported, but I add a bit more whenever I have the time.
 
 
 ## Usage
@@ -21,6 +21,13 @@ First, include [paper.js](http://paperjs.org/) in your page, then this library.
 
 ### Animate an Item
 
+You can either use a predefined animation :
+````
+var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
+animatePaper.fx.shake(myCircle);
+````
+
+Or animate properties :
 ````
 var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
 animatePaper.animate(myCircle, {
@@ -132,10 +139,27 @@ exept for the `ease()` function which gets the eased percent as second parameter
  * The `set()` function must set the value of the `Tween.item`'s property with `Tween.now` (which will most likely be the result of `get()` or `ease()`)
  * The `ease()` function must return the eased value. The second parameter is the eased percent.
 
+
+### Add your own animations to the lib
+
+To do so, simply add properties to `animatePaper.fx`, like so :
+````
+animatePaper.fx.wave = function(item,settings) {
+  var myAnimations = [...];
+  item.animate(myAnimations);
+};
+animatePaper.fx.wave(myItem);
+````
+
+## Help needed !
+
+I'm a beginner in paper.js, so if you spot a mistake or want to add something to the lib,
+any help would be appreciated :-)
+
 ## Todo
 
  * Add hooks for more properties
- * Add `fx` 
+ * Add funny things to `fx`
 
 ## Author
 camille dot hodoul at gmail dot com
