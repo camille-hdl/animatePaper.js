@@ -113,7 +113,47 @@ animatePaper.fx = {
             }
         });
         return path;
-    }
+    },
+    /**
+     * Shake an item
+     *
+     * @method grow
+     * @param {Object} item a paper.js &#x60;Item&#x60; object
+     * @param {Object} settings
+     * @param {Number} settings.nb Number of shakes. Default : 2
+     * @param {Number} settings.movement Length of each shake? Default : 40
+     * @param {Function} settings.complete complete callback
+     */
+    shake: function(item, settings) {
+            var nbOfShakes = Math.floor(settings ? settings.nb || 2 : 2) * 2;
+            var length = Math.floor(settings ? settings.movement || 40 : 40);
+            var animations = [];
+            for (var first = true; nbOfShakes &gt; 0; nbOfShakes--) {
+                var direction = nbOfShakes % 2 ? &quot;+&quot; : &quot;-&quot;;
+                var movement = length;
+                var callback = null;
+                if (nbOfShakes === 1 &amp;&amp; !!settings &amp;&amp; typeof settings.complete !== &quot;undefined&quot;) {
+                    callback = settings.complete;
+                }
+                if (first || nbOfShakes === 1) {
+                    movement = movement / 2;
+                    first = false;
+                }
+                animations.push({
+                    properties: {
+                        position: {
+                            x: direction + movement
+                        }
+                    },
+                    settings: {
+                        duration: 100,
+                        easing: &quot;swing&quot;,
+                        complete: callback
+                    }
+                });
+            }
+            animatePaper.animate(item, animations);
+        }
 };
     </pre>
 </div>

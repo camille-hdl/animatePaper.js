@@ -389,6 +389,43 @@
             "class": "fx"
         },
         {
+            "file": "/Users/camille/github/animatePaper.js/src/effects.js",
+            "line": 30,
+            "description": "Shake an item",
+            "itemtype": "method",
+            "name": "grow",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "a paper.js `Item` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "nb",
+                            "description": "Number of shakes. Default : 2",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "movement",
+                            "description": "Length of each shake? Default : 40",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "complete",
+                            "description": "complete callback",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "class": "fx"
+        },
+        {
             "file": "/Users/camille/github/animatePaper.js/src/export.js",
             "line": 2,
             "description": "The main animation interface.\nIt can take a single option object or an array of option objects\nif you want to chain animations without falling into Callback Hell.",

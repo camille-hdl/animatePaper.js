@@ -127,7 +127,21 @@
 	  otherSquareRef.fillColor = "red";
 	  otherSquareRef.position.x += 200;
 	  otherSquareRef.position.y = 150;
-
+	  otherSquareRef.animate({
+	  	properties: {
+	  		fillColor: {
+	  			hue: "+100",
+	  			brightness: "-0.4"
+	  		}
+	  	},
+	  	settings: {
+	  		duration: 1000,
+	  		easing: "swing",
+	  		complete: function() {
+	  			animatePaper.fx.shake(this,{nb:5});
+	  		}
+	  	}
+	  });
 
 	  var trunk = new paper.Path(new paper.Point(500,500));
 	  trunk.strokeColor = "blue";
