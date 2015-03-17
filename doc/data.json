@@ -393,7 +393,7 @@
             "line": 30,
             "description": "Shake an item",
             "itemtype": "method",
-            "name": "grow",
+            "name": "shake",
             "params": [
                 {
                     "name": "item",
