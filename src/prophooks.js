@@ -236,6 +236,62 @@ var _tweenPropHooks = {
             
             return tween.now;
         }
-    }
-
+    },
+    Color: {
+            get: function(tween) {
+                return {
+                    hue: tween.item[tween.prop].hue,
+                    brightness: tween.item[tween.prop].brightness,
+                    saturation: tween.item[tween.prop].saturation
+                };
+            },
+            set: function(tween) {
+                tween.item[tween.prop].hue += tween.now.hue;
+                tween.item[tween.prop].brightness += tween.now.brightness;
+                tween.item[tween.prop].saturation += tween.now.saturation;
+            },
+            ease: function(tween, eased) {
+                var props = [ "hue", "brightness", "saturation" ];
+                var _ease = function(val) {
+                    return (val || 0) * eased;
+                };
+                for (var i = 0, l = props.length; i < l; i++) {
+                    var curProp = props[i];
+                    var dir = "";
+                    var r = "";
+                    if (typeof tween._easeColorCache === "undefined") {
+                        tween._easeColorCache = {};
+                    }
+                    if (typeof tween._easeColorCache[curProp] === "undefined") {
+                        tween._easeColorCache[curProp] = 0;
+                    }
+                    var end = Number(tween.end[curProp] || 0);
+                    if (!!tween.end[curProp]) var r = ("" + tween.end[curProp]).match(dirRegexp);
+                    if (!!r) {
+                        dir = r[1];
+                        end = Number(r[2]);
+                    }
+                    if (typeof tween.end[curProp] !== "undefined") {
+                        if (dir === "+") {
+                            tween.now[curProp] = _ease(end) - tween._easeColorCache[curProp];
+                            tween._easeColorCache[curProp] += tween.now[curProp];
+                        } else if (dir === "-") {
+                            tween.now[curProp] = _ease(end) - tween._easeColorCache[curProp];
+                            tween._easeColorCache[curProp] += tween.now[curProp];
+                            tween.now[curProp] = -tween.now[curProp];
+                        } else {
+                            tween.now[curProp] = (end - tween.start[curProp]) * eased - tween._easeColorCache[curProp];
+                            tween._easeColorCache[curProp] += tween.now[curProp];
+                        }
+                    } else {
+                        tween.now[curProp] = 0;
+                    }
+                }
+                return tween.now;
+            }
+        }
 };
+var _colorProperties = [ "fill", "stroke" ];
+for (var i = 0, l = _colorProperties.length; i < l; i++) {
+    _tweenPropHooks[_colorProperties[i] + "Color"] = _tweenPropHooks.Color;
+}
