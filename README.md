@@ -45,7 +45,30 @@ animatePaper.animate(myCircle, {
 });
 ````
 
-The lib also extends `Item.prototype` with an `.animate()` method, which means you can also use
+When animating `position` or color properties, you can provide either relative or absolute values :
+````
+var square = new paper.Path.Rectangle(new paper.Point(75, 75), new paper.Size(50,50));
+square.strokeColor = 'green';
+square.animate({
+  properties: {
+    position: {
+      x: "+200", // relative to the current position of the item. At the end, `x` will be : 275
+      y: 150     // absolute position. At the end, `y` will be : 150
+    },
+    strokeColor: {
+      hue: "+100",
+      brightness: "-0.4"
+    }
+  },
+  settings: {
+    duration:1500,
+    easing:"easeInBounce"
+  }
+});
+````
+
+
+The lib also extends `Item.prototype` with `.animate()` and `.stop()` methods, which means you can also use
 ````
 myCircle.animate({
     /*
@@ -84,6 +107,8 @@ star.animate([{
   }
 }]);
 ````
+This is especially helpful when adding predefined animations to the library, it helps avoiding callback hell.
+
 
 You can stop all running animations on an item by calling :
 ````
