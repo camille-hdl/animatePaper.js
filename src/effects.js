@@ -30,7 +30,7 @@ animatePaper.fx = {
     /**
      * Shake an item
      *
-     * @method grow
+     * @method shake
      * @param {Object} item a paper.js `Item` object
      * @param {Object} settings
      * @param {Number} settings.nb Number of shakes. Default : 2
