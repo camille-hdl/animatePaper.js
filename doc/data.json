@@ -150,7 +150,7 @@
             "extension_for": [],
             "file": "/Users/camille/github/animatePaper.js/src/effects.js",
             "line": 1,
-            "description": "Effects : A collection of shorthands for animations.",
+            "description": "Effects : A facade for easy to use animations.",
             "static": 1
         },
         "animatePaper": {
@@ -414,6 +414,43 @@
                             "name": "movement",
                             "description": "Length of each shake? Default : 40",
                             "type": "Number"
+                        },
+                        {
+                            "name": "complete",
+                            "description": "complete callback",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "class": "fx"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/effects.js",
+            "line": 70,
+            "description": "Increase the opacity to 1",
+            "itemtype": "method",
+            "name": "shake",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "a paper.js `Item` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "duration",
+                            "description": "Duration of the animation. Default : 500",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "easing",
+                            "description": "Name of the easing function. Default : swing",
+                            "type": "String"
                         },
                         {
                             "name": "complete",

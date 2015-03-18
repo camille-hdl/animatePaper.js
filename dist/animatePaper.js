@@ -513,6 +513,26 @@
                 });
             }
             animatePaper.animate(item, animations);
+        },
+        fadeIn: function(item, settings) {
+            var duration = 500;
+            var complete = undefined;
+            var easing = "swing";
+            if (typeof settings !== "undefined") {
+                if (typeof settings.duration !== "undefined") duration = Number(settings.duration);
+                if (typeof settings.complete === "function") complete = settings.complete;
+                if (typeof settings.easing !== "undefined") easing = settings.easing;
+            }
+            animatePaper.animate(item, {
+                properties: {
+                    opacity: 1
+                },
+                settings: {
+                    duration: duration,
+                    easing: easing,
+                    complete: complete
+                }
+            });
         }
     };
     exports.animate = function(item, animation) {

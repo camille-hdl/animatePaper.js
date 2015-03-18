@@ -55,9 +55,11 @@
 
 	  var refEndSquare = square.clone();
 	  refEndSquare.strokeColor = 'green';
+	  refEndSquare.opacity = 0;
 	  refEndSquare.scale(2);
 	  refEndSquare.rotate(30);
-
+	  animatePaper.fx.fadeIn(refEndSquare);
+	  
 	  animatePaper.animate(square,{
 		properties: {
 		  scale: 2
