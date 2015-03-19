@@ -533,6 +533,76 @@
                     complete: complete
                 }
             });
+        },
+        fadeOut: function(item, settings) {
+            var duration = 500;
+            var complete = undefined;
+            var easing = "swing";
+            if (typeof settings !== "undefined") {
+                if (typeof settings.duration !== "undefined") duration = Number(settings.duration);
+                if (typeof settings.complete === "function") complete = settings.complete;
+                if (typeof settings.easing !== "undefined") easing = settings.easing;
+            }
+            animatePaper.animate(item, {
+                properties: {
+                    opacity: 0
+                },
+                settings: {
+                    duration: duration,
+                    easing: easing,
+                    complete: complete
+                }
+            });
+        },
+        slideUp: function(item, settings) {
+            var duration = 500;
+            var complete = undefined;
+            var distance = 50;
+            var easing = "swing";
+            if (typeof settings !== "undefined") {
+                if (typeof settings.duration !== "undefined") duration = Number(settings.duration);
+                if (typeof settings.complete === "function") complete = settings.complete;
+                if (typeof settings.easing !== "undefined") easing = settings.easing;
+                if (typeof settings.distance !== "undefined") distance = settings.distance;
+            }
+            animatePaper.animate(item, {
+                properties: {
+                    opacity: 1,
+                    position: {
+                        y: "-" + distance
+                    }
+                },
+                settings: {
+                    duration: duration,
+                    easing: easing,
+                    complete: complete
+                }
+            });
+        },
+        slideDown: function(item, settings) {
+            var duration = 500;
+            var complete = undefined;
+            var distance = 50;
+            var easing = "swing";
+            if (typeof settings !== "undefined") {
+                if (typeof settings.duration !== "undefined") duration = Number(settings.duration);
+                if (typeof settings.complete === "function") complete = settings.complete;
+                if (typeof settings.easing !== "undefined") easing = settings.easing;
+                if (typeof settings.distance !== "undefined") distance = settings.distance;
+            }
+            animatePaper.animate(item, {
+                properties: {
+                    opacity: 0,
+                    position: {
+                        y: "+" + distance
+                    }
+                },
+                settings: {
+                    duration: duration,
+                    easing: easing,
+                    complete: complete
+                }
+            });
         }
     };
     exports.animate = function(item, animation) {

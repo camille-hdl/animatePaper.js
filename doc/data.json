@@ -430,7 +430,7 @@
             "line": 70,
             "description": "Increase the opacity to 1",
             "itemtype": "method",
-            "name": "shake",
+            "name": "fadeIn",
             "params": [
                 {
                     "name": "item",
@@ -458,6 +458,127 @@
                             "type": "Function"
                         }
                     ]
+                }
+            ],
+            "class": "fx"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/effects.js",
+            "line": 100,
+            "description": "Decrease the opacity to 0",
+            "itemtype": "method",
+            "name": "fadeOut",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "a paper.js `Item` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "duration",
+                            "description": "Duration of the animation. Default : 500",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "easing",
+                            "description": "Name of the easing function. Default : swing",
+                            "type": "String"
+                        },
+                        {
+                            "name": "complete",
+                            "description": "complete callback",
+                            "type": "Function"
+                        }
+                    ]
+                }
+            ],
+            "class": "fx"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/effects.js",
+            "line": 130,
+            "description": "Increase the opacity to 1 and go upward",
+            "itemtype": "method",
+            "name": "slideUp",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "a paper.js `Item` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "duration",
+                            "description": "Duration of the animation. Default : 500",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "easing",
+                            "description": "Name of the easing function. Default : swing",
+                            "type": "String"
+                        },
+                        {
+                            "name": "complete",
+                            "description": "complete callback",
+                            "type": "Function"
+                        }
+                    ]
+                },
+                {
+                    "name": "setting.distance",
+                    "description": "Distance to move upward. Default : 50",
+                    "type": "Number"
+                }
+            ],
+            "class": "fx"
+        },
+        {
+            "file": "/Users/camille/github/animatePaper.js/src/effects.js",
+            "line": 166,
+            "description": "Decrease the opacity to 0 and go downward",
+            "itemtype": "method",
+            "name": "slideDown",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "a paper.js `Item` object",
+                    "type": "Object"
+                },
+                {
+                    "name": "settings",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "duration",
+                            "description": "Duration of the animation. Default : 500",
+                            "type": "Number"
+                        },
+                        {
+                            "name": "easing",
+                            "description": "Name of the easing function. Default : swing",
+                            "type": "String"
+                        },
+                        {
+                            "name": "complete",
+                            "description": "complete callback",
+                            "type": "Function"
+                        }
+                    ]
+                },
+                {
+                    "name": "setting.distance",
+                    "description": "Distance to move downward. Default : 50",
+                    "type": "Number"
                 }
             ],
             "class": "fx"

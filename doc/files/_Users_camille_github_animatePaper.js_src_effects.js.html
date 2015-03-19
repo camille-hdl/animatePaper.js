@@ -157,7 +157,7 @@ animatePaper.fx = {
     /**
      * Increase the opacity to 1
      *
-     * @method shake
+     * @method fadeIn
      * @param {Object} item a paper.js &#x60;Item&#x60; object
      * @param {Object} settings
      * @param {Number} settings.duration Duration of the animation. Default : 500
@@ -176,6 +176,108 @@ animatePaper.fx = {
         animatePaper.animate(item,{
             properties: {
                 opacity: 1
+            },
+            settings: {
+                duration: duration,
+                easing: easing,
+                complete: complete
+            }
+        });
+    },
+    /**
+     * Decrease the opacity to 0
+     *
+     * @method fadeOut
+     * @param {Object} item a paper.js &#x60;Item&#x60; object
+     * @param {Object} settings
+     * @param {Number} settings.duration Duration of the animation. Default : 500
+     * @param {String} settings.easing Name of the easing function. Default : swing
+     * @param {Function} settings.complete complete callback
+     */
+    fadeOut: function(item, settings) {
+        var duration = 500;
+        var complete = undefined;
+        var easing = &quot;swing&quot;;
+        if(typeof settings !== &quot;undefined&quot;) {
+            if(typeof settings.duration !== &quot;undefined&quot;) duration = Number(settings.duration);
+            if(typeof settings.complete === &quot;function&quot;) complete = settings.complete;
+            if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
+        }
+        animatePaper.animate(item,{
+            properties: {
+                opacity: 0
+            },
+            settings: {
+                duration: duration,
+                easing: easing,
+                complete: complete
+            }
+        });
+    },
+    /**
+     * Increase the opacity to 1 and go upward
+     *
+     * @method slideUp
+     * @param {Object} item a paper.js &#x60;Item&#x60; object
+     * @param {Object} settings
+     * @param {Number} settings.duration Duration of the animation. Default : 500
+     * @param {String} settings.easing Name of the easing function. Default : swing
+     * @param {Number} setting.distance Distance to move upward. Default : 50
+     * @param {Function} settings.complete complete callback
+     */
+    slideUp: function(item, settings) {
+        var duration = 500;
+        var complete = undefined;
+        var distance = 50;
+        var easing = &quot;swing&quot;;
+        if(typeof settings !== &quot;undefined&quot;) {
+            if(typeof settings.duration !== &quot;undefined&quot;) duration = Number(settings.duration);
+            if(typeof settings.complete === &quot;function&quot;) complete = settings.complete;
+            if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
+            if(typeof settings.distance !== &quot;undefined&quot;) distance = settings.distance;
+        }
+        animatePaper.animate(item,{
+            properties: {
+                opacity: 1,
+                position: {
+                    y: &quot;-&quot;+distance
+                }
+            },
+            settings: {
+                duration: duration,
+                easing: easing,
+                complete: complete
+            }
+        });
+    },
+    /**
+     * Decrease the opacity to 0 and go downward
+     *
+     * @method slideDown
+     * @param {Object} item a paper.js &#x60;Item&#x60; object
+     * @param {Object} settings
+     * @param {Number} settings.duration Duration of the animation. Default : 500
+     * @param {String} settings.easing Name of the easing function. Default : swing
+     * @param {Number} setting.distance Distance to move downward. Default : 50
+     * @param {Function} settings.complete complete callback
+     */
+    slideDown: function(item, settings) {
+        var duration = 500;
+        var complete = undefined;
+        var distance = 50;
+        var easing = &quot;swing&quot;;
+        if(typeof settings !== &quot;undefined&quot;) {
+            if(typeof settings.duration !== &quot;undefined&quot;) duration = Number(settings.duration);
+            if(typeof settings.complete === &quot;function&quot;) complete = settings.complete;
+            if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
+            if(typeof settings.distance !== &quot;undefined&quot;) distance = settings.distance;
+        }
+        animatePaper.animate(item,{
+            properties: {
+                opacity: 0,
+                position: {
+                    y: &quot;+&quot;+distance
+                }
             },
             settings: {
                 duration: duration,

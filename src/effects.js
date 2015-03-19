@@ -126,5 +126,77 @@ animatePaper.fx = {
                 complete: complete
             }
         });
+    },
+    /**
+     * Increase the opacity to 1 and go upward
+     *
+     * @method slideUp
+     * @param {Object} item a paper.js `Item` object
+     * @param {Object} settings
+     * @param {Number} settings.duration Duration of the animation. Default : 500
+     * @param {String} settings.easing Name of the easing function. Default : swing
+     * @param {Number} setting.distance Distance to move upward. Default : 50
+     * @param {Function} settings.complete complete callback
+     */
+    slideUp: function(item, settings) {
+        var duration = 500;
+        var complete = undefined;
+        var distance = 50;
+        var easing = "swing";
+        if(typeof settings !== "undefined") {
+            if(typeof settings.duration !== "undefined") duration = Number(settings.duration);
+            if(typeof settings.complete === "function") complete = settings.complete;
+            if(typeof settings.easing !== "undefined") easing = settings.easing;
+            if(typeof settings.distance !== "undefined") distance = settings.distance;
+        }
+        animatePaper.animate(item,{
+            properties: {
+                opacity: 1,
+                position: {
+                    y: "-"+distance
+                }
+            },
+            settings: {
+                duration: duration,
+                easing: easing,
+                complete: complete
+            }
+        });
+    },
+    /**
+     * Decrease the opacity to 0 and go downward
+     *
+     * @method slideDown
+     * @param {Object} item a paper.js `Item` object
+     * @param {Object} settings
+     * @param {Number} settings.duration Duration of the animation. Default : 500
+     * @param {String} settings.easing Name of the easing function. Default : swing
+     * @param {Number} setting.distance Distance to move downward. Default : 50
+     * @param {Function} settings.complete complete callback
+     */
+    slideDown: function(item, settings) {
+        var duration = 500;
+        var complete = undefined;
+        var distance = 50;
+        var easing = "swing";
+        if(typeof settings !== "undefined") {
+            if(typeof settings.duration !== "undefined") duration = Number(settings.duration);
+            if(typeof settings.complete === "function") complete = settings.complete;
+            if(typeof settings.easing !== "undefined") easing = settings.easing;
+            if(typeof settings.distance !== "undefined") distance = settings.distance;
+        }
+        animatePaper.animate(item,{
+            properties: {
+                opacity: 0,
+                position: {
+                    y: "+"+distance
+                }
+            },
+            settings: {
+                duration: duration,
+                easing: easing,
+                complete: complete
+            }
+        });
     }
 };
