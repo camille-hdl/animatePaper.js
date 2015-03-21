@@ -1,3 +1,4 @@
+"use strict";
 var paper = global.paper;
 
 var dirRegexp = /^([+\-])(.+)/;

@@ -22,14 +22,14 @@ First, include [paper.js](http://paperjs.org/) in your page, then this library.
 ### Animate an Item
 
 You can either use a predefined animation :
-````
+```js
 var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
 animatePaper.fx.shake(myCircle);
-````
+```
 Predefined animations available by default : `shake`, `fadeIn`, `fadeOut`, `slideUp`, `slideDown`.
 
 Or animate properties :
-````
+```js
 var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
 animatePaper.animate(myCircle, {
     properties: {
@@ -44,10 +44,10 @@ animatePaper.animate(myCircle, {
         }
     }
 });
-````
+```
 
 When animating `position` or color properties, you can provide either relative or absolute values :
-````
+```js
 var square = new paper.Path.Rectangle(new paper.Point(75, 75), new paper.Size(50,50));
 square.strokeColor = 'green';
 square.animate({
@@ -66,20 +66,20 @@ square.animate({
     easing:"easeInBounce"
   }
 });
-````
+```
 
 
 The lib also extends `Item.prototype` with `.animate()` and `.stop()` methods, which means you can also use
-````
+```js
 myCircle.animate({
     /*
         Animation parameters ...
     */
 });
-````
+```
 
 If you want to perform multiple animations successively, you can provide an array of parameters objects :
-````
+```js
 var star = new paper.Path.Star(new paper.Point(45,50),5,25,45);
 star.fillColor = "black";
 star.opacity = 0;
@@ -107,16 +107,16 @@ star.animate([{
       easing:"swing"
   }
 }]);
-````
+```
 This is especially helpful when adding predefined animations to the library, it helps avoiding callback hell.
 
 
 You can stop all running animations on an item by calling :
-````
+```js
 animatePaper.stop(star);
 // or
 star.stop();
-````
+```
 
 The `stop` method can take a `goToEnd` argument.
 If true, all the animations will take their final value and `complete` callbacks will be called.
@@ -128,13 +128,13 @@ You can use `animatePaper.extendEasing(myEasingFunctions)` method to add your ow
 
 The method takes only one argument : an object in which keys are easing names, and values are easing functions:
 
-````
+```js
 animatePaper.extendEasing({
     "triple": function(p) {
         return p*3;
     }
 });
-````
+```
 
 ### Extend property hooks
 
@@ -146,7 +146,7 @@ you can use `animatePaper.extendPropHooks(myPropHooks);`.
 Each "hook object" can have a `get`, `set` and `ease` method, and will be used to interface the animation with the property.
 
 For example, say you want to add support for color animation:
-````
+```js
 animatePaper.extendPropHooks({
   "fillColor": {
     get: function(tween) {
@@ -157,7 +157,7 @@ animatePaper.extendPropHooks({
     }
   }
 });
-````
+```
 When these functions are used, they are passed only one argument : the Tween object (see the doc in doc/ for more details),
 exept for the `ease()` function which gets the eased percent as second parameter.
 
@@ -169,13 +169,13 @@ exept for the `ease()` function which gets the eased percent as second parameter
 ### Add your own animations to the lib
 
 To do so, simply add properties to `animatePaper.fx`, like so :
-````
+```js
 animatePaper.fx.wave = function(item,settings) {
   var myAnimations = [...];
   item.animate(myAnimations);
 };
 animatePaper.fx.wave(myItem);
-````
+```
 
 ## Help needed !
 

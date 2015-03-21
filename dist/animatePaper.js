@@ -1,6 +1,7 @@
 /* animatePaper.js - an animation library for paper.js. https://github.com/Eartz/animatePaper.js */
 (function(exports, global) {
     global["animatePaper"] = exports;
+    "use strict";
     var paper = global.paper;
     var dirRegexp = /^([+\-])(.+)/;
     function Animation(item, properties, settings, _continue) {
