@@ -21,6 +21,8 @@ First, include [paper.js](http://paperjs.org/) in your page, then this library.
 
 ### Animate an Item
 
+(you can animate a `Group` too, but it's up to what property will be changed: while you can animate a group's `position` or `scale`, you can't animate it's `fillColor`)
+
 You can either use a predefined animation :
 ```js
 var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
