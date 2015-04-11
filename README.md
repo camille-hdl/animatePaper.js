@@ -28,7 +28,7 @@ You can either use a predefined animation :
 var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
 animatePaper.fx.shake(myCircle);
 ```
-Predefined animations available by default : `shake`, `fadeIn`, `fadeOut`, `slideUp`, `slideDown`. You can try them [on this demo](http://jsbin.com/gitaso/3/).
+Predefined animations available by default : `shake`, `fadeIn`, `fadeOut`, `slideUp`, `slideDown`, `splash`. You can try them [on this demo](http://jsbin.com/gitaso/3/).
 
 Or animate properties :
 ```js

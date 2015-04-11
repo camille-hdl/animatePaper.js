@@ -198,5 +198,37 @@ animatePaper.fx = {
                 complete: complete
             }
         });
-    }
+    },
+    /**
+     * Increase the opacity to 1, rotates 360deg and scales by 3.
+     *
+     * @method splash
+     * @param {Object} item a paper.js `Item` object
+     * @param {Object} settings
+     * @param {Number} settings.duration Duration of the animation. Default : 500
+     * @param {String} settings.easing Name of the easing function. Default : swing
+     * @param {Function} settings.complete complete callback
+     */
+    splash: function(item, settings) {
+        var duration = 500;
+        var complete = undefined;
+        var easing = "swing";
+        if(typeof settings !== "undefined") {
+            if(typeof settings.duration !== "undefined") duration = Number(settings.duration);
+            if(typeof settings.complete === "function") complete = settings.complete;
+            if(typeof settings.easing !== "undefined") easing = settings.easing;
+        }
+        animatePaper.animate(item,{
+            properties: {
+                opacity: 1,
+                scale: 3,
+                rotate: 360
+            },
+            settings: {
+                duration: duration,
+                easing: easing,
+                complete: complete
+            }
+        });
+    },
 };

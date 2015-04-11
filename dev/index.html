@@ -146,6 +146,12 @@
 	  	}
 	  });
 
+	  var squareSplash = new paper.Path.Rectangle(new paper.Point(150, 75), new paper.Size(50,50));
+	  squareSplash.fillColor = "green";
+	  squareSplash.position.x += 200;
+	  squareSplash.position.y = 150;
+	  squareSplash.opacity = 0;
+	  animatePaper.fx.splash(squareSplash);
 	  var trunk = new paper.Path(new paper.Point(500,500));
 	  trunk.strokeColor = "blue";
 	  trunk.strokeWidth = 3;
