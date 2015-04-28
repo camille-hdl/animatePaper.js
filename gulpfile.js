@@ -1,61 +1,68 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglifyjs');
-var yuidoc = require('gulp-yuidoc');
+var less = require('gulp-less');
+var babel = require('gulp-babel');
+var addsrc = require('gulp-add-src');
 
-var minFilename = "animatePaper.min.js";
-var fullFilename = "animatePaper.js";
+var finalJsName = "app.min.js";
+var finalJsDevName = "app.js";
+var finalCssName = "styles.css";
 var sourceDir = "src/";
-var distDir = "dist";
+var distDir = "public";
 
 // used for uglify, order matters
-var files = [
-    "animation.js",
-    "tween.js",
-    "frameManager.js",
-    "prophooks.js",
-    "easing.js",
-    "effects.js",
-    "export.js"
+var jsFiles = [
+    "bower_components/paper/dist/paper-core.min.js"
 ];
-files = files.map(function(file) { return sourceDir+file;});
+var es6Files = [
+    sourceDir+"js/app.js"
+];
+var lessFiles = [
+    "vendor/normalize.min.css",
+    sourceDir+"less/styles.less"
+];
 
-var yuidocOptions = require('./yuidoc.json');
+
 
 gulp.task('default', function() {
     
 });
 gulp.task('watch', function() {
-    var watcher = gulp.watch('./src/*.js', ['uglify']);
+    var watcher = gulp.watch(['./src/js/*.js'], ['uglify']);
     watcher.on('change', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     });
+    var watcherLess = gulp.watch('./src/less/*.less', ['less']);
+    watcherLess.on('change',function(event) {
+       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...'); 
+   });
 });
-gulp.task('yuidoc', function() {
-    gulp.src("./src/*.js")
-      .pipe(yuidoc.parser(yuidocOptions))
-      .pipe(yuidoc.reporter())
-      .pipe(yuidoc.generator())
-      .pipe(gulp.dest('./doc'));
-});
+
 gulp.task('uglify', function() {
     // create minified file
-    gulp.src(files)
-        .pipe(uglify(minFilename,{
-            outSourceMap: true,
-            wrap: "animatePaper"
+    gulp.src(es6Files)
+        .pipe(babel())
+        .pipe(uglify(finalJsName,{
+            outSourceMap: true
         }))
+        .pipe(addsrc.prepend(jsFiles))
         .pipe(gulp.dest(distDir));
     // create non minified file
-    gulp.src(files)
-        .pipe(uglify(fullFilename,{
+    gulp.src(es6Files)
+        .pipe(babel())
+        .pipe(uglify(finalJsDevName,{
             outSourceMap: false,
-            wrap: "animatePaper",
             compress: false,
             mangle: false,
             output: {
-                beautify: true,
-                preamble: "/* animatePaper.js - an animation library for paper.js. https://github.com/Eartz/animatePaper.js */"
+                beautify: true
             }
         }))
+        .pipe(addsrc.prepend(jsFiles))
+        .pipe(gulp.dest(distDir));
+});
+gulp.task('less',function() {
+    gulp.src(lessFiles)
+        .pipe(less())
         .pipe(gulp.dest(distDir));
 });
