@@ -17,7 +17,8 @@ So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor`,
 
 
 ## Usage
-First, include [paper.js](http://paperjs.org/) in your page, then this library.
+First, include [paper.js](http://paperjs.org/) in your page, then this library.  
+You can also install it through bower with `bower install paper-animate --save`.
 
 ### Animate an Item
 
