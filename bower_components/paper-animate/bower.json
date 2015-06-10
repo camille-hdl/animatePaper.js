@@ -1,0 +1,31 @@
+{
+  "name": "animatePaper.js",
+  "version": "0.2.2",
+  "description": "An animation library for paper.js",
+  "main": "dist/animatePaper.min.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "paper.js",
+    "vector-graphics",
+    "animation"
+  ],
+  "authors": [
+    "Camille Hodoul"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Eartz/animatePaper.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "dev",
+    "build"
+  ],
+  "dependencies": {
+    "paper": "~0.9.22"
+  }
+}

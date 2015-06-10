@@ -1,0 +1,9 @@
+{
+    "name": "animatePaper.js",
+    "description": "An animation library for paper.js",
+    "version": "0.2",
+    "options": {
+        "outdir": "./doc",
+	"paths": ["./src"]
+    }
+}

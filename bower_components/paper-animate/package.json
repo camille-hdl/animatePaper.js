@@ -1,0 +1,35 @@
+{
+  "name": "paper-animate",
+  "version": "0.2.2",
+  "description": "An animation library for paper.js",
+  "main": "",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp-yuidoc": "^0.1.2",
+    "gulp-uglifyjs": "^0.6.1",
+    "uglify-js": "^2.4.17",
+    "gulp": "^3.8.11"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eartz/animatePaper.js.git"
+  },
+  "keywords": [
+    "paper.js",
+    "javascript",
+    "vector-graphics",
+    "animation"
+  ],
+  "author": "Camille Hodoul",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Eartz/animatePaper.js/issues"
+  },
+  "homepage": "https://github.com/Eartz/animatePaper.js"
+}
