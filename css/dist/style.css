@@ -452,10 +452,10 @@ dl:after {
     width: 980px;
   }
 }
-@media only screen and (min-width: 1139px) {
+@media only screen and (min-width: 979px) {
   .container,
   .container-full {
-    width: 1140px;
+    width: 980px;
   }
 }
 .col-1,
@@ -869,7 +869,7 @@ dl:after {
     left: 0;
   }
 }
-@media only screen and (min-width: 1139px) {
+@media only screen and (min-width: 979px) {
   .col-hd-1,
   .col-hd-2,
   .col-hd-3,
@@ -1543,4 +1543,32 @@ dl:after {
   abbr[title]:after {
     content: " (" attr(title) ")";
   }
+}
+#githubContainer {
+  height: 100px;
+}
+#githubContainer div {
+  height: 100px;
+}
+#githubContainer #githubPic {
+  overflow: hidden;
+  text-align: center;
+  height: 60px;
+}
+#githubContainer #githubPic img {
+  height: 100px;
+  position: relative;
+  top: 30px;
+  border-radius: 50px;
+}
+#githubContainer hr {
+  -webkit-box-shadow: 0 -5px 20px 1px #f0f0f0;
+  box-shadow: 0 -5px 20px 1px #f0f0f0;
+}
+.bottomRowLine {
+  margin-top: 60px;
+}
+#topCanvas {
+  width: 100%;
+  height: 3px;
 }

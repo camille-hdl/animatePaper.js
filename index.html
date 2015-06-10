@@ -5,15 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>animatePaper.js | an animation library for paper.js</title>
     <link rel="stylesheet" href="css/dist/style.css">
-    <script src="vendor/modernizr.js"></script>
+    <link rel="stylesheet" href="vendor/github.css">
+    <script src="vendor/modernizr.custom.js"></script>
     <script src="vendor/jquery-1.11.3.min.js"></script>
-    <script src="js/dist/paper-core.min"></script>
-    <script src="js/dist/animatePaper.min"></script>
-    <script src="js/dist/app.min"></script>
     
   </head>
   <body>
-    
-    
+    <div class="container" id="mainContainer">
+      <div class="row">
+        <div class="col-12 col-tablet-8 text-left">
+          <h1 class="">animatePaper.js</h1>
+          <blockquote class="no-margin">an animation library for paper.js</blockquote>
+        </div>
+        <div class="col-12 col-tablet-4 text-left right">
+          <div id="latestRelease" class="none"></div>
+          <div id="latestReleaseName" class="none"></div>
+        </div>
+      </div>
+      <div class="row">
+       <div class="col-12">
+        <canvas id="topCanvas">
+          You need canvas support to see this demo
+        </canvas>
+       </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+            <h2>How to use</h2>
+          </div>
+          <div class="col-12">
+            <p class="justify">You can get animatePaper.js using bower: <code>bower install paper-animate --save</code> or get the latest release on <a href="https://github.com/Eartz/animatePaper.js" title="Github repo">Github</a></p>
+          </div>
+          <div class="col-12" id="sampleCode">
+            <pre><code class="js">
+// use a built-in effet:
+var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
+animatePaper.fx.shake(myCircle);
+
+// animate properties:
+var myCircle = new paper.Path.Circle(new paper.Point(50,50),35);
+animatePaper.animate(myCircle, {
+    properties: {
+        translate: new paper.Point(100,50),
+        scale: 3
+    },
+    settings: {
+        duration: 4000,
+        easing: "easeInElastic",
+        complete: function() {
+            console.log('complete !');
+        }
+    }
+});
+            </code></pre>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+        <p class="justify">This library provides animation helpers for objects created with <a href="http://paperjs.org" title="paper.js">paper.js</a>.<br />
+        The API has 3 layers:
+        <ol>
+          <li>Built-in effects available through <code>animatePaper.fx</code>: a collection of one-liners to animate objects. e.g: <code>animatePaper.fx.fadeIn(myCircle);</code></li>
+          <li>Property animation through <code>animatePaper.animate()</code> or <code>Item.prototype.animate()</code>: this method can be used to change the value of one or more properties of an <code>Item</code> based on a desired value, a duration and an easing algorithm.</li>
+          <li>Hooks provide a simple way to extend the library to suit your needs. If you want to add an effect or change the behavior of an existing one, you can do so by adding properties to <code>animatePaper.fx</code>; if you want to add an easing algorithm, you can do so with <code>animatePaper.extendEasing()</code>; to change or add property hooks, use <code>animatePaper.extendPropHooks()</code>.
+        </ol>
+        For more information, please read the <a href="https://github.com/Eartz/animatePaper.js/blob/master/README.md#usage">readme.md</a> file of the repo and/or the full <a href="doc/">documentation</a>.
+        </p>
+        </div>
+      </div>
+      <div class="row" id="bottomRow">
+        <div class="col-4 col-tablet-5"><hr class="bottomRowLine" /></div>
+        <div class="col-4 col-tablet-2" id="githubContainer">
+          <a id="githubPic" class="center-element block" href="https://github.com/Eartz" title="Eartz"></a>
+          <hr class="no-margin no-padding" />
+          <div id="githubLabel" class="center-element text-center small light">author</div>
+        </div>
+        <div class="col-4 col-tablet-5 right"><hr class="bottomRowLine" /></div>
+      </div>
+    </div>
+
+    <a href="https://github.com/Eartz/animatePaper.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+
+    <script src="vendor/highlight.pack.js"></script>
+    <script src="js/dist/paper-core.min.js"></script>
+    <script src="js/dist/animatePaper.min.js"></script>
+    <script src="js/dist/app.min.js"></script>
+    <script>
+    hljs.initHighlightingOnLoad();
+    </script>
   </body>
 </html>
