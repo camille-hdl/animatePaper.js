@@ -59,7 +59,8 @@ gulp.task('uglify', function() {
             }
         }))
         .pipe(addsrc.prepend(jsFiles))
-        .pipe(gulp.dest(jsDir+distDir));
+        .pipe(gulp.dest(jsDir+distDir))
+        .pipe(notify("JS Compiled"));
 });
     
 

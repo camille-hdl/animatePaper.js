@@ -7,6 +7,9 @@
 
     // paper scopes
     let topDemoScope;
+    let moveDemoScope;
+    let splashDemoScope;
+    // paper projects
 
     // utils
     const throttle = (func,ms=50,context=window) => {
@@ -30,7 +33,9 @@
     // start the top animation (line under the title)
     function setTopDemo() {
         topDemoScope = paper.setup('topCanvas');
-        var line = new paper.Path.Line(new paper.Point(0,0),new paper.Point(topDemoScope.view.size.width,0));
+        topDemoScope.project.activate();
+
+        let line = new paper.Path.Line(new paper.Point(0,0),new paper.Point(topDemoScope.view.size.width,0));
         line.strokeColor = 'green';
         line.strokeWidth = 4;
         line.opacity = 0;
@@ -48,11 +53,56 @@
                     complete:loop
                 }
             });
+            topDemoScope.project.view.update();
         };
-        animatePaper.fx.fadeIn(line,{
+        /*animatePaper.fx.fadeIn(line,{
             duration: 2000
+        });*/
+        //loop();
+        topDemoScope.project.view.update();
+    }
+
+    function setMoveDemo() {
+        moveDemoScope = paper.setup('demoMoveItem');
+        moveDemoScope.project.activate();
+        let circle = new paper.Shape.Circle(moveDemoScope.view.center,20);
+        circle.fillColor = 'green';
+
+        let position = "center";
+        circle.onClick = function() {
+            const newX = (position == "center" ? "-" : "+") + moveDemoScope.view.center.x;
+            circle.animate({
+                properties: {
+                    position: {
+                        x: newX
+                    }
+                },
+                settings: {
+                    duration: 500,
+                    easing: "swing"
+                }
+            });
+            moveDemoScope.project.view.update();
+            position = position == "center" ? "left" : "center";
+        };
+        moveDemoScope.project.view.update();
+    }
+
+    function setSplashDemo() {
+        splashDemoScope = paper.setup('demoSplashItem');
+        splashDemoScope.project.activate();
+
+        let square = new paper.Shape.Rectangle(splashDemoScope.view.center,new paper.Size(30,30));
+        square.fillColor = "green";
+        square.opacity = 0;
+
+        let splashed = false;
+        $('#demoSplashItemBtn').on('click',() => {
+            if(!splashed) {
+                animatePaper.fx.splash(square);
+                splashed = true;
+            }
         });
-        loop();
     }
 
     $(function() {
@@ -100,6 +150,8 @@
 
         // start paper animations
         setTopDemo();
+        setMoveDemo();
+        setSplashDemo();
         
         $(window).on('resize',throttle(windowResizeCallback));
     });

@@ -1,9 +1,13 @@
 "use strict";
 
 (function(global, $) {
+    var $avatar = undefined;
+    var $latestRelease = undefined;
     var githubProfileUrl = "https://api.github.com/users/Eartz";
     var githubReleasesUrl = "https://api.github.com/repos/Eartz/animatePaper.js/releases";
     var topDemoScope = undefined;
+    var moveDemoScope = undefined;
+    var splashDemoScope = undefined;
     var throttle = function throttle(func) {
         var ms = arguments[1] === undefined ? 50 : arguments[1];
         var context = arguments[2] === undefined ? window : arguments[2];
@@ -25,10 +29,9 @@
             }
         };
     };
-    var $avatar = undefined;
-    var $latestRelease = undefined;
     function setTopDemo() {
         topDemoScope = paper.setup("topCanvas");
+        topDemoScope.project.activate();
         var line = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(topDemoScope.view.size.width, 0));
         line.strokeColor = "green";
         line.strokeWidth = 4;
@@ -46,11 +49,47 @@
                     complete: loop
                 }
             });
+            topDemoScope.project.view.update();
         };
-        animatePaper.fx.fadeIn(line, {
-            duration: 2e3
+        topDemoScope.project.view.update();
+    }
+    function setMoveDemo() {
+        moveDemoScope = paper.setup("demoMoveItem");
+        moveDemoScope.project.activate();
+        var circle = new paper.Shape.Circle(moveDemoScope.view.center, 20);
+        circle.fillColor = "green";
+        var position = "center";
+        circle.onClick = function() {
+            var newX = (position == "center" ? "-" : "+") + moveDemoScope.view.center.x;
+            circle.animate({
+                properties: {
+                    position: {
+                        x: newX
+                    }
+                },
+                settings: {
+                    duration: 500,
+                    easing: "swing"
+                }
+            });
+            moveDemoScope.project.view.update();
+            position = position == "center" ? "left" : "center";
+        };
+        moveDemoScope.project.view.update();
+    }
+    function setSplashDemo() {
+        splashDemoScope = paper.setup("demoSplashItem");
+        splashDemoScope.project.activate();
+        var square = new paper.Shape.Rectangle(splashDemoScope.view.center, new paper.Size(30, 30));
+        square.fillColor = "green";
+        square.opacity = 0;
+        var splashed = false;
+        $("#demoSplashItemBtn").on("click", function() {
+            if (!splashed) {
+                animatePaper.fx.splash(square);
+                splashed = true;
+            }
         });
-        loop();
     }
     $(function() {
         $.getJSON(githubProfileUrl, function(data) {
@@ -89,6 +128,8 @@
         });
         var windowResizeCallback = function windowResizeCallback() {};
         setTopDemo();
+        setMoveDemo();
+        setSplashDemo();
         $(window).on("resize", throttle(windowResizeCallback));
     });
 })(window, jQuery);
