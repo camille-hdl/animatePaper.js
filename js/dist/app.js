@@ -2,9 +2,7 @@
 
 (function(global, $) {
     var $avatar = undefined;
-    var $latestRelease = undefined;
-    var githubProfileUrl = "https://api.github.com/users/Eartz";
-    var githubReleasesUrl = "https://api.github.com/repos/Eartz/animatePaper.js/releases";
+    var githubProfileUrl = "https://api.github.com/users/Eartz", githubReleasesUrl = "https://api.github.com/repos/Eartz/animatePaper.js/releases";
     var topDemoScope = undefined;
     var moveDemoScope = undefined;
     var splashDemoScope = undefined;
@@ -35,7 +33,7 @@
         var line = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(topDemoScope.view.size.width, 0));
         line.strokeColor = "green";
         line.strokeWidth = 4;
-        line.opacity = 0;
+        line.opacity = 1;
         var loop = function loop() {
             line.animate({
                 properties: {
@@ -51,6 +49,7 @@
             });
             topDemoScope.project.view.update();
         };
+        loop();
         topDemoScope.project.view.update();
     }
     function setMoveDemo() {
@@ -60,7 +59,7 @@
         circle.fillColor = "green";
         var position = "center";
         circle.onClick = function() {
-            var newX = (position == "center" ? "-" : "+") + moveDemoScope.view.center.x;
+            var newX = (position === "center" ? "-" : "+") + moveDemoScope.view.center.x;
             circle.animate({
                 properties: {
                     position: {
@@ -73,7 +72,7 @@
                 }
             });
             moveDemoScope.project.view.update();
-            position = position == "center" ? "left" : "center";
+            position = position === "center" ? "left" : "center";
         };
         moveDemoScope.project.view.update();
     }
@@ -117,7 +116,6 @@
             if (data.length > 0) {
                 var semver = data[0].tag_name;
                 var releaseName = data[0].name;
-                var releaseDate = data[0].published_at;
                 var zipUrl = data[0].zipball_url;
                 $("#latestRelease").html("Download: ").append($("<a></a>", {
                     href: zipUrl,
