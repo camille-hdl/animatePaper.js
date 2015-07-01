@@ -1,6 +1,8 @@
 "use strict";
 
 var paper;
+
+// use require instead of global if available (npm/browserify)
 if (typeof require === "function") {
     paper = require("paper");
 }
