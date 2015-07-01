@@ -2,7 +2,12 @@
 (function(exports, global) {
     global["animatePaper"] = exports;
     "use strict";
-    var paper = global.paper;
+    var paper;
+    if (typeof require === "function") {
+        paper = require("paper");
+    } else {
+        paper = global.paper;
+    }
     var dirRegexp = /^([+\-])(.+)/;
     function Animation(item, properties, settings, _continue) {
         var self = this;

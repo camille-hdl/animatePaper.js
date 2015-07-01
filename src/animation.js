@@ -1,5 +1,12 @@
 "use strict";
-var paper = global.paper;
+
+var paper;
+if (typeof require === "function") {
+    paper = require("paper");
+}
+else {
+    paper = global.paper;
+}
 
 var dirRegexp = /^([+\-])(.+)/;
 /**
