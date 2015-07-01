@@ -1,0 +1,11 @@
+{
+    "unused": true,
+    "eqeqeq": true,
+    "nonbsp": true,
+    "globalstrict": true,
+    "browserify": true,
+    "globals": {
+        "easing": true,
+        "animatePaper": true
+    }
+}
