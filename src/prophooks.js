@@ -1,3 +1,4 @@
+var dirRegexp = /^([+\-])(.+)/;
 /**
  *  Performs an operation on two paper.Point() objects.
  *  Returns the result of : ` a operator b`.
@@ -295,3 +296,14 @@ var _colorProperties = [ "fill", "stroke" ];
 for (var i = 0, l = _colorProperties.length; i < l; i++) {
     _tweenPropHooks[_colorProperties[i] + "Color"] = _tweenPropHooks.Color;
 }
+module.exports = {
+    _tweenPropHooks: _tweenPropHooks,
+    _pointDiff: _pointDiff,
+    extendPropHooks: function(customHooks) {
+        for (var i in customHooks) {
+            if (customHooks.hasOwnProperty(i)) {
+                _tweenPropHooks[i] = customHooks[i];
+            }
+        }
+    }
+};

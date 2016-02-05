@@ -1,4 +1,7 @@
-
+var Animation = require("./animation");
+var effects = require("./effects");
+var frameManager = require("./frameManager");
+var paper = require("paper");
 /**
  *  The main animation interface.
  *  It can take a single option object or an array of option objects
@@ -63,13 +66,7 @@ exports.stop = function(item, goToEnd) {
  *  @for animatePaper
  *  @param {Object} customEasings A collection of easing functions
  */
-exports.extendEasing = function(customEasings) {
-    for (var i in customEasings) {
-        if (customEasings.hasOwnProperty(i)) {
-            easing[i] = customEasings[i];
-        }
-    }
-};
+exports.extendEasing = require("./easing").extendEasing;
 /**
  *  Use this method to extend {{#crossLink "_tweenPropHooks"}}{{/crossLink}}.
  *
@@ -97,22 +94,20 @@ exports.extendEasing = function(customEasings) {
  *  @for animatePaper
  *  @param {Object} customHooks A collection of objects
  */
-exports.extendPropHooks = function(customHooks) {
-    for (var i in customHooks) {
-        if (customHooks.hasOwnProperty(i)) {
-            _tweenPropHooks[i] = customHooks[i];
-        }
-    }
-};
+exports.extendPropHooks = require("./prophooks").extendPropHooks;
+
+exports.frameManager = frameManager;
+exports.fx = effects;
 
 // Extends paper.Item prototype
 if (!paper.Item.prototype.animate) {
     paper.Item.prototype.animate = function(animation) {
-        return animatePaper.animate(this, animation);
+        return exports.animate(this, animation);
     };
 }
 if (!paper.Item.prototype.stop) {
     paper.Item.prototype.stop = function(goToEnd) {
-        return animatePaper.stop(this, goToEnd);
+        return exports.stop(this, goToEnd);
     };
 }
+module.exports = exports;

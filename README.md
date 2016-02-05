@@ -3,9 +3,21 @@ An animation library for [paper.js](http://paperjs.org/).
 
 See a live demo [on jsbin](http://jsbin.com/jusumo/2/edit?js,output).
 
-The minified version is in `dist/animatePaper.min.js`.
+## How to use :
+### npm
+`npm install --save paper-animate`
 
-Features include :
+
+### bower
+`bower install paper-animate --save`
+
+
+### directly in the browser
+(not recommended)  
+Get the minified file in `dist/paper-animate-browser.min.js`, and include it in your page.
+
+
+## Features :
 
  * Animation of multiple properties at the same time,
  * easing,
@@ -15,10 +27,6 @@ This is a work in progress, and any help or feedback is more than welcome.
 
 So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor`, `strokeColor` and `segmentGrow` are supported, but I add a bit more whenever I have the time.
 
-
-## Usage
-First, include [paper.js](http://paperjs.org/) in your page, then this library.  
-You can also install it through bower with `bower install paper-animate --save`.
 
 ### Animate an Item
 

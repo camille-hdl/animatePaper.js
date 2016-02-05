@@ -55,3 +55,12 @@ for (var name in easing) {
         };
     }
 }
+
+module.exports = easing;
+module.exports.extendEasing = function(customEasings) {
+    for (var i in customEasings) {
+        if (customEasings.hasOwnProperty(i)) {
+            easing[i] = customEasings[i];
+        }
+    }
+};

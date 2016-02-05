@@ -4,7 +4,7 @@
  * @class fx
  * @static
  */
-animatePaper.fx = {
+module.exports = {
     /**
      * Grow a path
      *

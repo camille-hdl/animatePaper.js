@@ -1,3 +1,5 @@
+var _tweenPropHooks = require("./prophooks")._tweenPropHooks;
+var easing = require("./easing");
 /**
  *  Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )
  *  
@@ -102,3 +104,5 @@ Tween.prototype.run = function(percent) {
 
     return self;
 };
+
+module.exports = Tween;

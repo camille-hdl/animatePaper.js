@@ -32,7 +32,7 @@ function frameManagerHandler(ev) {
      *  @class frameManager
      *  @static
      */
-animatePaper.frameManager = {
+module.exports = {
     /**
      * Add a callback to a paper.js Item's `onFrame` event.
      * The Item itself will be the `thisValue` and the event object `ev` will be the first argument

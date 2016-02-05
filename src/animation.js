@@ -1,16 +1,12 @@
 "use strict";
 
-var paper;
 
-// use require instead of global if available (npm/browserify)
-if (typeof require === "function") {
-    paper = require("paper");
-}
-else {
-    paper = global.paper;
-}
+var paper = require("paper");
+var Tween = require("./tween");
+var frameManager = require("./frameManager");
+var easing = require("./easing");
 
-var dirRegexp = /^([+\-])(.+)/;
+
 /**
  *  Animation class. Default settings are :
  *  
@@ -97,7 +93,7 @@ function Animation(item, properties, settings, _continue) {
         }
 
         if (self.settings.mode === "onFrame") {
-            self.ticker = animatePaper.frameManager.add(self.item, "_animate" + self.startTime, function() {
+            self.ticker = frameManager.add(self.item, "_animate" + self.startTime, function() {
                 self.tick();
             });
         }
@@ -166,7 +162,7 @@ Animation.prototype.end = function() {
     var self = this;
 
     if (self.settings.mode === "onFrame") {
-        animatePaper.frameManager.remove(self.item, self.ticker);
+        frameManager.remove(self.item, self.ticker);
     }
     if (typeof self.settings.complete !== "undefined") {
         self.settings.complete.call(self.item);
@@ -241,3 +237,5 @@ function _initializeSettings(settings) {
 
     return settings;
 }
+
+module.exports = Animation;
