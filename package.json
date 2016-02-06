@@ -1,6 +1,6 @@
 {
   "name": "paper-animate",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "An animation library for paper.js",
   "main": "src/export.js",
   "directories": {
