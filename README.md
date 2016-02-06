@@ -1,7 +1,7 @@
 # animatePaper.js
 An animation library for [paper.js](http://paperjs.org/).
 
-See a live demo [on jsbin](http://jsbin.com/jusumo/2/edit?js,output).
+See a live demo [on jsbin](http://jsbin.com/tekuqopaqo/edit?js,output).
 
 ## How to use :
 ### npm and browserify
