@@ -1,3 +1,22 @@
+var Animation = require("./animation");
+var _animate = function(item, animation) {
+    var animations = [];
+    var output;
+
+    if (animation instanceof Array) {
+        animations = animation;
+    } else {
+        animations.push(animation);
+    }
+    var index = 0; // current index in the animations
+    new Animation(item, animations[index].properties, animations[index].settings, function _continue() {
+        index++;
+        if (typeof animations[index] !== "undefined") {
+            new Animation(item, animations[index].properties, animations[index].settings, _continue);
+        }
+    });
+    return item;
+};
 /**
  * Effects : A facade for easy to use animations.
  * 
@@ -16,7 +35,7 @@ module.exports = {
      * @param {Function} settings.complete complete callback
      */
     grow: function(path, settings) {
-        animatePaper.animate(path, {
+        _animate(path, {
             properties: {
                 segmentGrow: settings.to
             },
@@ -65,7 +84,7 @@ module.exports = {
                     }
                 });
             }
-            animatePaper.animate(item, animations);
+            _animate(item, animations);
         },
     /**
      * Increase the opacity to 1
@@ -86,7 +105,7 @@ module.exports = {
             if(typeof settings.complete === "function") complete = settings.complete;
             if(typeof settings.easing !== "undefined") easing = settings.easing;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 1
             },
@@ -116,7 +135,7 @@ module.exports = {
             if(typeof settings.complete === "function") complete = settings.complete;
             if(typeof settings.easing !== "undefined") easing = settings.easing;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 0
             },
@@ -149,7 +168,7 @@ module.exports = {
             if(typeof settings.easing !== "undefined") easing = settings.easing;
             if(typeof settings.distance !== "undefined") distance = settings.distance;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 1,
                 position: {
@@ -185,7 +204,7 @@ module.exports = {
             if(typeof settings.easing !== "undefined") easing = settings.easing;
             if(typeof settings.distance !== "undefined") distance = settings.distance;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 0,
                 position: {
@@ -218,7 +237,7 @@ module.exports = {
             if(typeof settings.complete === "function") complete = settings.complete;
             if(typeof settings.easing !== "undefined") easing = settings.easing;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 1,
                 scale: 3,
