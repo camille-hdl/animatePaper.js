@@ -207,7 +207,7 @@ var _tweenPropHooks = {
                 }
                 else {
                     // absolute, not relative
-                    tween.now.x = ((endY - tween.start.x) * eased) - tween._easePositionCache.x;
+                    tween.now.x = ((endX - tween.start.x) * eased) - tween._easePositionCache.x;
                     tween._easePositionCache.x += tween.now.x;
                 }
             }
@@ -265,7 +265,6 @@ var _tweenPropHooks = {
                 }
             }
 
-
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
             
@@ -296,7 +295,7 @@ var _tweenPropHooks = {
                 }
                 else {
                     // absolute, not relative
-                    tween.now.x = ((endY - tween.start.x) * eased) - tween._easePositionCache.x;
+                    tween.now.x = ((endX - tween.start.x) * eased) - tween._easePositionCache.x;
                     tween._easePositionCache.x += tween.now.x;
                 }
             }

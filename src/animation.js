@@ -53,6 +53,12 @@ function Animation(item, properties, settings, _continue) {
          */
         self.item = item;
         /**
+         *  If provided, use parentItem to use .data and .onFrame. If not, use self.item;
+         *  @property {Object} itemForAnimations
+         *  @readonly
+         */
+        self.itemForAnimations = self.settings.parentItem || self.item;
+        /**
          *  {{#crossLink "Tween"}}{{/crossLink}}s used by the Animation.
          *  @property {Array} tweens
          */
@@ -73,11 +79,11 @@ function Animation(item, properties, settings, _continue) {
         self._continue = _continue;
 
         // store the reference to the animation in the item's data
-        if (typeof item.data === "undefined") {
-            self.item.data = {};
+        if (typeof self.itemForAnimations.data === "undefined") {
+            self.itemForAnimations.data = {};
         }
-        if (typeof item.data._animatePaperAnims === "undefined") {
-            self.item.data._animatePaperAnims = [];
+        if (typeof self.itemForAnimations.data._animatePaperAnims === "undefined") {
+            self.itemForAnimations.data._animatePaperAnims = [];
         }
         /**
          *  Index of the animation in the item's queue.
@@ -85,8 +91,8 @@ function Animation(item, properties, settings, _continue) {
          *  @readonly
          *  @private
          */
-        self._dataIndex = self.item.data._animatePaperAnims.length;
-        self.item.data._animatePaperAnims[self._dataIndex] = self;
+        self._dataIndex = self.itemForAnimations.data._animatePaperAnims.length;
+        self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = self;
 
         for (var i in properties) {
             if (properties.hasOwnProperty(i)) {
@@ -95,11 +101,10 @@ function Animation(item, properties, settings, _continue) {
         }
 
         if (self.settings.mode === "onFrame") {
-            self.ticker = frameManager.add(self.settings.parentItem || self.item, "_animate" + self.startTime, function() {
+            self.ticker = frameManager.add(self.itemForAnimations, "_animate" + self.startTime + (Math.floor(Math.random() * (1000 - 1)) + 1), function() {
                 self.tick();
             });
         }
-
     }
     /**
      *  Called on each step of the animation.
@@ -166,9 +171,8 @@ Animation.prototype.stop = function(goToEnd) {
  */
 Animation.prototype.end = function() {
     var self = this;
-
     if (self.settings.mode === "onFrame") {
-        frameManager.remove(self.item, self.ticker);
+        frameManager.remove(self.itemForAnimations, self.ticker);
     }
     if (typeof self.settings.complete !== "undefined") {
         self.settings.complete.call(self.item);
@@ -182,7 +186,7 @@ Animation.prototype.end = function() {
         self._continue.call(self.item);
     }
     // remove all references to the animation
-    self.item.data._animatePaperAnims[self._dataIndex] = null;
+    self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
     self = null;
 };
 
