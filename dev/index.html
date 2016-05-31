@@ -151,6 +151,19 @@
 	  squareSplash.position.x += 200;
 	  squareSplash.position.y = 150;
 	  squareSplash.opacity = 0;
+	  animatePaper.animate(squareSplash.segments[0].point, {
+	  	properties: {
+			  pointPosition: {
+			  	x: "+200",
+			  	y: 150
+			  }
+		  },
+		  settings: {
+			  duration:1500,
+			  easing:"easeInBounce",
+			  parentItem: squareSplash
+		  }
+	  });
 	  animatePaper.fx.splash(squareSplash);
 	  var trunk = new paper.Path(new paper.Point(500,500));
 	  trunk.strokeColor = "blue";

@@ -73,6 +73,9 @@ function Animation(item, properties, settings, _continue) {
         self._continue = _continue;
 
         // store the reference to the animation in the item's data
+        if (typeof item.data === "undefined") {
+            self.item.data = {};
+        }
         if (typeof item.data._animatePaperAnims === "undefined") {
             self.item.data._animatePaperAnims = [];
         }
@@ -85,7 +88,6 @@ function Animation(item, properties, settings, _continue) {
         self._dataIndex = self.item.data._animatePaperAnims.length;
         self.item.data._animatePaperAnims[self._dataIndex] = self;
 
-
         for (var i in properties) {
             if (properties.hasOwnProperty(i)) {
                 self.tweens.push(new Tween(i, properties[i], self));
@@ -93,7 +95,7 @@ function Animation(item, properties, settings, _continue) {
         }
 
         if (self.settings.mode === "onFrame") {
-            self.ticker = frameManager.add(self.item, "_animate" + self.startTime, function() {
+            self.ticker = frameManager.add(self.settings.parentItem || self.item, "_animate" + self.startTime, function() {
                 self.tick();
             });
         }
@@ -121,8 +123,12 @@ Animation.prototype.tick = function() {
             remaining: remaining
         });
     }
-    self.item.project.view.draw();
-
+    if (typeof self.settings.parentItem !== "undefined") {
+        self.settings.parentItem.project.view.draw();
+    } else {
+        self.item.project.view.draw();
+    }
+    
     // if the Animation is in timeout mode, we must force a View update
     if (self.settings.mode === "timeout") {
         //

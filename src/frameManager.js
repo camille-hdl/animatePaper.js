@@ -10,7 +10,9 @@
  */
 function frameManagerHandler(ev) {
         var item = this;
-
+        if (typeof item.data === "undefined") {
+            item.data = {};
+        }
         if (typeof item.data._customHandlers !== "undefined" &&
             item.data._customHandlersCount > 0
         ) {
@@ -40,13 +42,14 @@ module.exports = {
      * @param {Object} item paper.js Item
      * @param {String} name An identifier for this callback
      * @param {Function} callback
+     * @param {Object} parentItem If provided, the callback will be called on parentItem.onFrame event instead of item.onFrame
      * @example
      *      animatePaper.frameManager.add(circle,"goUp",function(ev) {
      *          // Animation logic
      *      });
      * @method add
      */
-    add: function(item, name, callback) {
+    add: function(item, name, callback, parentItem) {
         if (typeof item.data._customHandlers === "undefined") {
             item.data._customHandlers = {};
             item.data._customHandlersCount = 0;
@@ -54,8 +57,11 @@ module.exports = {
         item.data._customHandlers[name] = callback;
         item.data._customHandlersCount += 1;
         if (item.data._customHandlersCount > 0) {
-
-            item.onFrame = frameManagerHandler;
+            if (typeof parentItem !== "undefined") {
+                parentItem.onFrame = frameManagerHandler;
+            } else {
+                item.onFrame = frameManagerHandler;
+            }
         }
 
         return name;

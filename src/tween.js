@@ -11,6 +11,7 @@ var easing = require("./easing");
  */
 function Tween(property, value, animation) {
         var self = this;
+        
         /**
          *  Reference to the {{#crossLink "Animation"}}{{/crossLink}}
          *  @property {Object} A
@@ -63,6 +64,7 @@ function Tween(property, value, animation) {
      */
 Tween.prototype.cur = function() {
     var self = this;
+    
     // should we use a special way to get the current value ? if not just use item[prop]
     var hooks = _tweenPropHooks[self.prop];
 
@@ -89,7 +91,6 @@ Tween.prototype.run = function(percent) {
         self.pos = eased = percent;
     }
     // refresh current value
-
     if (hooks && hooks.ease) {
         hooks.ease(self, eased);
     } else {
