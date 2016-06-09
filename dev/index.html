@@ -37,6 +37,7 @@
 					},
 					settings: {
 						duration: 1000,
+                        // delay: 1000
 						easing: "triple"
 					}
 				});
@@ -59,7 +60,7 @@
 	  refEndSquare.scale(2);
 	  refEndSquare.rotate(30);
 	  animatePaper.fx.fadeIn(refEndSquare);
-	  
+
 	  animatePaper.animate(square,{
 		properties: {
 		  scale: 2
@@ -94,6 +95,7 @@
 		  },
 		  settings: {
 			  duration:3000,
+              delay: 5000,
 			  easing:"swing"
 		  }
 	  },
@@ -124,7 +126,7 @@
 			  easing:"easeInBounce"
 		  }
 	  });
-	  
+
 	  var otherSquareRef = new paper.Path.Rectangle(new paper.Point(75, 75), new paper.Size(50,50));
 	  otherSquareRef.fillColor = "red";
 	  otherSquareRef.position.x += 200;
