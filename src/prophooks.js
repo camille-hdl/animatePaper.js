@@ -20,12 +20,13 @@ function _pointDiff(a, b, operator) {
     bx = b.x || 0;
     ay = a.y || 0;
     by = b.y || 0;
-    var output = new paper.Point(
-        eval(ax + operator + bx),
-        eval(ay + operator + by)
-    );
-
-    return output;
+    if( operator === '+' ){
+        return a.add(b);
+    }
+    if( operator === '-' ){
+        return a.subtract(b);
+    }
+    throw new Error('Unknown operator');
 }
 // inspired by https://github.com/jquery/jquery/blob/10399ddcf8a239acc27bdec9231b996b178224d3/src/effects/Tween.js
 /**
@@ -158,7 +159,7 @@ var _tweenPropHooks = {
 
             tween.item.position.x += tween.now.x;
             tween.item.position.y += tween.now.y;
-            
+
         },
         ease: function(tween, eased) {
             // If the values start with + or -,
@@ -179,7 +180,7 @@ var _tweenPropHooks = {
 
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
-            
+
             if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
             if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
             if(!!rX) {
@@ -234,7 +235,7 @@ var _tweenPropHooks = {
             else {
                 tween.now.y = 0;
             }
-            
+
             return tween.now;
         }
     },
@@ -267,7 +268,7 @@ var _tweenPropHooks = {
 
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
-            
+
             if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
             if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
             if(!!rX) {
@@ -322,7 +323,7 @@ var _tweenPropHooks = {
             else {
                 tween.now.y = 0;
             }
-            
+
             return tween.now;
         }
     },

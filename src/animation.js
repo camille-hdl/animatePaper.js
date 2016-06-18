@@ -9,7 +9,7 @@ var easing = require("./easing");
 
 /**
  *  Animation class. Default settings are :
- *  
+ *
  *  ````
  *      var defaults = {
  *           duration: 400,
@@ -64,7 +64,7 @@ function Animation(item, properties, settings, _continue) {
          */
         self.tweens = [];
         /**
-         *  If the Animation is in `onFrame` mode : 
+         *  If the Animation is in `onFrame` mode :
          *  Identifier of the {{#crossLink "frameMamanger"}}{{/crossLink}} callback called on every tick.
          *  @property {String} ticker
          *  @readonly
@@ -115,7 +115,10 @@ Animation.prototype.tick = function() {
     var self = this;
     if (!!self.stopped) return false;
     var currentTime = new Date().getTime();
-    var remaining = Math.max(0, self.startTime + self.settings.duration - currentTime);
+    if( self.startTime + self.settings.delay > currentTime ){
+        return false;
+    }
+    var remaining = Math.max(0, self.startTime + self.settings.delay + self.settings.duration - currentTime);
     var temp = remaining / self.settings.duration || 0;
     var percent = 1 - temp;
 
@@ -133,7 +136,7 @@ Animation.prototype.tick = function() {
     } else {
         self.item.project.view.draw();
     }
-    
+
     // if the Animation is in timeout mode, we must force a View update
     if (self.settings.mode === "timeout") {
         //
@@ -201,6 +204,7 @@ Animation.prototype.end = function() {
 function _initializeSettings(settings) {
     var defaults = {
         duration: 400,
+        delay: 0,
         easing: "linear",
         complete: undefined,
         step: undefined,
@@ -217,6 +221,15 @@ function _initializeSettings(settings) {
         settings.duration = Number(settings.duration);
         if (settings.duration < 1) {
             settings.duration = defaults.duration;
+        }
+    }
+    // .delay must exist, and be a positive Number
+    if (typeof settings.delay === "undefined") {
+        settings.delay = defaults.delay;
+    } else {
+        settings.delay = Number(settings.delay);
+        if (settings.delay < 1) {
+            settings.delay = defaults.delay;
         }
     }
 

@@ -49,6 +49,7 @@ animatePaper.animate(myCircle, {
     },
     settings: {
         duration: 4000,
+        delay: 1000,
         easing: "easeInElastic",
         complete: function() {
             console.log('complete !');
