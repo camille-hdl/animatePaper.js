@@ -329,19 +329,36 @@ var _tweenPropHooks = {
     },
     Color: {
             get: function(tween) {
-                return {
-                    hue: tween.item[tween.prop].hue,
-                    brightness: tween.item[tween.prop].brightness,
-                    saturation: tween.item[tween.prop].saturation
-                };
+                if (typeof (tween.end[ "lightness" ] !== "undefined")) {
+                    return {
+                        hue: tween.item[tween.prop].hue,
+                        lightness: tween.item[tween.prop].lightness,
+                        saturation: tween.item[tween.prop].saturation
+                    };
+                } else {
+                    return {
+                        hue: tween.item[tween.prop].hue,
+                        brightness: tween.item[tween.prop].brightness,
+                        saturation: tween.item[tween.prop].saturation
+                    };
+                }
             },
             set: function(tween) {
                 tween.item[tween.prop].hue += tween.now.hue;
-                tween.item[tween.prop].brightness += tween.now.brightness;
+                if (typeof tween.end[ "lightness" ] !== "undefined") {
+                    tween.item[tween.prop].lightness += tween.now.lightness;
+                } else {
+                    tween.item[tween.prop].brightness += tween.now.brightness;
+                }
                 tween.item[tween.prop].saturation += tween.now.saturation;
             },
             ease: function(tween, eased) {
-                var props = [ "hue", "brightness", "saturation" ];
+                var props = [];
+                if (typeof tween.end[ "lightness" ] !== "undefined") {
+                    props = [ "hue", "saturation", "lightness" ];
+                } else {
+                    props = [ "hue", "brightness", "saturation" ];
+                }
                 var _ease = function(val) {
                     return (val || 0) * eased;
                 };

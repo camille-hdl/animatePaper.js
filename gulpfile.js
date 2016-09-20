@@ -84,6 +84,22 @@ gulp.task('build-' + MODULE_NOM + '-browser', function () {
     .pipe(gulp.dest(distDir))
         .pipe(notify("" + MODULE_NOM + " OK"));
 });
+gulp.task('build-' + MODULE_NOM + '-standalone', function () {
+  process.env.NODE_ENV = "production";
+  process.env.ANIMPAPER_STDLONE = true;
+  // set up the browserify instance on a task basis
+  var b = browserify({
+    entries: sourceDir + "export-standalone.js",
+    debug: true
+  }).ignore("paper");
+
+  return b.bundle()
+    .pipe(source('' + MODULE_NOM + '-standalone.min.js'))
+    .pipe(buffer())
+        .pipe(uglify())
+    .pipe(gulp.dest(distDir))
+        .pipe(notify("" + MODULE_NOM + " OK"));
+});
 gulp.task('watch-' + MODULE_NOM + '', function() {   
     var watcher = gulp.watch(files, ["build-" + MODULE_NOM + "-dev"]);
 });

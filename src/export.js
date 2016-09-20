@@ -1,7 +1,7 @@
 var Animation = require("./animation");
 var effects = require("./effects");
 var frameManager = require("./frameManager");
-var paper = require("paper");
+var paper = require("./getPaper");
 /**
  *  The main animation interface.
  *  It can take a single option object or an array of option objects

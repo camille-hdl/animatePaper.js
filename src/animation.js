@@ -1,7 +1,7 @@
 "use strict";
 
 
-var paper = require("paper");
+var paper = require("./getPaper");
 var Tween = require("./tween");
 var frameManager = require("./frameManager");
 var easing = require("./easing");
