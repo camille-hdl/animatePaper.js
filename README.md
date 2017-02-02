@@ -196,8 +196,8 @@ any help would be appreciated :-)
 
 ## Todo
 
- * Add hooks for more properties
- * Add funny things to `fx`
+ * Change how `item.data._animatePaperVals` works to allow multiple animations of the same property at the same time.
+ * support `center` argument for `rotate()`
 
 ## Author
 camille dot hodoul at gmail dot com
