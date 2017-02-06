@@ -42,6 +42,11 @@ function Tween(property, value, animation) {
          *  @readonly
          */
         self.start = self.cur();
+        if (typeof self.end === "string" && self.end.charAt(0) === "+") {
+            self.end = self.start + parseFloat(self.end);
+        } else if (typeof self.end === "string" && self.end.charAt(0) === "-") {
+            self.end = self.start + parseFloat(self.end);
+        }
         /**
          *  Current value of the property. Set using {{#crossLink "Tween/cur:method"}}{{/crossLink}}
          *  @property {mixed} now
