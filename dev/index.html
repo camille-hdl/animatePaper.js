@@ -52,6 +52,36 @@
 	  square.strokeColor = 'black';
 	  window.s = square;
 
+	  var squareTest = new paper.Path.Rectangle(new paper.Point(50, 50), new paper.Size(50,50));
+	  squareTest.fillColor = 'grey';
+
+	  animatePaper.animate(squareTest,{
+		properties: {
+		  rotate: '+360'
+		},
+		settings: {
+			duration: 2000,
+			complete: function() {
+				squareTest.fillColor = "red";
+				animatePaper.animate(squareTest,{
+					properties: {
+						rotate: '+180'
+					},
+					settings: {
+						duration: 2000,
+						easing: "linear",
+						complete: function() {
+							console.log("2eme");
+							squareTest.fillColor = "grey";
+						}
+					}
+				});
+			},
+			easing: "linear"
+		}
+	  });
+
+
 	  var refSquare = square.clone();
 	  refSquare.strokeColor = 'red';
 
