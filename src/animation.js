@@ -213,7 +213,6 @@ Animation.prototype.end = function(forceEnd) {
         self = null;
     } else {
         // repeat
-        console.log("repeat", self.repeat);
         var newRepeat = self.repeat;
         if (self.repeat !== true) {
             newRepeat = self.repeat - 1;

@@ -25,7 +25,7 @@
 	  refEndCircle.strokeColor = 'green';
 	  refEndCircle.scale(2);
 
-	  animatePaper.animate(circle,{
+	  var __anim = animatePaper.animate(circle,{
 		properties: {
 		  scale: 2
 		},
@@ -62,7 +62,7 @@
 		settings: {
 			center: new paper.Point(100, 50),
 			duration: 2000,
-			repeat: 3,
+			repeat: true,
 			complete: function() {
 				// squareTest.fillColor = "red";
 				// animatePaper.animate(squareTest,{
@@ -84,6 +84,10 @@
 			easing: "linear"
 		}
 	  });
+	  setTimeout(function() {
+	  	console.log("stopRepeat");
+	  	animatePaper.stop(squareTest, true, false);
+	  }, 5000);
 
 
 	  var refSquare = square.clone();

@@ -37,11 +37,11 @@ exports.animate = function(item, animation) {
  *  @chainable
  *  @for animatePaper
  */
-exports.stop = function(item, goToEnd) {
+exports.stop = function(item, goToEnd, forceEnd) {
     if (!!item.data._animatePaperAnims) {
         for (var i = 0, l = item.data._animatePaperAnims.length; i < l; i++) {
             if (!!item.data._animatePaperAnims[i]) {
-                item.data._animatePaperAnims[i].stop(goToEnd);
+                item.data._animatePaperAnims[i].stop(goToEnd, forceEnd);
             }
         }
     }
@@ -106,8 +106,8 @@ if (!paper.Item.prototype.animate) {
     };
 }
 if (!paper.Item.prototype.stop) {
-    paper.Item.prototype.stop = function(goToEnd) {
-        return exports.stop(this, goToEnd);
+    paper.Item.prototype.stop = function(goToEnd, forceEnd) {
+        return exports.stop(this, goToEnd, forceEnd);
     };
 }
 module.exports = exports;
