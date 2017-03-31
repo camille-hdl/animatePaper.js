@@ -30,6 +30,7 @@ var easing = require("./easing");
  */
 function Animation(item, properties, settings, _continue) {
         var self = this;
+
         /**
          *  True if the animation is stopped
          *  @property {Bool} stopped
@@ -58,6 +59,23 @@ function Animation(item, properties, settings, _continue) {
          *  @readonly
          */
         self.itemForAnimations = self.settings.parentItem || self.item;
+
+        /**
+         * Repeat parameter.
+         * If `true`, the animation is repeated until `.end(true)` is called.
+         * If `repeat` is an integer, the animation is repeated until `repeat` is <= 0.
+         * Default `0`
+         * @property {Mixed} repeat
+         */
+        self.repeat = self.settings.repeat || 0;
+        if (self.repeat === true || self.repeat > 0) {
+            self.repeatCallback = function(newRepeat) {
+                settings.repeat = newRepeat;
+                // used for the repeat feature
+                return new Animation(item, properties, settings, _continue);
+            };
+        }
+
         /**
          *  {{#crossLink "Tween"}}{{/crossLink}}s used by the Animation.
          *  @property {Array} tweens
@@ -152,8 +170,9 @@ Animation.prototype.tick = function() {
  *  Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.
  *  @method stop
  *  @param {Bool} goToEnd
+ *  @param {Bool} forceEnd to prevent loops
  */
-Animation.prototype.stop = function(goToEnd) {
+Animation.prototype.stop = function(goToEnd, forceEnd) {
     var self = this;
     var i = 0;
     var l = goToEnd ? self.tweens.length : 0;
@@ -165,14 +184,14 @@ Animation.prototype.stop = function(goToEnd) {
     if (!!goToEnd) {
         // stop further animation
         if (!!self._continue) self._continue = null;
-        self.end();
+        self.end(forceEnd);
     }
 };
 /**
  *  Called when the animations ends, naturally or using `.stop(true)`.
  *  @method end
  */
-Animation.prototype.end = function() {
+Animation.prototype.end = function(forceEnd) {
     var self = this;
     if (self.settings.mode === "onFrame") {
         frameManager.remove(self.itemForAnimations, self.ticker);
@@ -190,7 +209,17 @@ Animation.prototype.end = function() {
     }
     // remove all references to the animation
     self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
-    self = null;
+    if (!!forceEnd || typeof self.repeatCallback !== "function") {
+        self = null;
+    } else {
+        // repeat
+        console.log("repeat", self.repeat);
+        var newRepeat = self.repeat;
+        if (self.repeat !== true) {
+            newRepeat = self.repeat - 1;
+        }
+        return self.repeatCallback(newRepeat);
+    }
 };
 
 /**
@@ -205,6 +234,7 @@ function _initializeSettings(settings) {
     var defaults = {
         duration: 400,
         delay: 0,
+        repeat: 0,
         easing: "linear",
         complete: undefined,
         step: undefined,
@@ -230,6 +260,18 @@ function _initializeSettings(settings) {
         settings.delay = Number(settings.delay);
         if (settings.delay < 1) {
             settings.delay = defaults.delay;
+        }
+    }
+
+    // .repeat must exist, and be a positive Number or true
+    if (typeof settings.repeat === "undefined") {
+        settings.repeat = defaults.repeat;
+    } else {
+        if (settings.repeat !== true) {
+            settings.repeat = Number(settings.repeat);
+            if (settings.repeat < 0) {
+                settings.repeat = defaults.repeat;
+            }
         }
     }
 
