@@ -71,21 +71,6 @@ gulp.task('build-' + MODULE_NOM + '', function () {
 });
 gulp.task('build-' + MODULE_NOM + '-browser', function () {
   process.env.NODE_ENV = "production";
-  // set up the browserify instance on a task basis
-  var b = browserify({
-    entries: sourceDir + "export-browser.js",
-    debug: true
-  });
-
-  return b.bundle()
-    .pipe(source('' + MODULE_NOM + '-browser.min.js'))
-    .pipe(buffer())
-        .pipe(uglify())
-    .pipe(gulp.dest(distDir))
-        .pipe(notify("" + MODULE_NOM + " OK"));
-});
-gulp.task('build-' + MODULE_NOM + '-standalone', function () {
-  process.env.NODE_ENV = "production";
   process.env.ANIMPAPER_STDLONE = true;
   // set up the browserify instance on a task basis
   var b = browserify({
@@ -94,7 +79,7 @@ gulp.task('build-' + MODULE_NOM + '-standalone', function () {
   }).ignore("paper");
 
   return b.bundle()
-    .pipe(source('' + MODULE_NOM + '-standalone.min.js'))
+    .pipe(source('' + MODULE_NOM + '-browser.min.js'))
     .pipe(buffer())
         .pipe(uglify())
     .pipe(gulp.dest(distDir))
