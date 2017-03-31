@@ -69,7 +69,18 @@ var _tweenPropHooks = {
             var trueScaling = tween.now / curScaling;
 
             tween.item.data._animatePaperVals.scale = tween.now;
-            tween.item.scale(trueScaling);
+            var center = false;
+            if (typeof tween.A.settings.center !== "undefined") {
+                center = tween.A.settings.center;
+            }
+            if (typeof tween.A.settings.scaleCenter !== "undefined") {
+                center = tween.A.settings.scaleCenter;
+            }
+            if (center !== false) {
+                tween.item.scale(trueScaling, center);
+            } else {
+                tween.item.scale(trueScaling);
+            }
         }
     },
     rotate: {
@@ -88,7 +99,19 @@ var _tweenPropHooks = {
             var trueRotate = tween.now - curRotate;
 
             tween.item.data._animatePaperVals.rotate = tween.now;
-            tween.item.rotate(trueRotate);
+
+            var center = false;
+            if (typeof tween.A.settings.center !== "undefined") {
+                center = tween.A.settings.center;
+            }
+            if (typeof tween.A.settings.rotateCenter !== "undefined") {
+                center = tween.A.settings.rotateCenter;
+            }
+            if (center !== false) {
+                tween.item.rotate(trueRotate, center);
+            } else {
+                tween.item.rotate(trueRotate);
+            }
         }
     },
     translate: {
@@ -111,31 +134,6 @@ var _tweenPropHooks = {
             tween.item.data._animatePaperVals.translate = tween.now;
 
             tween.item.translate(actual);
-        },
-        ease: function(tween, eased) {
-
-            var temp = _pointDiff(tween.end, tween.start, "-");
-            temp.x = temp.x * eased;
-            temp.y = temp.y * eased;
-
-            tween.now = _pointDiff(temp, tween.start, "+");
-
-            return tween.now;
-        }
-    },
-    segmentGrow: {
-        get: function(tween) {
-            if (!(tween.item instanceof paper.Path)) {
-                throw new Error("Only a Path object can be used with : segmentGrow");
-            }
-
-
-            var output = tween.item.lastSegment.point;
-            return output;
-        },
-        set: function(tween) {
-
-            tween.item.add(tween.now);
         },
         ease: function(tween, eased) {
 
