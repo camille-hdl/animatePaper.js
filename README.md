@@ -1,7 +1,7 @@
 # animatePaper.js
 An animation library for [paper.js](http://paperjs.org/).
 
-See a live demo [on jsbin](http://jsbin.com/tekuqopaqo/edit?js,output).
+See a live demo [on jsbin](http://jsbin.com/naketikuve/edit?js,output).
 
 ## Changelog from 0.x to 1.x
  * `paper` is now a peerDependency, this should remove unnecessary code from your dependency tree.
