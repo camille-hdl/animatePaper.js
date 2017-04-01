@@ -329,35 +329,67 @@ var _tweenPropHooks = {
     },
     Color: {
             get: function(tween) {
-                if (typeof (tween.end[ "lightness" ] !== "undefined")) {
-                    return {
-                        hue: tween.item[tween.prop].hue,
-                        lightness: tween.item[tween.prop].lightness,
-                        saturation: tween.item[tween.prop].saturation
-                    };
-                } else {
-                    return {
-                        hue: tween.item[tween.prop].hue,
-                        brightness: tween.item[tween.prop].brightness,
-                        saturation: tween.item[tween.prop].saturation
-                    };
+                switch (tween.end._type) {
+                    case "rgb": {
+                        return {
+                            red: tween.item[tween.prop].red,
+                            green: tween.item[tween.prop].green,
+                            blue: tween.item[tween.prop].blue
+                        };
+                    } break;
+                    case "hsl": {
+                        return {
+                            hue: tween.item[tween.prop].hue,
+                            lightness: tween.item[tween.prop].lightness,
+                            saturation: tween.item[tween.prop].saturation
+                        };
+                    } break;
+                    case "hsb": {
+                        return {
+                            hue: tween.item[tween.prop].hue,
+                            brightness: tween.item[tween.prop].brightness,
+                            saturation: tween.item[tween.prop].saturation
+                        };
+                    } break;
+                    default:
+                        // console.error("Color Type not supported.");
                 }
             },
             set: function(tween) {
-                tween.item[tween.prop].hue += tween.now.hue;
-                if (typeof tween.end[ "lightness" ] !== "undefined") {
-                    tween.item[tween.prop].lightness += tween.now.lightness;
-                } else {
-                    tween.item[tween.prop].brightness += tween.now.brightness;
+                switch (tween.end._type) {
+                    case "rgb": {
+                        tween.item[tween.prop].red += tween.now.red;
+                        tween.item[tween.prop].green += tween.now.green;
+                        tween.item[tween.prop].blue += tween.now.blue;
+                    } break;
+                    case "hsl": {
+                        tween.item[tween.prop].hue += tween.now.hue;
+                        tween.item[tween.prop].lightness += tween.now.lightness;
+                        tween.item[tween.prop].saturation += tween.now.saturation;
+                    } break;
+                    case "hsb": {
+                        tween.item[tween.prop].hue += tween.now.hue;
+                        tween.item[tween.prop].brightness += tween.now.brightness;
+                        tween.item[tween.prop].saturation += tween.now.saturation;
+                    } break;
+                    default:
+                        // console.error("Color Type not supported.");
                 }
-                tween.item[tween.prop].saturation += tween.now.saturation;
             },
             ease: function(tween, eased) {
                 var props = [];
-                if (typeof tween.end[ "lightness" ] !== "undefined") {
-                    props = [ "hue", "saturation", "lightness" ];
-                } else {
-                    props = [ "hue", "brightness", "saturation" ];
+                switch (tween.end._type) {
+                    case "rgb": {
+                        props = [ "red", "green", "blue" ];
+                    } break;
+                    case "hsl": {
+                        props = [ "hue", "saturation", "lightness" ];
+                    } break;
+                    case "hsb": {
+                        props = [ "hue", "brightness", "saturation" ];
+                    } break;
+                    default:
+                        // console.error("Color Type not supported.");
                 }
                 var _ease = function(val) {
                     return (val || 0) * eased;
