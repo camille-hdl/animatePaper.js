@@ -87,7 +87,7 @@ square.animate({
 });
 ```
 
-###Repeat
+### Repeat
 If you want your `Animation` to run more than once, you can use the `settings.repeat` option (defaults to `0`).  
 If `settings.repeat` is a number > 0, your animation will run `settings.repeat` *additional* times.  
 If you set `settings.repeat` to `true`, the animation will repeat infinitely until you call `animatePaper.stop(item, true, true)` (the third parameter should be true, otherwise only the current `Animation` will be stopped).  
