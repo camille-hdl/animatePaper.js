@@ -264,6 +264,7 @@ any help would be appreciated :-)
 camille dot hodoul at gmail dot com
 
 ## Thanks
- * Users [s-light](https://github.com/s-light) and [StratusBase](https://github.com/StratusBase) on Github for feedback, ideas and contributions.
+ * User [pueding](https://github.com/pueding) for bug fixes and delay feature.
+ * Users [s-light](https://github.com/s-light) and [StratusBase](https://github.com/StratusBase) for feedback, ideas and contributions.
 
 @Eartz_HC
