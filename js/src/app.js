@@ -75,6 +75,7 @@
                 },
                 settings: {
                     duration: 500,
+                    repeat: 2,
                     easing: "swing"
                 }
             });

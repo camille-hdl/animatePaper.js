@@ -18,7 +18,7 @@ var jsDir = "js/";
 // used for uglify, order matters
 var jsFiles = [
     "bower_components/paper/dist/paper-core.min.js",
-    "bower_components/paper-animate/dist/animatePaper.min.js"
+    "bower_components/animatePaper.js/dist/paper-animate-browser.min.js"
 ];
 var es6Files = [
     jsDir+sourceDir+"app.js"
