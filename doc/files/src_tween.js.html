@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\tween.js - animatePaper.js</title>
+    <title>src/tween.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.2</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                             </ul>
@@ -81,10 +82,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\tween.js</h1>
+<h1 class="file-heading">File: src/tween.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+var _tweenPropHooks = require(&quot;./prophooks&quot;)._tweenPropHooks;
+var easing = require(&quot;./easing&quot;);
 /**
  *  Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )
  *  
@@ -96,6 +99,7 @@
  */
 function Tween(property, value, animation) {
         var self = this;
+        
         /**
          *  Reference to the {{#crossLink &quot;Animation&quot;}}{{/crossLink}}
          *  @property {Object} A
@@ -126,6 +130,11 @@ function Tween(property, value, animation) {
          *  @readonly
          */
         self.start = self.cur();
+        if (typeof self.end === &quot;string&quot; &amp;&amp; self.end.charAt(0) === &quot;+&quot;) {
+            self.end = self.start + parseFloat(self.end);
+        } else if (typeof self.end === &quot;string&quot; &amp;&amp; self.end.charAt(0) === &quot;-&quot;) {
+            self.end = self.start + parseFloat(self.end);
+        }
         /**
          *  Current value of the property. Set using {{#crossLink &quot;Tween/cur:method&quot;}}{{/crossLink}}
          *  @property {mixed} now
@@ -148,6 +157,7 @@ function Tween(property, value, animation) {
      */
 Tween.prototype.cur = function() {
     var self = this;
+    
     // should we use a special way to get the current value ? if not just use item[prop]
     var hooks = _tweenPropHooks[self.prop];
 
@@ -174,7 +184,6 @@ Tween.prototype.run = function(percent) {
         self.pos = eased = percent;
     }
     // refresh current value
-
     if (hooks &amp;&amp; hooks.ease) {
         hooks.ease(self, eased);
     } else {
@@ -189,6 +198,8 @@ Tween.prototype.run = function(percent) {
 
     return self;
 };
+
+module.exports = Tween;
     </pre>
 </div>
                     </div>

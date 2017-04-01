@@ -10,6 +10,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "fx"
     ],
     "modules": [],
-    "allModules": []
+    "allModules": [],
+    "elements": []
 } };
 });

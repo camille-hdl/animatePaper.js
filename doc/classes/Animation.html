@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.2</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                             </ul>
@@ -86,7 +87,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_animation.js.html#l5"><code>src\animation.js:5</code></a>
+            Defined in: <a href="../files/src_animation.js.html#l10"><code>src&#x2F;animation.js:10</code></a>
         </div>
 
 
@@ -102,131 +103,142 @@
          step: undefined
     };
 </code></pre>
+
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Animation" class="method item">
-            <h3 class="name"><code>Animation</code></h3>
-        
-                <div class="args">
-                    <span class="paren">(</span><ul class="args-list inline commas">
-                        <li class="arg">
-                                <code>item</code>
-                        </li>
-                        <li class="arg">
-                                <code>properties</code>
-                        </li>
-                        <li class="arg">
-                                <code>settings</code>
-                        </li>
-                    </ul><span class="paren">)</span>
-                </div>
-        
-        
-        
-        
-        
-        
-        
-        
-            <div class="meta">
-                        <p>
-                        Defined in
-                <a href="../files/src_animation.js.html#l5"><code>src\animation.js:5</code></a>
-                </p>
-        
-        
-        
-            </div>
-        
-            <div class="description">
-                
-            </div>
-        
-                <div class="params">
-                    <h4>Parameters:</h4>
-        
-                    <ul class="params-list">
-                        <li class="param">
-                                <code class="param-name">item</code>
-                                <span class="type">Object</span>
-        
-        
-                            <div class="param-description">
-                                <p>a paper.js Item instance, which will be animated.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">properties</code>
-                                <span class="type">Object</span>
-        
-        
-                            <div class="param-description">
-                                <p>properties to animate</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">settings</code>
-                                <span class="type">Object</span>
-        
-        
-                            <div class="param-description">
-                                 
-                            </div>
-        
-                                <ul class="params-list">
-                                    <li class="param">
-                                            <code class="param-name">duration</code>
-                                            <span class="type">Number</span>
-        
-                                        <div class="param-description">
-                                            <p>Duration of the animation, in ms</p>
-        
-                                        </div>
-        
-                                    </li>
-                                    <li class="param">
-                                            <code class="param-name">easing</code>
-                                            <span class="type">String</span>
-        
-                                        <div class="param-description">
-                                            
-                                        </div>
-        
-                                    </li>
-                                    <li class="param">
-                                            <code class="param-name">complete</code>
-                                            <span class="type">Function</span>
-        
-                                        <div class="param-description">
-                                            <p>Called when the animation is over, in <code>.end()</code>. The item is passed as argument</p>
-        
-                                        </div>
-        
-                                    </li>
-                                    <li class="param">
-                                            <code class="param-name">step</code>
-                                            <span class="type">Function</span>
-        
-                                        <div class="param-description">
-                                            <p>Called on each <code>.tick()</code></p>
-        
-                                        </div>
-        
-                                    </li>
-                                </ul>
-                        </li>
-                    </ul>
-                </div>
-        
-        
-        
+<div id="method_Animation" class="method item">
+    <h3 class="name"><code>Animation</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>item</code>
+                </li>
+                <li class="arg">
+                        <code>properties</code>
+                </li>
+                <li class="arg">
+                        <code>settings</code>
+                </li>
+            </ul><span class="paren">)</span>
         </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l10"><code>src&#x2F;animation.js:10</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">item</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>a paper.js Item instance, which will be animated.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">properties</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>properties to animate</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">settings</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">duration</code>
+                                    <span class="type">Number</span>
+
+                                <div class="param-description">
+                                    <p>Duration of the animation, in ms</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">easing</code>
+                                    <span class="type">String</span>
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">complete</code>
+                                    <span class="type">Function</span>
+
+                                <div class="param-description">
+                                    <p>Called when the animation is over, in <code>.end()</code>. The item is passed as this, the animation as 1st argument</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">step</code>
+                                    <span class="type">Function</span>
+
+                                <div class="param-description">
+                                    <p>Called on each <code>.tick()</code></p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">repeat</code>
+                                    <span class="type">Mixed</span>
+
+                                <div class="param-description">
+                                    <p>function or true or an integer. The animation will repeat as long as function returns <code>true</code>, <code>true</code> or <code>repeat</code> &gt; 0, decrementing by 1 each time.</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
     </div>
 
 <div id="classdocs" class="tabview">
@@ -281,6 +293,14 @@
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_itemForAnimations">itemForAnimations</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_repeat">repeat</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_settings">settings</a>
 
                             </li>
@@ -331,7 +351,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_animation.js.html#l178"><code>src\animation.js:178</code></a>
+        <a href="../files/src_animation.js.html#l238"><code>src&#x2F;animation.js:238</code></a>
         </p>
 
 
@@ -380,7 +400,7 @@ and provides default values if needed.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_animation.js.html#l152"><code>src\animation.js:152</code></a>
+        <a href="../files/src_animation.js.html#l204"><code>src&#x2F;animation.js:204</code></a>
         </p>
 
 
@@ -404,6 +424,9 @@ and provides default values if needed.</p>
                 <li class="arg">
                         <code>goToEnd</code>
                 </li>
+                <li class="arg">
+                        <code>forceEnd</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -417,7 +440,7 @@ and provides default values if needed.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_animation.js.html#l132"><code>src\animation.js:132</code></a>
+        <a href="../files/src_animation.js.html#l183"><code>src&#x2F;animation.js:183</code></a>
         </p>
 
 
@@ -443,6 +466,17 @@ and provides default values if needed.</p>
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name">forceEnd</code>
+                        <span class="type">Bool</span>
+
+
+                    <div class="param-description">
+                        <p>to prevent loops</p>
+
+                    </div>
+
+                </li>
             </ul>
         </div>
 
@@ -464,7 +498,7 @@ and provides default values if needed.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_animation.js.html#l97"><code>src\animation.js:97</code></a>
+        <a href="../files/src_animation.js.html#l141"><code>src&#x2F;animation.js:141</code></a>
         </p>
 
 
@@ -485,209 +519,263 @@ and provides default values if needed.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-                    <div id="property__continue" class="property item private">
-                        <h3 class="name"><code>_continue</code></h3>
-                        <span class="type">Function</span>
-                    
-                    
-                            <span class="flag private">private</span>
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l62"><code>src\animation.js:62</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Callback used when queueing animations.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property__dataIndex" class="property item private">
-                        <h3 class="name"><code>_dataIndex</code></h3>
-                        <span class="type">Number</span>
-                    
-                    
-                            <span class="flag private">private</span>
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l74"><code>src\animation.js:74</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Index of the animation in the item&#39;s queue.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_item" class="property item">
-                        <h3 class="name"><code>item</code></h3>
-                        <span class="type">Object</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l44"><code>src\animation.js:44</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>The animated <code>paper.Item</code></p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_settings" class="property item">
-                        <h3 class="name"><code>settings</code></h3>
-                        <span class="type">Object</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l39"><code>src\animation.js:39</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Settings, after being normalized in _initializeSettings</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_startTime" class="property item">
-                        <h3 class="name"><code>startTime</code></h3>
-                        <span class="type">Timestamp</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l33"><code>src\animation.js:33</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Time when the Animation is created</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_stopped" class="property item">
-                        <h3 class="name"><code>stopped</code></h3>
-                        <span class="type">Bool</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l28"><code>src\animation.js:28</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>True if the animation is stopped</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_ticker" class="property item">
-                        <h3 class="name"><code>ticker</code></h3>
-                        <span class="type">String</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l55"><code>src\animation.js:55</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>If the Animation is in <code>onFrame</code> mode : 
-                    Identifier of the FrameMamanger callback called on every tick.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_tweens" class="property item">
-                        <h3 class="name"><code>tweens</code></h3>
-                        <span class="type">Array</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_animation.js.html#l50"><code>src\animation.js:50</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p><a href="../classes/Tween.html" class="crosslink">Tween</a>s used by the Animation.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
+<div id="property__continue" class="property item private">
+    <h3 class="name"><code>_continue</code></h3>
+    <span class="type">Function</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l105"><code>src&#x2F;animation.js:105</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Callback used when queueing animations.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property__dataIndex" class="property item private">
+    <h3 class="name"><code>_dataIndex</code></h3>
+    <span class="type">Number</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l120"><code>src&#x2F;animation.js:120</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Index of the animation in the item's queue.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_item" class="property item">
+    <h3 class="name"><code>item</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l51"><code>src&#x2F;animation.js:51</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The animated <code>paper.Item</code></p>
+
+    </div>
+
+
+
+</div>
+<div id="property_itemForAnimations" class="property item">
+    <h3 class="name"><code>itemForAnimations</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l57"><code>src&#x2F;animation.js:57</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>If provided, use parentItem to use .data and .onFrame. If not, use self.item;</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_repeat" class="property item">
+    <h3 class="name"><code>repeat</code></h3>
+    <span class="type">Mixed</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l64"><code>src&#x2F;animation.js:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Repeat parameter.
+If Function, the animation is repeated as long as the function returns <code>true</code>.
+If <code>true</code>, the animation is repeated until <code>.end(true)</code> is called.
+If <code>repeat</code> is an integer, the animation is repeated until <code>repeat</code> is &lt;= 0.
+Default <code>0</code></p>
+
+    </div>
+
+
+
+</div>
+<div id="property_settings" class="property item">
+    <h3 class="name"><code>settings</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l46"><code>src&#x2F;animation.js:46</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Settings, after being normalized in _initializeSettings</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_startTime" class="property item">
+    <h3 class="name"><code>startTime</code></h3>
+    <span class="type">Timestamp</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l40"><code>src&#x2F;animation.js:40</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Time when the Animation is created</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_stopped" class="property item">
+    <h3 class="name"><code>stopped</code></h3>
+    <span class="type">Bool</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l35"><code>src&#x2F;animation.js:35</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>True if the animation is stopped</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_ticker" class="property item">
+    <h3 class="name"><code>ticker</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l98"><code>src&#x2F;animation.js:98</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>If the Animation is in <code>onFrame</code> mode :
+Identifier of the FrameMamanger callback called on every tick.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_tweens" class="property item">
+    <h3 class="name"><code>tweens</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_animation.js.html#l93"><code>src&#x2F;animation.js:93</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p><a href="../classes/Tween.html" class="crosslink">Tween</a>s used by the Animation.</p>
+
+    </div>
+
+
+
+</div>
             </div>
 
 
@@ -707,15 +795,5 @@ and provides default values if needed.</p>
 <script src="../assets/js/api-list.js"></script>
 <script src="../assets/js/api-search.js"></script>
 <script src="../assets/js/apidocs.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-64000912-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
 </body>
 </html>

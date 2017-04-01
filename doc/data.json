@@ -2,11 +2,11 @@
     "project": {
         "name": "animatePaper.js",
         "description": "An animation library for paper.js",
-        "version": "0.2.2"
+        "version": "0.2"
     },
     "files": {
-        "src\\animation.js": {
-            "name": "src\\animation.js",
+        "src/animation.js": {
+            "name": "src/animation.js",
             "modules": {},
             "classes": {
                 "Animation": 1
@@ -14,8 +14,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\easing.js": {
-            "name": "src\\easing.js",
+        "src/easing.js": {
+            "name": "src/easing.js",
             "modules": {},
             "classes": {
                 "easing": 1
@@ -23,8 +23,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\effects.js": {
-            "name": "src\\effects.js",
+        "src/effects.js": {
+            "name": "src/effects.js",
             "modules": {},
             "classes": {
                 "fx": 1
@@ -32,8 +32,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src\\export.js": {
-            "name": "src\\export.js",
+        "src/export.js": {
+            "name": "src/export.js",
             "modules": {},
             "classes": {},
             "fors": {
@@ -41,8 +41,8 @@
             },
             "namespaces": {}
         },
-        "src\\frameManager.js": {
-            "name": "src\\frameManager.js",
+        "src/frameManager.js": {
+            "name": "src/frameManager.js",
             "modules": {},
             "classes": {
                 "frameManager": 1
@@ -52,8 +52,8 @@
             },
             "namespaces": {}
         },
-        "src\\prophooks.js": {
-            "name": "src\\prophooks.js",
+        "src/prophooks.js": {
+            "name": "src/prophooks.js",
             "modules": {},
             "classes": {
                 "_tweenPropHooks": 1
@@ -63,8 +63,8 @@
             },
             "namespaces": {}
         },
-        "src\\tween.js": {
-            "name": "src\\tween.js",
+        "src/tween.js": {
+            "name": "src/tween.js",
             "modules": {},
             "classes": {
                 "Tween": 1
@@ -83,8 +83,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\animation.js",
-            "line": 5,
+            "file": "src/animation.js",
+            "line": 10,
             "description": "Animation class. Default settings are :\n\n````\n    var defaults = {\n         duration: 400,\n         easing: \"linear\",\n         complete: undefined,\n         step: undefined\n    };\n````",
             "is_constructor": 1,
             "params": [
@@ -115,13 +115,18 @@
                         },
                         {
                             "name": "complete",
-                            "description": "Called when the animation is over, in `.end()`. The item is passed as argument",
+                            "description": "Called when the animation is over, in `.end()`. The item is passed as this, the animation as 1st argument",
                             "type": "Function"
                         },
                         {
                             "name": "step",
                             "description": "Called on each `.tick()`",
                             "type": "Function"
+                        },
+                        {
+                            "name": "repeat",
+                            "description": "function or true or an integer. The animation will repeat as long as function returns `true`, `true` or `repeat` > 0, decrementing by 1 each time.",
+                            "type": "Mixed"
                         }
                     ]
                 }
@@ -135,7 +140,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\easing.js",
+            "file": "src/easing.js",
             "line": 1,
             "description": "Easing. Based on easing equations from Robert Penner (http://www.robertpenner.com/easing) and\nimplementation of these equations in https://github.com/jquery/jquery-ui/blob/master/ui/effect.js",
             "static": 1
@@ -148,8 +153,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\effects.js",
-            "line": 1,
+            "file": "src/effects.js",
+            "line": 20,
             "description": "Effects : A facade for easy to use animations.",
             "static": 1
         },
@@ -170,8 +175,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\frameManager.js",
-            "line": 27,
+            "file": "src/frameManager.js",
+            "line": 29,
             "description": "The `frameManager` is used to bind and unbind multiple callbacks to an object's\n`onFrame`. If an object has at least one handler, it's `onFrame` handler will be\n{{#crossLink \"frameManager/frameManagerHandler:method\"}}{{/crossLink}}.",
             "static": 1
         },
@@ -183,8 +188,8 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\tween.js",
-            "line": 1,
+            "file": "src/tween.js",
+            "line": 3,
             "description": "Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )",
             "is_constructor": 1,
             "params": [
@@ -213,18 +218,19 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src\\prophooks.js",
-            "line": 30,
+            "file": "src/prophooks.js",
+            "line": 32,
             "description": "Helpers to get, set and ease properties that behave differently from \"normal\" properties. e.g. `scale`.",
             "access": "private",
             "tagname": "",
             "static": 1
         }
     },
+    "elements": {},
     "classitems": [
         {
-            "file": "src\\animation.js",
-            "line": 28,
+            "file": "src/animation.js",
+            "line": 35,
             "description": "True if the animation is stopped",
             "itemtype": "property",
             "name": "stopped",
@@ -232,8 +238,8 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 33,
+            "file": "src/animation.js",
+            "line": 40,
             "description": "Time when the Animation is created",
             "itemtype": "property",
             "name": "startTime",
@@ -242,8 +248,8 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 39,
+            "file": "src/animation.js",
+            "line": 46,
             "description": "Settings, after being normalized in {{#crossLink \"_initializeSettings\"}}{{/crossLink}}",
             "itemtype": "property",
             "name": "settings",
@@ -251,8 +257,8 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 44,
+            "file": "src/animation.js",
+            "line": 51,
             "description": "The animated `paper.Item`",
             "itemtype": "property",
             "name": "item",
@@ -261,8 +267,27 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 50,
+            "file": "src/animation.js",
+            "line": 57,
+            "description": "If provided, use parentItem to use .data and .onFrame. If not, use self.item;",
+            "itemtype": "property",
+            "name": "itemForAnimations",
+            "type": "Object",
+            "readonly": "",
+            "class": "Animation"
+        },
+        {
+            "file": "src/animation.js",
+            "line": 64,
+            "description": "Repeat parameter.\nIf Function, the animation is repeated as long as the function returns `true`.\nIf `true`, the animation is repeated until `.end(true)` is called.\nIf `repeat` is an integer, the animation is repeated until `repeat` is <= 0.\nDefault `0`",
+            "itemtype": "property",
+            "name": "repeat",
+            "type": "Mixed",
+            "class": "Animation"
+        },
+        {
+            "file": "src/animation.js",
+            "line": 93,
             "description": "{{#crossLink \"Tween\"}}{{/crossLink}}s used by the Animation.",
             "itemtype": "property",
             "name": "tweens",
@@ -270,9 +295,9 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 55,
-            "description": "If the Animation is in `onFrame` mode : \nIdentifier of the {{#crossLink \"frameMamanger\"}}{{/crossLink}} callback called on every tick.",
+            "file": "src/animation.js",
+            "line": 98,
+            "description": "If the Animation is in `onFrame` mode :\nIdentifier of the {{#crossLink \"frameMamanger\"}}{{/crossLink}} callback called on every tick.",
             "itemtype": "property",
             "name": "ticker",
             "type": "String",
@@ -280,8 +305,8 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 62,
+            "file": "src/animation.js",
+            "line": 105,
             "description": "Callback used when queueing animations.",
             "itemtype": "property",
             "name": "_continue",
@@ -292,8 +317,8 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 74,
+            "file": "src/animation.js",
+            "line": 120,
             "description": "Index of the animation in the item's queue.",
             "itemtype": "property",
             "name": "_dataIndex",
@@ -304,16 +329,16 @@
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 97,
+            "file": "src/animation.js",
+            "line": 141,
             "description": "Called on each step of the animation.",
             "itemtype": "method",
             "name": "tick",
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 132,
+            "file": "src/animation.js",
+            "line": 183,
             "description": "Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.",
             "itemtype": "method",
             "name": "stop",
@@ -322,21 +347,26 @@
                     "name": "goToEnd",
                     "description": "",
                     "type": "Bool"
+                },
+                {
+                    "name": "forceEnd",
+                    "description": "to prevent loops",
+                    "type": "Bool"
                 }
             ],
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 152,
+            "file": "src/animation.js",
+            "line": 204,
             "description": "Called when the animations ends, naturally or using `.stop(true)`.",
             "itemtype": "method",
             "name": "end",
             "class": "Animation"
         },
         {
-            "file": "src\\animation.js",
-            "line": 178,
+            "file": "src/animation.js",
+            "line": 238,
             "description": "Normalizes existing values from an Animation settings argument\nand provides default values if needed.",
             "itemtype": "method",
             "name": "_initializeSettings",
@@ -352,45 +382,24 @@
             "class": "Animation"
         },
         {
-            "file": "src\\effects.js",
-            "line": 8,
+            "file": "src/effects.js",
+            "line": 27,
             "description": "Grow a path",
             "itemtype": "method",
             "name": "grow",
+            "deprecated": true,
             "params": [
                 {
                     "name": "path",
                     "description": "a paper.js `Path` object",
                     "type": "Object"
-                },
-                {
-                    "name": "settings",
-                    "description": "",
-                    "type": "Object",
-                    "props": [
-                        {
-                            "name": "to",
-                            "description": "an object with `x` and `y` properties",
-                            "type": "Object"
-                        },
-                        {
-                            "name": "easing",
-                            "description": "defaults to `swing`",
-                            "type": "String"
-                        },
-                        {
-                            "name": "complete",
-                            "description": "complete callback",
-                            "type": "Function"
-                        }
-                    ]
                 }
             ],
             "class": "fx"
         },
         {
-            "file": "src\\effects.js",
-            "line": 30,
+            "file": "src/effects.js",
+            "line": 38,
             "description": "Shake an item",
             "itemtype": "method",
             "name": "shake",
@@ -426,8 +435,8 @@
             "class": "fx"
         },
         {
-            "file": "src\\effects.js",
-            "line": 70,
+            "file": "src/effects.js",
+            "line": 78,
             "description": "Increase the opacity to 1",
             "itemtype": "method",
             "name": "fadeIn",
@@ -463,8 +472,8 @@
             "class": "fx"
         },
         {
-            "file": "src\\effects.js",
-            "line": 100,
+            "file": "src/effects.js",
+            "line": 108,
             "description": "Decrease the opacity to 0",
             "itemtype": "method",
             "name": "fadeOut",
@@ -500,8 +509,8 @@
             "class": "fx"
         },
         {
-            "file": "src\\effects.js",
-            "line": 130,
+            "file": "src/effects.js",
+            "line": 138,
             "description": "Increase the opacity to 1 and go upward",
             "itemtype": "method",
             "name": "slideUp",
@@ -542,8 +551,8 @@
             "class": "fx"
         },
         {
-            "file": "src\\effects.js",
-            "line": 166,
+            "file": "src/effects.js",
+            "line": 174,
             "description": "Decrease the opacity to 0 and go downward",
             "itemtype": "method",
             "name": "slideDown",
@@ -584,8 +593,8 @@
             "class": "fx"
         },
         {
-            "file": "src\\effects.js",
-            "line": 202,
+            "file": "src/effects.js",
+            "line": 210,
             "description": "Increase the opacity to 1, rotates 360deg and scales by 3.",
             "itemtype": "method",
             "name": "splash",
@@ -621,8 +630,8 @@
             "class": "fx"
         },
         {
-            "file": "src\\export.js",
-            "line": 2,
+            "file": "src/export.js",
+            "line": 5,
             "description": "The main animation interface.\nIt can take a single option object or an array of option objects\nif you want to chain animations without falling into Callback Hell.",
             "itemtype": "method",
             "name": "animate",
@@ -630,8 +639,8 @@
             "class": "animatePaper"
         },
         {
-            "file": "src\\export.js",
-            "line": 29,
+            "file": "src/export.js",
+            "line": 32,
             "description": "Stops all animations on the item. If `goToEnd` is `true`,\nthe animated properties will be set to their final values.",
             "itemtype": "method",
             "name": "stop",
@@ -639,8 +648,8 @@
             "class": "animatePaper"
         },
         {
-            "file": "src\\export.js",
-            "line": 47,
+            "file": "src/export.js",
+            "line": 50,
             "description": "Use this method to extend the private {{#crossLink \"easing\"}}{{/crossLink}} collection.\n\nThe `customEasings` object should like this :\n````\n    {\n        \"easingName\": function(p) { easing algorithm }\n    }\n````\nWhen used, easing functions are passed the following arguments :\n * `percent`\n * `percent * duration`\n\nEasing functions are obviously expected to return the eased percent.",
             "itemtype": "method",
             "name": "extendEasing",
@@ -654,8 +663,8 @@
             "class": "animatePaper"
         },
         {
-            "file": "src\\export.js",
-            "line": 73,
+            "file": "src/export.js",
+            "line": 70,
             "description": "Use this method to extend {{#crossLink \"_tweenPropHooks\"}}{{/crossLink}}.\n\nThe `customHooks` object should like this :\n````\n    {\n        \"propertyName\": {\n            set: function() {},\n            get: function() {},\n            ease: function() {}\n        }\n    }\n````\nEach hook can contain a `get`, `set` and `ease` functions. When these functions are used, they are passed only\none argument : the {{#crossLink \"Tween\"}}{{/crossLink}} object, exept for the `ease()` function which gets the eased percent\nas second parameter.\n\n * The `get()` function must return the current value of the `Tween.item`'s property.\n * The `set()` function must set the value of the `Tween.item`'s property with `Tween.now` (which will\n most likely be the result of `get()` or `ease()`)\n * The `ease()` function must return the eased value. The second parameter is the eased percent.",
             "itemtype": "method",
             "name": "extendPropHooks",
@@ -669,7 +678,7 @@
             "class": "animatePaper"
         },
         {
-            "file": "src\\frameManager.js",
+            "file": "src/frameManager.js",
             "line": 1,
             "description": "This is the only function called in a objects `onFrame` handler.\nIf the objects has callbacks in it's `data._customHandlers` property,\neach of these is called.",
             "access": "private",
@@ -686,8 +695,8 @@
             "class": "frameManager"
         },
         {
-            "file": "src\\frameManager.js",
-            "line": 36,
+            "file": "src/frameManager.js",
+            "line": 38,
             "description": "Add a callback to a paper.js Item's `onFrame` event.\nThe Item itself will be the `thisValue` and the event object `ev` will be the first argument",
             "params": [
                 {
@@ -704,6 +713,11 @@
                     "name": "callback",
                     "description": "",
                     "type": "Function"
+                },
+                {
+                    "name": "parentItem",
+                    "description": "If provided, the callback will be called on parentItem.onFrame event instead of item.onFrame",
+                    "type": "Object"
                 }
             ],
             "example": [
@@ -714,8 +728,8 @@
             "class": "frameManager"
         },
         {
-            "file": "src\\frameManager.js",
-            "line": 63,
+            "file": "src/frameManager.js",
+            "line": 69,
             "description": "Remove a callback from an item's `onFrame` handler.",
             "params": [
                 {
@@ -734,8 +748,8 @@
             "class": "frameManager"
         },
         {
-            "file": "src\\prophooks.js",
-            "line": 1,
+            "file": "src/prophooks.js",
+            "line": 2,
             "description": "Performs an operation on two paper.Point() objects.\nReturns the result of : ` a operator b`.",
             "access": "private",
             "tagname": "",
@@ -765,8 +779,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 12,
+            "file": "src/tween.js",
+            "line": 15,
             "description": "Reference to the {{#crossLink \"Animation\"}}{{/crossLink}}",
             "itemtype": "property",
             "name": "A",
@@ -775,8 +789,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 18,
+            "file": "src/tween.js",
+            "line": 21,
             "description": "Animated `paper.Item` object",
             "itemtype": "property",
             "name": "item",
@@ -785,8 +799,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 24,
+            "file": "src/tween.js",
+            "line": 27,
             "description": "Name of the animated property",
             "itemtype": "property",
             "name": "prop",
@@ -795,8 +809,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 30,
+            "file": "src/tween.js",
+            "line": 33,
             "description": "The value the property will have when the animation is over.",
             "itemtype": "property",
             "name": "end",
@@ -805,8 +819,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 36,
+            "file": "src/tween.js",
+            "line": 39,
             "description": "Value of the property when the animation starts. Set using {{#crossLink \"Tween/cur:method\"}}{{/crossLink}}",
             "itemtype": "property",
             "name": "start",
@@ -815,8 +829,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 42,
+            "file": "src/tween.js",
+            "line": 50,
             "description": "Current value of the property. Set using {{#crossLink \"Tween/cur:method\"}}{{/crossLink}}",
             "itemtype": "property",
             "name": "now",
@@ -824,8 +838,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 47,
+            "file": "src/tween.js",
+            "line": 55,
             "description": "If the value of the property increases, `direction` will be `'+'`, if it decreases : `'-'`.",
             "itemtype": "property",
             "name": "direction",
@@ -834,8 +848,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 56,
+            "file": "src/tween.js",
+            "line": 64,
             "description": "Get the current value of the animated property. Uses {{#crossLink \"_tweenPropHooks\"}}{{/crossLink}} if\navailable.",
             "itemtype": "method",
             "name": "cur",
@@ -846,8 +860,8 @@
             "class": "Tween"
         },
         {
-            "file": "src\\tween.js",
-            "line": 69,
+            "file": "src/tween.js",
+            "line": 78,
             "description": "Called on each {{#crossLink \"Animation/tick:method\"}}{{/crossLink}}. Set the value of the property\nto the eased value. Uses {{#crossLink \"_tweenPropHooks\"}}{{/crossLink}} if available.\nIt takes the percentage of the animation duration as argument.",
             "itemtype": "method",
             "name": "run",

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\frameManager.js - animatePaper.js</title>
+    <title>src/frameManager.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.2</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                             </ul>
@@ -81,7 +82,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\frameManager.js</h1>
+<h1 class="file-heading">File: src/frameManager.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -97,7 +98,9 @@
  */
 function frameManagerHandler(ev) {
         var item = this;
-
+        if (typeof item.data === &quot;undefined&quot;) {
+            item.data = {};
+        }
         if (typeof item.data._customHandlers !== &quot;undefined&quot; &amp;&amp;
             item.data._customHandlersCount &gt; 0
         ) {
@@ -119,7 +122,7 @@ function frameManagerHandler(ev) {
      *  @class frameManager
      *  @static
      */
-animatePaper.frameManager = {
+module.exports = {
     /**
      * Add a callback to a paper.js Item&#x27;s &#x60;onFrame&#x60; event.
      * The Item itself will be the &#x60;thisValue&#x60; and the event object &#x60;ev&#x60; will be the first argument
@@ -127,13 +130,14 @@ animatePaper.frameManager = {
      * @param {Object} item paper.js Item
      * @param {String} name An identifier for this callback
      * @param {Function} callback
+     * @param {Object} parentItem If provided, the callback will be called on parentItem.onFrame event instead of item.onFrame
      * @example
      *      animatePaper.frameManager.add(circle,&quot;goUp&quot;,function(ev) {
      *          // Animation logic
      *      });
      * @method add
      */
-    add: function(item, name, callback) {
+    add: function(item, name, callback, parentItem) {
         if (typeof item.data._customHandlers === &quot;undefined&quot;) {
             item.data._customHandlers = {};
             item.data._customHandlersCount = 0;
@@ -141,8 +145,11 @@ animatePaper.frameManager = {
         item.data._customHandlers[name] = callback;
         item.data._customHandlersCount += 1;
         if (item.data._customHandlersCount &gt; 0) {
-
-            item.onFrame = frameManagerHandler;
+            if (typeof parentItem !== &quot;undefined&quot;) {
+                parentItem.onFrame = frameManagerHandler;
+            } else {
+                item.onFrame = frameManagerHandler;
+            }
         }
 
         return name;

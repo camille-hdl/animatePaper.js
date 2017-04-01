@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\effects.js - animatePaper.js</title>
+    <title>src/effects.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.2</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                             </ul>
@@ -81,37 +82,45 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\effects.js</h1>
+<h1 class="file-heading">File: src/effects.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+var Animation = require(&quot;./animation&quot;);
+var _animate = function(item, animation) {
+    var animations = [];
+    var output;
+
+    if (animation instanceof Array) {
+        animations = animation;
+    } else {
+        animations.push(animation);
+    }
+    var index = 0; // current index in the animations
+    new Animation(item, animations[index].properties, animations[index].settings, function _continue() {
+        index++;
+        if (typeof animations[index] !== &quot;undefined&quot;) {
+            new Animation(item, animations[index].properties, animations[index].settings, _continue);
+        }
+    });
+    return item;
+};
 /**
  * Effects : A facade for easy to use animations.
  * 
  * @class fx
  * @static
  */
-animatePaper.fx = {
+module.exports = {
     /**
      * Grow a path
      *
      * @method grow
+     * @deprecated
      * @param {Object} path a paper.js &#x60;Path&#x60; object
-     * @param {Object} settings
-     * @param {Object} settings.to an object with &#x60;x&#x60; and &#x60;y&#x60; properties
-     * @param {String} settings.easing defaults to &#x60;swing&#x60;
-     * @param {Function} settings.complete complete callback
      */
     grow: function(path, settings) {
-        animatePaper.animate(path, {
-            properties: {
-                segmentGrow: settings.to
-            },
-            settings: {
-                easing: settings.easing,
-                complete: settings.complete
-            }
-        });
+        console.log(&quot;segmentGrow was buggy and has been removed, sorry :/&quot;);
         return path;
     },
     /**
@@ -152,7 +161,7 @@ animatePaper.fx = {
                     }
                 });
             }
-            animatePaper.animate(item, animations);
+            _animate(item, animations);
         },
     /**
      * Increase the opacity to 1
@@ -173,7 +182,7 @@ animatePaper.fx = {
             if(typeof settings.complete === &quot;function&quot;) complete = settings.complete;
             if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 1
             },
@@ -203,7 +212,7 @@ animatePaper.fx = {
             if(typeof settings.complete === &quot;function&quot;) complete = settings.complete;
             if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 0
             },
@@ -236,7 +245,7 @@ animatePaper.fx = {
             if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
             if(typeof settings.distance !== &quot;undefined&quot;) distance = settings.distance;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 1,
                 position: {
@@ -272,7 +281,7 @@ animatePaper.fx = {
             if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
             if(typeof settings.distance !== &quot;undefined&quot;) distance = settings.distance;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 0,
                 position: {
@@ -305,7 +314,7 @@ animatePaper.fx = {
             if(typeof settings.complete === &quot;function&quot;) complete = settings.complete;
             if(typeof settings.easing !== &quot;undefined&quot;) easing = settings.easing;
         }
-        animatePaper.animate(item,{
+        _animate(item,{
             properties: {
                 opacity: 1,
                 scale: 3,

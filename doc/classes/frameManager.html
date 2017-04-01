@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.2</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                             </ul>
@@ -86,7 +87,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_frameManager.js.html#l27"><code>src\frameManager.js:27</code></a>
+            Defined in: <a href="../files/src_frameManager.js.html#l29"><code>src&#x2F;frameManager.js:29</code></a>
         </div>
 
 
@@ -94,8 +95,8 @@
 
 
 <div class="box intro">
-    <p>The <code>frameManager</code> is used to bind and unbind multiple callbacks to an object&#39;s
-<code>onFrame</code>. If an object has at least one handler, it&#39;s <code>onFrame</code> handler will be
+    <p>The <code>frameManager</code> is used to bind and unbind multiple callbacks to an object's
+<code>onFrame</code>. If an object has at least one handler, it's <code>onFrame</code> handler will be
 FrameManager/frameManagerHandler:method.</p>
 
 </div>
@@ -152,6 +153,9 @@ FrameManager/frameManagerHandler:method.</p>
                 <li class="arg">
                         <code>callback</code>
                 </li>
+                <li class="arg">
+                        <code>parentItem</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -165,7 +169,7 @@ FrameManager/frameManagerHandler:method.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_frameManager.js.html#l36"><code>src\frameManager.js:36</code></a>
+        <a href="../files/src_frameManager.js.html#l38"><code>src&#x2F;frameManager.js:38</code></a>
         </p>
 
 
@@ -173,7 +177,7 @@ FrameManager/frameManagerHandler:method.</p>
     </div>
 
     <div class="description">
-        <p>Add a callback to a paper.js Item&#39;s <code>onFrame</code> event.
+        <p>Add a callback to a paper.js Item's <code>onFrame</code> event.
 The Item itself will be the <code>thisValue</code> and the event object <code>ev</code> will be the first argument</p>
 
     </div>
@@ -214,6 +218,17 @@ The Item itself will be the <code>thisValue</code> and the event object <code>ev
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name">parentItem</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>If provided, the callback will be called on parentItem.onFrame event instead of item.onFrame</p>
+
+                    </div>
+
+                </li>
             </ul>
         </div>
 
@@ -225,8 +240,8 @@ The Item itself will be the <code>thisValue</code> and the event object <code>ev
             <div class="example-content">
                 <pre class="code prettyprint"><code> animatePaper.frameManager.add(circle,&quot;goUp&quot;,function(ev) {
      // Animation logic
- });
-</code></pre>
+ });</code></pre>
+
             </div>
         </div>
 </div>
@@ -252,7 +267,7 @@ The Item itself will be the <code>thisValue</code> and the event object <code>ev
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_frameManager.js.html#l1"><code>src\frameManager.js:1</code></a>
+        <a href="../files/src_frameManager.js.html#l1"><code>src&#x2F;frameManager.js:1</code></a>
         </p>
 
 
@@ -261,7 +276,7 @@ The Item itself will be the <code>thisValue</code> and the event object <code>ev
 
     <div class="description">
         <p>This is the only function called in a objects <code>onFrame</code> handler.
-If the objects has callbacks in it&#39;s <code>data._customHandlers</code> property,
+If the objects has callbacks in it's <code>data._customHandlers</code> property,
 each of these is called.</p>
 
     </div>
@@ -311,7 +326,7 @@ each of these is called.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_frameManager.js.html#l63"><code>src\frameManager.js:63</code></a>
+        <a href="../files/src_frameManager.js.html#l69"><code>src&#x2F;frameManager.js:69</code></a>
         </p>
 
 
@@ -319,7 +334,7 @@ each of these is called.</p>
     </div>
 
     <div class="description">
-        <p>Remove a callback from an item&#39;s <code>onFrame</code> handler.</p>
+        <p>Remove a callback from an item's <code>onFrame</code> handler.</p>
 
     </div>
 
@@ -375,15 +390,5 @@ each of these is called.</p>
 <script src="../assets/js/api-list.js"></script>
 <script src="../assets/js/api-search.js"></script>
 <script src="../assets/js/apidocs.js"></script>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-64000912-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
 </body>
 </html>

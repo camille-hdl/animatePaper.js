@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src\export.js - animatePaper.js</title>
+    <title>src/export.js - animatePaper.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="animatePaper.js" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2.2</em>
+            <em>API Docs for: 0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/fx.html">fx</a></li>
                                 <li><a href="../classes/Tween.html">Tween</a></li>
                             </ul>
+                
                 
                             <ul id="api-modules" class="apis modules">
                             </ul>
@@ -81,11 +82,14 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src\export.js</h1>
+<h1 class="file-heading">File: src/export.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-
+var Animation = require(&quot;./animation&quot;);
+var effects = require(&quot;./effects&quot;);
+var frameManager = require(&quot;./frameManager&quot;);
+var paper = require(&quot;./getPaper&quot;);
 /**
  *  The main animation interface.
  *  It can take a single option object or an array of option objects
@@ -121,11 +125,11 @@ exports.animate = function(item, animation) {
  *  @chainable
  *  @for animatePaper
  */
-exports.stop = function(item, goToEnd) {
+exports.stop = function(item, goToEnd, forceEnd) {
     if (!!item.data._animatePaperAnims) {
         for (var i = 0, l = item.data._animatePaperAnims.length; i &lt; l; i++) {
             if (!!item.data._animatePaperAnims[i]) {
-                item.data._animatePaperAnims[i].stop(goToEnd);
+                item.data._animatePaperAnims[i].stop(goToEnd, forceEnd);
             }
         }
     }
@@ -150,13 +154,7 @@ exports.stop = function(item, goToEnd) {
  *  @for animatePaper
  *  @param {Object} customEasings A collection of easing functions
  */
-exports.extendEasing = function(customEasings) {
-    for (var i in customEasings) {
-        if (customEasings.hasOwnProperty(i)) {
-            easing[i] = customEasings[i];
-        }
-    }
-};
+exports.extendEasing = require(&quot;./easing&quot;).extendEasing;
 /**
  *  Use this method to extend {{#crossLink &quot;_tweenPropHooks&quot;}}{{/crossLink}}.
  *
@@ -184,25 +182,24 @@ exports.extendEasing = function(customEasings) {
  *  @for animatePaper
  *  @param {Object} customHooks A collection of objects
  */
-exports.extendPropHooks = function(customHooks) {
-    for (var i in customHooks) {
-        if (customHooks.hasOwnProperty(i)) {
-            _tweenPropHooks[i] = customHooks[i];
-        }
-    }
-};
+exports.extendPropHooks = require(&quot;./prophooks&quot;).extendPropHooks;
+
+exports.frameManager = frameManager;
+exports.fx = effects;
 
 // Extends paper.Item prototype
 if (!paper.Item.prototype.animate) {
     paper.Item.prototype.animate = function(animation) {
-        return animatePaper.animate(this, animation);
+        return exports.animate(this, animation);
     };
 }
 if (!paper.Item.prototype.stop) {
-    paper.Item.prototype.stop = function(goToEnd) {
-        return animatePaper.stop(this, goToEnd);
+    paper.Item.prototype.stop = function(goToEnd, forceEnd) {
+        return exports.stop(this, goToEnd, forceEnd);
     };
 }
+module.exports = exports;
+
     </pre>
 </div>
                     </div>
