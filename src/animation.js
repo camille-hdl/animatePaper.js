@@ -25,8 +25,9 @@ var easing = require("./easing");
  *  @param {Object} settings
  *  @param {Number} settings.duration Duration of the animation, in ms
  *  @param {String} settings.easing
- *  @param {Function} settings.complete Called when the animation is over, in `.end()`. The item is passed as argument
+ *  @param {Function} settings.complete Called when the animation is over, in `.end()`. The item is passed as this, the animation as 1st argument
  *  @param {Function} settings.step Called on each `.tick()`
+ *  @param {Mixed} settings.repeat function or true or an integer. The animation will repeat as long as function returns `true`, `true` or `repeat` > 0, decrementing by 1 each time.
  */
 function Animation(item, properties, settings, _continue) {
         var self = this;
@@ -62,19 +63,32 @@ function Animation(item, properties, settings, _continue) {
 
         /**
          * Repeat parameter.
+         * If Function, the animation is repeated as long as the function returns `true`.
          * If `true`, the animation is repeated until `.end(true)` is called.
          * If `repeat` is an integer, the animation is repeated until `repeat` is <= 0.
-         * Default `0`
+         * Default `0`  
          * @property {Mixed} repeat
          */
         self.repeat = self.settings.repeat || 0;
-        if (self.repeat === true || self.repeat > 0) {
-            self.repeatCallback = function(newRepeat) {
-                settings.repeat = newRepeat;
-                // used for the repeat feature
-                return new Animation(item, properties, settings, _continue);
+        if (typeof self.settings.repeat === "function") {
+            var _repeatCallback = self.settings.repeat;
+            self.repeatCallback = function() {
+                if (!!_repeatCallback(item, self)) {
+                    return new Animation(item, properties, settings, _continue);
+                }
+                return null;
             };
+        } else {
+            if (self.repeat === true || self.repeat > 0) {
+                self.repeatCallback = function(newRepeat) {
+                    settings.repeat = newRepeat;
+                    // used for the repeat feature
+                    return new Animation(item, properties, settings, _continue);
+                };
+            }
         }
+
+
 
         /**
          *  {{#crossLink "Tween"}}{{/crossLink}}s used by the Animation.
@@ -197,7 +211,7 @@ Animation.prototype.end = function(forceEnd) {
         frameManager.remove(self.itemForAnimations, self.ticker);
     }
     if (typeof self.settings.complete !== "undefined") {
-        self.settings.complete.call(self.item);
+        self.settings.complete.call(self.item, this);
     }
 
     // if the Animation is in timeout mode, we must force a View update
@@ -265,6 +279,9 @@ function _initializeSettings(settings) {
     // .repeat must exist, and be a positive Number or true
     if (typeof settings.repeat === "undefined") {
         settings.repeat = defaults.repeat;
+    }
+    else if (typeof settings.repeat === "function") {
+        // ok
     } else {
         if (settings.repeat !== true) {
             settings.repeat = Number(settings.repeat);
