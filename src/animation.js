@@ -15,7 +15,9 @@ var easing = require("./easing");
  *           duration: 400,
  *           easing: "linear",
  *           complete: undefined,
- *           step: undefined
+ *           step: undefined,
+ *           delay: 0,
+ *           repeat: 0
  *      };
  *  ````
  *  @class Animation
@@ -24,6 +26,7 @@ var easing = require("./easing");
  *  @param {Object} properties properties to animate
  *  @param {Object} settings
  *  @param {Number} settings.duration Duration of the animation, in ms
+ *  @param {Number} settings.delay delay before running the animation, in ms
  *  @param {String} settings.easing
  *  @param {Function} settings.complete Called when the animation is over, in `.end()`. The item is passed as this, the animation as 1st argument
  *  @param {Function} settings.step Called on each `.tick()`

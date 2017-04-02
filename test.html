@@ -8,11 +8,13 @@
 </head>
 <body>
   <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
-  <canvas id="defCanvas" width="1000px" height="700px" style="visibility:hidden;"></canvas>
+  <div id="qunit-fixture">
+  </div>
+  <script src="./node_modules/jquery/dist/jquery.min.js"></script>
   <script src="./node_modules/qunitjs/qunit/qunit.js"></script>
   <script src="./node_modules/paper/dist/paper-core.min.js"></script>
   <script src="./dist/paper-animate-browser.min.js"></script>
   <script src="./tests.js"></script>
+  <canvas width="1000px" height="700px" style="visibility:hidden;" id="defCanvas"></canvas>
 </body>
 </html>
