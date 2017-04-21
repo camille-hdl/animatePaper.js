@@ -1,10 +1,12 @@
 {
+    "esversion": 6,
     "unused": true,
     "eqeqeq": true,
     "nonbsp": true,
     "globalstrict": true,
     "browserify": true,
     "globals": {
+        "paper": true,
         "easing": true,
         "animatePaper": true
     }

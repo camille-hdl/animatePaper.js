@@ -1,3 +1,5 @@
+'use strict';
+
 var dirRegexp = /^([+\-])(.+)/;
 /**
  *  Performs an operation on two paper.Point() objects.
@@ -28,6 +30,31 @@ function _pointDiff(a, b, operator) {
     }
     throw new Error('Unknown operator');
 }
+
+/**
+ *  find color type of an 'color_obj'.
+ *  Returns string 'hsl'|'hsb'|'rgb'|'gray'.
+ *  @private
+ *  @method _getColorType
+ *  @param {Object} color_obj color_obj `paper.Color` object or compatible raw object
+ *  @return {String} `color type as string`
+ *  @for _tweenPropHooks.Color
+ */
+function _getColorType(color_obj) {
+    let color_type;
+    if (typeof (color_obj.lightness !== "undefined")) {
+        color_type = "hsl";
+    } else if (typeof (color_obj.brightness !== "undefined")) {
+        color_type = "hsb";
+    } else if (typeof (color_obj.red !== "undefined")) {
+            color_type = "rgb";
+    } else if (typeof (color_obj.gray !== "undefined")) {
+            color_type = "gray";
+    }
+    return color_type;
+}
+
+
 // inspired by https://github.com/jquery/jquery/blob/10399ddcf8a239acc27bdec9231b996b178224d3/src/effects/Tween.js
 /**
  *  Helpers to get, set and ease properties that behave differently from "normal" properties. e.g. `scale`.
@@ -39,7 +66,7 @@ var _tweenPropHooks = {
     _default: {
         get: function(tween) {
             var output;
-            if (tween.item[tween.prop] != null) {
+            if (tween.item[tween.prop] !== null) {
                 output = tween.item[tween.prop];
             }
 
@@ -174,15 +201,19 @@ var _tweenPropHooks = {
                 tween._easePositionCache = {
                     x: 0,
                     y: 0
-                }
+                };
             }
 
 
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
 
-            if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
-            if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
+            if(!!tween.end.x) {
+                rX = (""+tween.end.x).match(dirRegexp);
+            }
+            if(!!tween.end.y) {
+                rY = (""+tween.end.y).match(dirRegexp);
+            }
             if(!!rX) {
                 dirX = rX[1];
                 endX = Number(rX[2]);
@@ -263,14 +294,18 @@ var _tweenPropHooks = {
                 tween._easePositionCache = {
                     x: 0,
                     y: 0
-                }
+                };
             }
 
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
 
-            if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
-            if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
+            if(!!tween.end.x) {
+                rX = (""+tween.end.x).match(dirRegexp);
+            }
+            if(!!tween.end.y) {
+                rY = (""+tween.end.y).match(dirRegexp);
+            }
             if(!!rX) {
                 dirX = rX[1];
                 endX = Number(rX[2]);
@@ -329,7 +364,14 @@ var _tweenPropHooks = {
     },
     Color: {
             get: function(tween) {
-                switch (tween.end._type) {
+                const color_type = _getColorType(tween.End);
+                // switch (tween.end._type) {
+                switch (color_type) {
+                    case "gray": {
+                        return {
+                            gray: tween.item[tween.prop].gray,
+                        };
+                    } break;
                     case "rgb": {
                         return {
                             red: tween.item[tween.prop].red,
@@ -356,7 +398,12 @@ var _tweenPropHooks = {
                 }
             },
             set: function(tween) {
-                switch (tween.end._type) {
+                const color_type = _getColorType(tween.End);
+                // switch (tween.end._type) {
+                switch (color_type) {
+                    case "gray": {
+                        tween.item[tween.prop].gray += tween.now.gray;
+                    } break;
                     case "rgb": {
                         tween.item[tween.prop].red += tween.now.red;
                         tween.item[tween.prop].green += tween.now.green;
@@ -378,7 +425,12 @@ var _tweenPropHooks = {
             },
             ease: function(tween, eased) {
                 var props = [];
-                switch (tween.end._type) {
+                const color_type = _getColorType(tween.End);
+                // switch (tween.end._type) {
+                switch (color_type) {
+                    case "gray": {
+                        props = [ "gray"];
+                    } break;
                     case "rgb": {
                         props = [ "red", "green", "blue" ];
                     } break;
@@ -388,6 +440,9 @@ var _tweenPropHooks = {
                     case "hsb": {
                         props = [ "hue", "brightness", "saturation" ];
                     } break;
+                    // case "gray": {
+                    //     props = [ "gray"];
+                    // } break;
                     default:
                         // console.error("Color Type not supported.");
                 }
@@ -405,7 +460,9 @@ var _tweenPropHooks = {
                         tween._easeColorCache[curProp] = 0;
                     }
                     var end = Number(tween.end[curProp] || 0);
-                    if (!!tween.end[curProp]) var r = ("" + tween.end[curProp]).match(dirRegexp);
+                    if (!!tween.end[curProp]) {
+                        r = ("" + tween.end[curProp]).match(dirRegexp);
+                    }
                     if (!!r) {
                         dir = r[1];
                         end = Number(r[2]);
