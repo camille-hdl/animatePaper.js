@@ -42,16 +42,56 @@ function _pointDiff(a, b, operator) {
  */
 function _getColorType(color_obj) {
     let color_type;
-    if (typeof (color_obj.lightness !== "undefined")) {
+    // if the color_obj is created with paper.Color it has an 'type' propertie.
+    if (color_obj.type) {
+        color_type = color_obj.type;
+    // if color_obj is a 'raw' object we search for an propertie name
+    } else if (typeof (color_obj.red !== "undefined")) {
+        color_type = "rgb";
+    } else if (typeof (color_obj.lightness !== "undefined")) {
         color_type = "hsl";
     } else if (typeof (color_obj.brightness !== "undefined")) {
         color_type = "hsb";
-    } else if (typeof (color_obj.red !== "undefined")) {
-            color_type = "rgb";
     } else if (typeof (color_obj.gray !== "undefined")) {
             color_type = "gray";
     }
     return color_type;
+}
+
+/**
+ *  find color type of an 'color_obj'.
+ *  Returns string 'hsl'|'hsb'|'rgb'|'gray'.
+ *  @private
+ *  @method _getColorComponentNames
+ *  @param {Object} color_obj color_obj `paper.Color` object or compatible raw object
+ *  @return {Array} `color component labels`
+ *  @for _tweenPropHooks.Color
+ */
+function _getColorComponentNames(color_obj) {
+    let color_component_names;
+    if (color_obj._properties) {
+        color_component_names = color_obj._properties;
+    } else {
+        const color_type = _getColorType(color_obj);
+        switch (color_type) {
+            case "gray": {
+                color_component_names = [ "gray"];
+            } break;
+            case "rgb": {
+                color_component_names = [ "red", "green", "blue" ];
+            } break;
+            case "hsl": {
+                color_component_names = [ "hue", "saturation", "lightness" ];
+            } break;
+            case "hsb": {
+                color_component_names = [ "hue", "brightness", "saturation" ];
+            } break;
+            default:
+            // console.error("Color Type not supported.");
+        }
+    }
+    // TODO alpha handling
+    return color_component_names;
 }
 
 
@@ -362,93 +402,42 @@ var _tweenPropHooks = {
     },
     Color: {
             get: function(tween) {
-                const color_type = _getColorType(tween.End);
-                // switch (tween.end._type) {
-                switch (color_type) {
-                    case "gray": {
-                        return {
-                            gray: tween.item[tween.prop].gray,
-                        };
-                    } break;
-                    case "rgb": {
-                        return {
-                            red: tween.item[tween.prop].red,
-                            green: tween.item[tween.prop].green,
-                            blue: tween.item[tween.prop].blue
-                        };
-                    } break;
-                    case "hsl": {
-                        return {
-                            hue: tween.item[tween.prop].hue,
-                            lightness: tween.item[tween.prop].lightness,
-                            saturation: tween.item[tween.prop].saturation
-                        };
-                    } break;
-                    case "hsb": {
-                        return {
-                            hue: tween.item[tween.prop].hue,
-                            brightness: tween.item[tween.prop].brightness,
-                            saturation: tween.item[tween.prop].saturation
-                        };
-                    } break;
-                    default:
-                        // console.error("Color Type not supported.");
+                const current_color = tween.item[tween.prop];
+                const component_names = _getColorComponentNames(current_color);
+                const result = {};
+                for (const component_name of component_names) {
+                    result[component_name] = current_color[component_name];
                 }
+                console.log("result", result);
+                return result;
             },
             set: function(tween) {
-                const color_type = _getColorType(tween.End);
-                // switch (tween.end._type) {
-                switch (color_type) {
-                    case "gray": {
-                        tween.item[tween.prop].gray += tween.now.gray;
-                    } break;
-                    case "rgb": {
-                        tween.item[tween.prop].red += tween.now.red;
-                        tween.item[tween.prop].green += tween.now.green;
-                        tween.item[tween.prop].blue += tween.now.blue;
-                    } break;
-                    case "hsl": {
-                        tween.item[tween.prop].hue += tween.now.hue;
-                        tween.item[tween.prop].lightness += tween.now.lightness;
-                        tween.item[tween.prop].saturation += tween.now.saturation;
-                    } break;
-                    case "hsb": {
-                        tween.item[tween.prop].hue += tween.now.hue;
-                        tween.item[tween.prop].brightness += tween.now.brightness;
-                        tween.item[tween.prop].saturation += tween.now.saturation;
-                    } break;
-                    default:
-                        // console.error("Color Type not supported.");
+                const component_names = _getColorComponentNames(tween.item[tween.prop]);
+
+                const current_color = tween.item[tween.prop];
+                const color_new = {};
+
+                console.log("tween.now", tween.now);
+                for (const component_name of component_names) {
+                    color_new[component_name] = (
+                        current_color[component_name] +
+                        tween.now[component_name]
+                    );
                 }
+                console.log("color_new", color_new);
+                tween.item[tween.prop] = color_new;
+                console.log("set done.");
             },
             ease: function(tween, eased) {
-                var props = [];
-                const color_type = _getColorType(tween.End);
-                // switch (tween.end._type) {
-                switch (color_type) {
-                    case "gray": {
-                        props = [ "gray"];
-                    } break;
-                    case "rgb": {
-                        props = [ "red", "green", "blue" ];
-                    } break;
-                    case "hsl": {
-                        props = [ "hue", "saturation", "lightness" ];
-                    } break;
-                    case "hsb": {
-                        props = [ "hue", "brightness", "saturation" ];
-                    } break;
-                    // case "gray": {
-                    //     props = [ "gray"];
-                    // } break;
-                    default:
-                        // console.error("Color Type not supported.");
-                }
+                // const color_type = _getColorType(tween.End);
+                const component_names = _getColorComponentNames(tween.item[tween.prop]);
+                // const props = _getColorComponentNames(tween.item[tween.prop]);
+
                 var _ease = function(val) {
                     return (val || 0) * eased;
                 };
-                for (var i = 0, l = props.length; i < l; i++) {
-                    var curProp = props[i];
+                for (const component_name of component_names) {
+                    var curProp = component_name;
                     var dir = "";
                     var r = "";
                     if (typeof tween._easeColorCache === "undefined") {
