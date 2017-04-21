@@ -15,7 +15,9 @@ var easing = require("./easing");
  *           duration: 400,
  *           easing: "linear",
  *           complete: undefined,
- *           step: undefined
+ *           step: undefined,
+ *           delay: 0,
+ *           repeat: 0
  *      };
  *  ````
  *  @class Animation
@@ -24,12 +26,15 @@ var easing = require("./easing");
  *  @param {Object} properties properties to animate
  *  @param {Object} settings
  *  @param {Number} settings.duration Duration of the animation, in ms
+ *  @param {Number} settings.delay delay before running the animation, in ms
  *  @param {String} settings.easing
- *  @param {Function} settings.complete Called when the animation is over, in `.end()`. The item is passed as argument
+ *  @param {Function} settings.complete Called when the animation is over, in `.end()`. The item is passed as this, the animation as 1st argument
  *  @param {Function} settings.step Called on each `.tick()`
+ *  @param {Mixed} settings.repeat function or true or an integer. The animation will repeat as long as function returns `true`, `true` or `repeat` > 0, decrementing by 1 each time.
  */
 function Animation(item, properties, settings, _continue) {
         var self = this;
+
         /**
          *  True if the animation is stopped
          *  @property {Bool} stopped
@@ -58,6 +63,36 @@ function Animation(item, properties, settings, _continue) {
          *  @readonly
          */
         self.itemForAnimations = self.settings.parentItem || self.item;
+
+        /**
+         * Repeat parameter.
+         * If Function, the animation is repeated as long as the function returns `true`.
+         * If `true`, the animation is repeated until `.end(true)` is called.
+         * If `repeat` is an integer, the animation is repeated until `repeat` is <= 0.
+         * Default `0`  
+         * @property {Mixed} repeat
+         */
+        self.repeat = self.settings.repeat || 0;
+        if (typeof self.settings.repeat === "function") {
+            var _repeatCallback = self.settings.repeat;
+            self.repeatCallback = function() {
+                if (!!_repeatCallback(item, self)) {
+                    return new Animation(item, properties, settings, _continue);
+                }
+                return null;
+            };
+        } else {
+            if (self.repeat === true || self.repeat > 0) {
+                self.repeatCallback = function(newRepeat) {
+                    settings.repeat = newRepeat;
+                    // used for the repeat feature
+                    return new Animation(item, properties, settings, _continue);
+                };
+            }
+        }
+
+
+
         /**
          *  {{#crossLink "Tween"}}{{/crossLink}}s used by the Animation.
          *  @property {Array} tweens
@@ -152,8 +187,9 @@ Animation.prototype.tick = function() {
  *  Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.
  *  @method stop
  *  @param {Bool} goToEnd
+ *  @param {Bool} forceEnd to prevent loops
  */
-Animation.prototype.stop = function(goToEnd) {
+Animation.prototype.stop = function(goToEnd, forceEnd) {
     var self = this;
     var i = 0;
     var l = goToEnd ? self.tweens.length : 0;
@@ -165,20 +201,20 @@ Animation.prototype.stop = function(goToEnd) {
     if (!!goToEnd) {
         // stop further animation
         if (!!self._continue) self._continue = null;
-        self.end();
+        self.end(forceEnd);
     }
 };
 /**
  *  Called when the animations ends, naturally or using `.stop(true)`.
  *  @method end
  */
-Animation.prototype.end = function() {
+Animation.prototype.end = function(forceEnd) {
     var self = this;
     if (self.settings.mode === "onFrame") {
         frameManager.remove(self.itemForAnimations, self.ticker);
     }
     if (typeof self.settings.complete !== "undefined") {
-        self.settings.complete.call(self.item);
+        self.settings.complete.call(self.item, this);
     }
 
     // if the Animation is in timeout mode, we must force a View update
@@ -190,7 +226,16 @@ Animation.prototype.end = function() {
     }
     // remove all references to the animation
     self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
-    self = null;
+    if (!!forceEnd || typeof self.repeatCallback !== "function") {
+        self = null;
+    } else {
+        // repeat
+        var newRepeat = self.repeat;
+        if (self.repeat !== true) {
+            newRepeat = self.repeat - 1;
+        }
+        return self.repeatCallback(newRepeat);
+    }
 };
 
 /**
@@ -205,6 +250,7 @@ function _initializeSettings(settings) {
     var defaults = {
         duration: 400,
         delay: 0,
+        repeat: 0,
         easing: "linear",
         complete: undefined,
         step: undefined,
@@ -230,6 +276,21 @@ function _initializeSettings(settings) {
         settings.delay = Number(settings.delay);
         if (settings.delay < 1) {
             settings.delay = defaults.delay;
+        }
+    }
+
+    // .repeat must exist, and be a positive Number or true
+    if (typeof settings.repeat === "undefined") {
+        settings.repeat = defaults.repeat;
+    }
+    else if (typeof settings.repeat === "function") {
+        // ok
+    } else {
+        if (settings.repeat !== true) {
+            settings.repeat = Number(settings.repeat);
+            if (settings.repeat < 0) {
+                settings.repeat = defaults.repeat;
+            }
         }
     }
 

@@ -2,8 +2,9 @@
 <html>
 <head>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.10.2/paper-core.min.js"></script> -->
-  <script src="../node_modules/paper/dist/paper-core.min.js"></script>
-  <script src="../dist/paper-animate-standalone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.10.3/paper-core.min.js"></script>
+  <!-- <script src="../node_modules/paper/dist/paper-core.min.js"></script> -->
+  <script src="../dist/paper-animate-browser.min.js"></script>
   <meta charset="utf-8">
   <title>animatePaper.js demo</title>
   <script>
@@ -25,7 +26,7 @@
 	  refEndCircle.strokeColor = 'green';
 	  refEndCircle.scale(2);
 
-	  animatePaper.animate(circle,{
+	  var __anim = animatePaper.animate(circle,{
 		properties: {
 		  scale: 2
 		},
@@ -55,31 +56,30 @@
 	  var squareTest = new paper.Path.Rectangle(new paper.Point(50, 50), new paper.Size(50,50));
 	  squareTest.fillColor = 'grey';
 
+	  var __c = 0;
 	  animatePaper.animate(squareTest,{
 		properties: {
 		  rotate: '+360'
 		},
 		settings: {
+			center: new paper.Point(100, 50),
 			duration: 2000,
-			complete: function() {
-				squareTest.fillColor = "red";
-				animatePaper.animate(squareTest,{
-					properties: {
-						rotate: '+180'
-					},
-					settings: {
-						duration: 2000,
-						easing: "linear",
-						complete: function() {
-							console.log("2eme");
-							squareTest.fillColor = "grey";
-						}
-					}
-				});
+			repeat: function(item, animation) {
+				__c++;
+				console.log("beforeRepeat");
+				if (__c >= 2) {
+					console.log("stopRepeat");
+					return false;
+				}
+				return true;
 			},
 			easing: "linear"
 		}
 	  });
+	  // setTimeout(function() {
+	  // 	console.log("stopRepeat");
+	  // 	animatePaper.stop(squareTest, true, false);
+	  // }, 5000);
 
 
 	  var refSquare = square.clone();
@@ -97,6 +97,8 @@
 		  scale: 2
 		},
 		settings: {
+			center: new paper.Point(200, 350),
+			repeat: 2,
 			duration: 500,
 			complete: function() {
 				animatePaper.animate(square,{
@@ -198,18 +200,7 @@
 		  }
 	  });
 	  animatePaper.fx.splash(squareSplash);
-	  var trunk = new paper.Path(new paper.Point(500,500));
-	  trunk.strokeColor = "blue";
-	  trunk.strokeWidth = 3;
-	  trunk.animate({
-		  properties: {
-			  segmentGrow: new paper.Point(500,400)
-		  },
-		  settings: {
-			  duration: 1000,
-			  easing: "swing"
-		  }
-	  });
+
 	});
   </script>
 </head>

@@ -1,11 +1,18 @@
 # animatePaper.js
 An animation library for [paper.js](http://paperjs.org/).
 
-See a live demo [on jsbin](http://jsbin.com/tekuqopaqo/edit?js,output).
+See a live demo [on jsbin](http://jsbin.com/naketikuve/edit?js,output).
+
+## Changelog from 0.x to 1.x
+ * `paper` is now a peerDependency, this should remove unnecessary code from your dependency tree.
+ * The `segmentGrow` property and `grow` effect have been removed (this feature was very buggy).
+ * When using `rotate` or `scale` properties, you can provide a new setting : `center` (or `rotateCenter`/`scaleCenter`) (default is `item.position`).
+ * `Animation` supports a new option `repeat` (defaults to `0`).
+ * `settings.complete` callback takes the `Animation`object as 1st argument.
 
 ## How to use :
 ### npm and browserify
-`npm install --save paper-animate`
+`npm install --save paper-animate`  
 
 
 ### bower
@@ -14,7 +21,7 @@ See a live demo [on jsbin](http://jsbin.com/tekuqopaqo/edit?js,output).
 
 ### directly in the browser
 (not recommended)  
-Get the minified file in `dist/paper-animate-browser.min.js`, and include it in your page.
+Get the minified file in `dist/paper-animate-browser.min.js`, and include it in your page, after paper.js.
 
 
 ## Features :
@@ -25,7 +32,7 @@ Get the minified file in `dist/paper-animate-browser.min.js`, and include it in 
 
 This is a work in progress, and any help or feedback is more than welcome.
 
-So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor`, `strokeColor` and `segmentGrow` are supported, but I add a bit more whenever I have the time.
+So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor` and `strokeColor` are supported, but I add a bit more whenever I have the time.
 
 
 ### Animate an Item
@@ -51,7 +58,7 @@ animatePaper.animate(myCircle, {
         duration: 4000,
         delay: 1000,
         easing: "easeInElastic",
-        complete: function() {
+        complete: function(item, animation) {
             console.log('complete !');
         }
     }
@@ -77,6 +84,57 @@ square.animate({
     duration:1500,
     easing:"easeInBounce"
   }
+});
+```
+
+### Repeat
+If you want your `Animation` to run more than once, you can use the `settings.repeat` option (defaults to `0`).  
+If `settings.repeat` is a number > 0, your animation will run `settings.repeat` *additional* times.  
+If you set `settings.repeat` to `true`, the animation will repeat infinitely until you call `animatePaper.stop(item, true, true)` (the third parameter should be true, otherwise only the current `Animation` will be stopped).  
+If you set `settings.repeat` to a function, it will be called at the end of every "loop" and the `Animation` will repeat itself as long as `settings.repeat` returns `true`.  
+This feature works best with relative values (e.g. `'+myVal'` instead of `myVal`), if you repeat an animation with absolute values you won't get the desired result.
+
+```js
+animatePaper.animate(item,{
+    properties: {
+      rotate: '+360'
+    },
+    settings: {
+      center: new paper.Point(100, 50),
+      duration: 2000,
+      repeat: 2, // animation will run 3 times total
+      easing: "linear"
+    }
+});
+animatePaper.animate(item2,{
+    properties: {
+      rotate: '+360'
+    },
+    settings: {
+      center: new paper.Point(100, 50),
+      duration: 2000,
+      repeat: true, // will loop until .stop() is called
+      easing: "linear"
+    }
+});
+setTimeout(function() {
+  animatePaper.stop(item2, false, true);
+}, 10000);
+
+var c = 0;
+animatePaper.animate(item3,{
+    properties: {
+      rotate: '+360'
+    },
+    settings: {
+      center: new paper.Point(100, 50),
+      duration: 2000,
+      repeat: function(item, animation) { // will run until c >= 2
+         c++;
+         return (c < 2);
+      },
+      easing: "linear"
+    }
 });
 ```
 
@@ -189,17 +247,24 @@ animatePaper.fx.wave = function(item,settings) {
 animatePaper.fx.wave(myItem);
 ```
 
+
+## TODOS for 1.0.2
+ * rewrite in ES6 ?
+ * Change how `item.data._animatePaperVals` works to allow multiple animations of the same property at the same time.
+ * feature from #9
+ * tests
+
 ## Help needed !
 
 I'm a beginner in paper.js, so if you spot a mistake or want to add something to the lib,
 any help would be appreciated :-)
 
-## Todo
-
- * Change how `item.data._animatePaperVals` works to allow multiple animations of the same property at the same time.
- * support `center` argument for `rotate()`
 
 ## Author
 camille dot hodoul at gmail dot com
+
+## Thanks
+ * User [pueding](https://github.com/pueding) for bug fixes and delay feature.
+ * Users [s-light](https://github.com/s-light) and [StratusBase](https://github.com/StratusBase) for feedback, ideas and contributions.
 
 @Eartz_HC
