@@ -402,31 +402,38 @@ var _tweenPropHooks = {
     },
     Color: {
             get: function(tween) {
+                // 'should' work but does not:
+                // return tween.item[tween.prop];
+                // this creates a unlinked copy of only the color component values.
+                // this seems to be nessesecary to avoid a bug/problem in
+                // paper.js Color class in combinaiton with Groups
                 const current_color = tween.item[tween.prop];
                 const component_names = _getColorComponentNames(current_color);
                 const result = {};
                 for (const component_name of component_names) {
                     result[component_name] = current_color[component_name];
                 }
-                console.log("result", result);
+                // console.log("result", result);
                 return result;
             },
             set: function(tween) {
+                // this creates a unlinked copy of only the color component values first.
+                // this seems to be nessesecary to avoid a bug in
+                // paper.js Color class in combinaiton with Groups and setting single properties
                 const component_names = _getColorComponentNames(tween.item[tween.prop]);
 
                 const current_color = tween.item[tween.prop];
                 const color_new = {};
 
-                console.log("tween.now", tween.now);
+                // console.log("tween.now", tween.now);
                 for (const component_name of component_names) {
                     color_new[component_name] = (
                         current_color[component_name] +
                         tween.now[component_name]
                     );
                 }
-                console.log("color_new", color_new);
+                // console.log("color_new", color_new);
                 tween.item[tween.prop] = color_new;
-                console.log("set done.");
             },
             ease: function(tween, eased) {
                 // const color_type = _getColorType(tween.End);
