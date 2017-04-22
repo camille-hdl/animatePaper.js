@@ -1,3 +1,5 @@
+'use strict';
+
 var dirRegexp = /^([+\-])(.+)/;
 /**
  *  Performs an operation on two paper.Point() objects.
@@ -28,6 +30,71 @@ function _pointDiff(a, b, operator) {
     }
     throw new Error('Unknown operator');
 }
+
+/**
+ *  find color type of an 'color_obj'.
+ *  Returns string 'hsl'|'hsb'|'rgb'|'gray'.
+ *  @private
+ *  @method _getColorType
+ *  @param {Object} color_obj color_obj `paper.Color` object or compatible raw object
+ *  @return {String} `color type as string`
+ *  @for _tweenPropHooks.Color
+ */
+function _getColorType(color_obj) {
+    let color_type;
+    // if the color_obj is created with paper.Color it has an 'type' propertie.
+    if (color_obj.type) {
+        color_type = color_obj.type;
+    // if color_obj is a 'raw' object we search for an propertie name
+    } else if (typeof (color_obj.red !== "undefined")) {
+        color_type = "rgb";
+    } else if (typeof (color_obj.lightness !== "undefined")) {
+        color_type = "hsl";
+    } else if (typeof (color_obj.brightness !== "undefined")) {
+        color_type = "hsb";
+    } else if (typeof (color_obj.gray !== "undefined")) {
+            color_type = "gray";
+    }
+    return color_type;
+}
+
+/**
+ *  find color type of an 'color_obj'.
+ *  Returns string 'hsl'|'hsb'|'rgb'|'gray'.
+ *  @private
+ *  @method _getColorComponentNames
+ *  @param {Object} color_obj color_obj `paper.Color` object or compatible raw object
+ *  @return {Array} `color component labels`
+ *  @for _tweenPropHooks.Color
+ */
+function _getColorComponentNames(color_obj) {
+    let color_component_names;
+    if (color_obj._properties) {
+        color_component_names = color_obj._properties;
+    } else {
+        const color_type = _getColorType(color_obj);
+        switch (color_type) {
+            case "gray": {
+                color_component_names = [ "gray"];
+            } break;
+            case "rgb": {
+                color_component_names = [ "red", "green", "blue" ];
+            } break;
+            case "hsl": {
+                color_component_names = [ "hue", "saturation", "lightness" ];
+            } break;
+            case "hsb": {
+                color_component_names = [ "hue", "brightness", "saturation" ];
+            } break;
+            default:
+            // console.error("Color Type not supported.");
+        }
+    }
+    // TODO alpha handling
+    return color_component_names;
+}
+
+
 // inspired by https://github.com/jquery/jquery/blob/10399ddcf8a239acc27bdec9231b996b178224d3/src/effects/Tween.js
 /**
  *  Helpers to get, set and ease properties that behave differently from "normal" properties. e.g. `scale`.
@@ -39,7 +106,7 @@ var _tweenPropHooks = {
     _default: {
         get: function(tween) {
             var output;
-            if (tween.item[tween.prop] != null) {
+            if (tween.item[tween.prop] !== null) {
                 output = tween.item[tween.prop];
             }
 
@@ -172,15 +239,19 @@ var _tweenPropHooks = {
                 tween._easePositionCache = {
                     x: 0,
                     y: 0
-                }
+                };
             }
 
 
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
 
-            if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
-            if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
+            if(!!tween.end.x) {
+                rX = (""+tween.end.x).match(dirRegexp);
+            }
+            if(!!tween.end.y) {
+                rY = (""+tween.end.y).match(dirRegexp);
+            }
             if(!!rX) {
                 dirX = rX[1];
                 endX = Number(rX[2]);
@@ -261,14 +332,18 @@ var _tweenPropHooks = {
                 tween._easePositionCache = {
                     x: 0,
                     y: 0
-                }
+                };
             }
 
             var endX = Number(tween.end.x || 0);
             var endY = Number(tween.end.y || 0);
 
-            if(!!tween.end.x) var rX = (""+tween.end.x).match(dirRegexp);
-            if(!!tween.end.y) var rY = (""+tween.end.y).match(dirRegexp);
+            if(!!tween.end.x) {
+                rX = (""+tween.end.x).match(dirRegexp);
+            }
+            if(!!tween.end.y) {
+                rY = (""+tween.end.y).match(dirRegexp);
+            }
             if(!!rX) {
                 dirX = rX[1];
                 endX = Number(rX[2]);
@@ -327,41 +402,49 @@ var _tweenPropHooks = {
     },
     Color: {
             get: function(tween) {
-                if (typeof (tween.end[ "lightness" ] !== "undefined")) {
-                    return {
-                        hue: tween.item[tween.prop].hue,
-                        lightness: tween.item[tween.prop].lightness,
-                        saturation: tween.item[tween.prop].saturation
-                    };
-                } else {
-                    return {
-                        hue: tween.item[tween.prop].hue,
-                        brightness: tween.item[tween.prop].brightness,
-                        saturation: tween.item[tween.prop].saturation
-                    };
+                // 'should' work but does not:
+                // return tween.item[tween.prop];
+                // this creates a unlinked copy of only the color component values.
+                // this seems to be nessesecary to avoid a bug/problem in
+                // paper.js Color class in combinaiton with Groups
+                const current_color = tween.item[tween.prop];
+                const component_names = _getColorComponentNames(current_color);
+                const result = {};
+                for (const component_name of component_names) {
+                    result[component_name] = current_color[component_name];
                 }
+                // console.log("result", result);
+                return result;
             },
             set: function(tween) {
-                tween.item[tween.prop].hue += tween.now.hue;
-                if (typeof tween.end[ "lightness" ] !== "undefined") {
-                    tween.item[tween.prop].lightness += tween.now.lightness;
-                } else {
-                    tween.item[tween.prop].brightness += tween.now.brightness;
+                // this creates a unlinked copy of only the color component values first.
+                // this seems to be nessesecary to avoid a bug in
+                // paper.js Color class in combinaiton with Groups and setting single properties
+                const component_names = _getColorComponentNames(tween.item[tween.prop]);
+
+                const current_color = tween.item[tween.prop];
+                const color_new = {};
+
+                // console.log("tween.now", tween.now);
+                for (const component_name of component_names) {
+                    color_new[component_name] = (
+                        current_color[component_name] +
+                        tween.now[component_name]
+                    );
                 }
-                tween.item[tween.prop].saturation += tween.now.saturation;
+                // console.log("color_new", color_new);
+                tween.item[tween.prop] = color_new;
             },
             ease: function(tween, eased) {
-                var props = [];
-                if (typeof tween.end[ "lightness" ] !== "undefined") {
-                    props = [ "hue", "saturation", "lightness" ];
-                } else {
-                    props = [ "hue", "brightness", "saturation" ];
-                }
+                // const color_type = _getColorType(tween.End);
+                const component_names = _getColorComponentNames(tween.item[tween.prop]);
+                // const props = _getColorComponentNames(tween.item[tween.prop]);
+
                 var _ease = function(val) {
                     return (val || 0) * eased;
                 };
-                for (var i = 0, l = props.length; i < l; i++) {
-                    var curProp = props[i];
+                for (const component_name of component_names) {
+                    var curProp = component_name;
                     var dir = "";
                     var r = "";
                     if (typeof tween._easeColorCache === "undefined") {
@@ -371,7 +454,9 @@ var _tweenPropHooks = {
                         tween._easeColorCache[curProp] = 0;
                     }
                     var end = Number(tween.end[curProp] || 0);
-                    if (!!tween.end[curProp]) var r = ("" + tween.end[curProp]).match(dirRegexp);
+                    if (!!tween.end[curProp]) {
+                        r = ("" + tween.end[curProp]).match(dirRegexp);
+                    }
                     if (!!r) {
                         dir = r[1];
                         end = Number(r[2]);
