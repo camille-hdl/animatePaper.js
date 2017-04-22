@@ -181,6 +181,26 @@
 	  	}
 	  });
 
+	  var squareGroup1 = new paper.Path.Rectangle(new paper.Point(150, 150), new paper.Size(60,60));
+	  var squareGroup2 = new paper.Path.Rectangle(new paper.Point(200, 50), new paper.Size(50,50));
+	  var colorGroupTest = new paper.Group([squareGroup1, squareGroup2]);
+	  // colorGroupTest.fillColor = new paper.Color(1, 0.3, 0.3);
+	  colorGroupTest.fillColor = "red";
+
+	  animatePaper.animate(colorGroupTest,{
+		properties: {
+		  fillColor: {
+		    red: 0.3,
+		    green: 1,
+		    blue: 0.5
+		  }
+		},
+		settings: {
+			duration: 2000,
+			easing: "linear"
+		}
+	  });
+
 	  var squareSplash = new paper.Path.Rectangle(new paper.Point(150, 75), new paper.Size(50,50));
 	  squareSplash.fillColor = "green";
 	  squareSplash.position.x += 200;
