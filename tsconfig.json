@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "target": "ES3"
+    },
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "dev",
+        "bower_components"
+    ]
+}
