@@ -1,3 +1,8 @@
+# 1.1.1
+ * Color support for `paper.Group` animation
+ * rgb, gray, hsl, hbs Color formats are now supported
+ * TypeScript declaration
+
 # 1.0.1
  * `paper` is now a peerDependency, this should remove unnecessary code from your dependency tree.
  * The `segmentGrow` property and `grow` effect have been removed (this feature was very buggy).

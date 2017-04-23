@@ -9,6 +9,10 @@ var buffer = require('vinyl-buffer');
 var streamify = require('gulp-streamify');
 // var babelify = require('babelify');
 var tsify = require("tsify");
+var tsc = require('gulp-typescript');
+var tsProject = tsc.createProject('tsconfig.json');
+var merge = require('merge2');
+var path = require("path");
 
 var MODULE_NOM = "paper-animate";
 
@@ -19,13 +23,13 @@ var distDir = "dist";
 
 // used for uglify, order matters
 var files = [
-    "animation.js",
-    "tween.js",
-    "frameManager.js",
-    "prophooks.js",
-    "easing.js",
-    "effects.js",
-    "export.js"
+    "animation.ts",
+    "tween.ts",
+    "frameManager.ts",
+    "prophooks.ts",
+    "easing.ts",
+    "effects.ts",
+    "export.ts"
 ];
 files = files.map(function(file) { return sourceDir+file;});
 
@@ -33,7 +37,7 @@ var yuidocOptions = require('./yuidoc.json');
 
 
 gulp.task('yuidoc', function() {
-    gulp.src("./src/*.js")
+    gulp.src("./src/*.ts")
       .pipe(yuidoc.parser(yuidocOptions))
       .pipe(yuidoc.reporter())
       .pipe(yuidoc.generator())
@@ -59,17 +63,24 @@ gulp.task('build-' + MODULE_NOM + '-dev', function () {
 });
 gulp.task('build-' + MODULE_NOM + '', function () {
   process.env.NODE_ENV = "production";
-  // set up the browserify instance on a task basis
-  var b = browserify({
-    entries: sourceDir + "export.js",
-    debug: true
-  });
+  var tsResult = tsProject.src()
+    .pipe(sourcemaps.init())
+    .pipe(tsc(tsProject));
+    return merge([
+        tsResult.dts.pipe(gulp.dest(distDir + "/src")),
+        tsResult.js.pipe(sourcemaps.write('.', {
+            // Return relative source map root directories per file.
+            includeContent: false,
+            sourceRoot: function (file) {
+                var sourceFile = path.join(file.cwd, file.sourceMap.file);
+                return "../" + path.relative(path.dirname(sourceFile), __dirname);
+            }
+        })).pipe(gulp.dest(distDir + "/src"))
+    ]);
 
   return b.bundle()
-    .pipe(source('' + MODULE_NOM + '.min.js'))
-    .pipe(buffer())
-        .pipe(uglify())
-    .pipe(gulp.dest(distDir))
+    .on('error', function (error) { console.error(error.toString()); })
+    .pipe(gulp.dest(distDir + "/src"))
         .pipe(notify("" + MODULE_NOM + " OK"));
 });
 gulp.task('build-' + MODULE_NOM + '-browser', function () {
