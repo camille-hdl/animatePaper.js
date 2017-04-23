@@ -2,6 +2,31 @@
 
 var dirRegexp = /^([+\-])(.+)/;
 /**
+ *  check if value is relative or absolute
+ *  @private
+ *  @method _parseAbsoluteOrRelative
+ *  @param {Number} | {String} value to check
+ *  @return {Object} `{value: Number, dir: String}`
+ *  @for Tween
+ */
+function _parseAbsoluteOrRelative(value) {
+    let valueNumber = null;
+    let valueDirection = "";
+
+    // handle absolute values
+    valueNumber = Number(value);
+
+    // check for relative values
+    if (typeof value === "string") {
+        const valueMatch = value.match(dirRegexp);
+        valueDirection = valueMatch[1];
+        valueNumber = Number(valueMatch[2]);
+    }
+
+    return {value: valueNumber, direction: valueDirection};
+}
+
+/**
  *  Performs an operation on two paper.Point() objects.
  *  Returns the result of : ` a operator b`.
  *  @private
@@ -227,13 +252,6 @@ var _tweenPropHooks = {
 
         },
         ease: function(tween, eased) {
-            // If the values start with + or -,
-            // the values are relative to the current pos
-            var dirX = "";
-            var dirY = "";
-            var rX = null;
-            var rY = null;
-
             // used to store value progess
             if(typeof tween._easePositionCache === "undefined") {
                 tween._easePositionCache = {
@@ -242,24 +260,10 @@ var _tweenPropHooks = {
                 };
             }
 
-
-            var endX = Number(tween.end.x || 0);
-            var endY = Number(tween.end.y || 0);
-
-            if(!!tween.end.x) {
-                rX = (""+tween.end.x).match(dirRegexp);
-            }
-            if(!!tween.end.y) {
-                rY = (""+tween.end.y).match(dirRegexp);
-            }
-            if(!!rX) {
-                dirX = rX[1];
-                endX = Number(rX[2]);
-            }
-            if(!!rY) {
-                dirY = rY[1];
-                endY = Number(rY[2]);
-            }
+            // If the values are strings and start with + or -,
+            // the values are relative to the current pos
+            const {value:endX, direction:dirX} = _parseAbsoluteOrRelative(tween.end.x || 0);
+            const {value:endY, direction:dirY} = _parseAbsoluteOrRelative(tween.end.y || 0);
 
             var _ease = function(val) {
                 return ((val || 0) * eased);
@@ -320,13 +324,6 @@ var _tweenPropHooks = {
             tween.item.y += tween.now.y;
         },
         ease: function(tween, eased) {
-            // If the values start with + or -,
-            // the values are relative to the current pos
-            var dirX = "";
-            var dirY = "";
-            var rX = null;
-            var rY = null;
-
             // used to store value progess
             if(typeof tween._easePositionCache === "undefined") {
                 tween._easePositionCache = {
@@ -335,23 +332,10 @@ var _tweenPropHooks = {
                 };
             }
 
-            var endX = Number(tween.end.x || 0);
-            var endY = Number(tween.end.y || 0);
-
-            if(!!tween.end.x) {
-                rX = (""+tween.end.x).match(dirRegexp);
-            }
-            if(!!tween.end.y) {
-                rY = (""+tween.end.y).match(dirRegexp);
-            }
-            if(!!rX) {
-                dirX = rX[1];
-                endX = Number(rX[2]);
-            }
-            if(!!rY) {
-                dirY = rY[1];
-                endY = Number(rY[2]);
-            }
+            // If the values are strings and start with + or -,
+            // the values are relative to the current pos
+            const {value:endX, direction:dirX} = _parseAbsoluteOrRelative(tween.end.x || 0);
+            const {value:endY, direction:dirY} = _parseAbsoluteOrRelative(tween.end.y || 0);
 
             var _ease = function(val) {
                 return ((val || 0) * eased);
@@ -445,22 +429,17 @@ var _tweenPropHooks = {
                 };
                 for (const component_name of component_names) {
                     var curProp = component_name;
-                    var dir = "";
-                    var r = "";
                     if (typeof tween._easeColorCache === "undefined") {
                         tween._easeColorCache = {};
                     }
                     if (typeof tween._easeColorCache[curProp] === "undefined") {
                         tween._easeColorCache[curProp] = 0;
                     }
-                    var end = Number(tween.end[curProp] || 0);
-                    if (!!tween.end[curProp]) {
-                        r = ("" + tween.end[curProp]).match(dirRegexp);
-                    }
-                    if (!!r) {
-                        dir = r[1];
-                        end = Number(r[2]);
-                    }
+
+                    // If the values are strings and start with + or -,
+                    // the values are relative to the current pos
+                    const {value:end, direction:dir} = _parseAbsoluteOrRelative(tween.end[curProp] || 0);
+
                     if (typeof tween.end[curProp] !== "undefined") {
                         if (dir === "+") {
                             tween.now[curProp] = _ease(end) - tween._easeColorCache[curProp];
