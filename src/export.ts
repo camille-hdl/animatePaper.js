@@ -1,6 +1,8 @@
-var Animation = require("./animation");
-var effects = require("./effects");
-var frameManager = require("./frameManager");
+import { Animation } from "./animation";
+import * as effects from "./effects";
+import { easing } from "./easing";
+import * as _frameManager from "./frameManager";
+import { extendPropHooks } from "./prophooks";
 var paper = require("./getPaper");
 /**
  *  The main animation interface.
@@ -11,7 +13,7 @@ var paper = require("./getPaper");
  *  @chainable
  *  @for animatePaper
  */
-exports.animate = function(item, animation) {
+export const animate = (item: paper.Item, animation) => {
     var animations = [];
     var output;
 
@@ -37,7 +39,7 @@ exports.animate = function(item, animation) {
  *  @chainable
  *  @for animatePaper
  */
-exports.stop = function(item, goToEnd, forceEnd) {
+export const stop = (item: paper.Item, goToEnd?: boolean, forceEnd?: boolean) => {
     if (!!item.data._animatePaperAnims) {
         for (var i = 0, l = item.data._animatePaperAnims.length; i < l; i++) {
             if (!!item.data._animatePaperAnims[i]) {
@@ -66,7 +68,7 @@ exports.stop = function(item, goToEnd, forceEnd) {
  *  @for animatePaper
  *  @param {Object} customEasings A collection of easing functions
  */
-exports.extendEasing = require("./easing").extendEasing;
+export const extendEasing = easing.extendEasing;
 /**
  *  Use this method to extend {{#crossLink "_tweenPropHooks"}}{{/crossLink}}.
  *
@@ -94,20 +96,29 @@ exports.extendEasing = require("./easing").extendEasing;
  *  @for animatePaper
  *  @param {Object} customHooks A collection of objects
  */
-exports.extendPropHooks = require("./prophooks").extendPropHooks;
+// exports.extendPropHooks = require("./prophooks").extendPropHooks;
 
-exports.frameManager = frameManager;
-exports.fx = effects;
+export const frameManager = _frameManager;
+export const fx = effects;
 
 // Extends paper.Item prototype
 if (!paper.Item.prototype.animate) {
     paper.Item.prototype.animate = function(animation) {
-        return exports.animate(this, animation);
+        return animate(this, animation);
     };
 }
 if (!paper.Item.prototype.stop) {
     paper.Item.prototype.stop = function(goToEnd, forceEnd) {
-        return exports.stop(this, goToEnd, forceEnd);
+        return stop(this, goToEnd, forceEnd);
     };
 }
-module.exports = exports;
+if (typeof module !== "undefined") {
+    module.exports = {
+        animate: animate,
+        stop: stop,
+        frameManager: frameManager,
+        fx: fx,
+        extendEasing: extendEasing,
+        extendPropHooks: extendPropHooks
+    };
+}

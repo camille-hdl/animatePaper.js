@@ -1,4 +1,13 @@
-var easing = {
+"use strict";
+exports.__esModule = true;
+exports.easing = {
+    extendEasing: function (customEasings) {
+        for (var i in customEasings) {
+            if (customEasings.hasOwnProperty(i)) {
+                exports.easing[i] = customEasings[i];
+            }
+        }
+    },
     linear: function (p) {
         return p;
     },
@@ -26,32 +35,24 @@ var easing = {
 };
 var __tempEasing = ["Quad", "Cubic", "Quart", "Quint", "Expo"];
 for (var i = 0, l = __tempEasing.length; i < l; i++) {
-    easing[__tempEasing[i]] = function (p) {
+    exports.easing[__tempEasing[i]] = function (p) {
         return Math.pow(p, i + 2);
     };
 }
 __tempEasing = null;
-for (var name in easing) {
-    if (easing.hasOwnProperty(name)) {
-        var easeIn = easing[name];
-        easing["easeIn" + name] = easeIn;
-        easing["easeOut" + name] = function (p) {
+for (var name in exports.easing) {
+    if (exports.easing.hasOwnProperty(name)) {
+        var easeIn = exports.easing[name];
+        exports.easing["easeIn" + name] = easeIn;
+        exports.easing["easeOut" + name] = function (p) {
             return 1 - easeIn(1 - p);
         };
-        easing["easeInOut" + name] = function (p) {
+        exports.easing["easeInOut" + name] = function (p) {
             return p < 0.5 ?
                 easeIn(p * 2) / 2 :
                 1 - easeIn(p * -2 + 2) / 2;
         };
     }
 }
-module.exports = easing;
-module.exports.extendEasing = function (customEasings) {
-    for (var i in customEasings) {
-        if (customEasings.hasOwnProperty(i)) {
-            easing[i] = customEasings[i];
-        }
-    }
-};
 
 //# sourceMappingURL=easing.js.map

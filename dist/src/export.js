@@ -1,6 +1,10 @@
-var Animation = require("./animation");
+"use strict";
+exports.__esModule = true;
+var animation_1 = require("./animation");
 var effects = require("./effects");
-var frameManager = require("./frameManager");
+var easing_1 = require("./easing");
+var _frameManager = require("./frameManager");
+var prophooks_1 = require("./prophooks");
 var paper = require("./getPaper");
 exports.animate = function (item, animation) {
     var animations = [];
@@ -12,10 +16,10 @@ exports.animate = function (item, animation) {
         animations.push(animation);
     }
     var index = 0;
-    new Animation(item, animations[index].properties, animations[index].settings, function _continue() {
+    new animation_1.Animation(item, animations[index].properties, animations[index].settings, function _continue() {
         index++;
         if (typeof animations[index] !== "undefined") {
-            new Animation(item, animations[index].properties, animations[index].settings, _continue);
+            new animation_1.Animation(item, animations[index].properties, animations[index].settings, _continue);
         }
     });
     return item;
@@ -30,9 +34,8 @@ exports.stop = function (item, goToEnd, forceEnd) {
     }
     return item;
 };
-exports.extendEasing = require("./easing").extendEasing;
-exports.extendPropHooks = require("./prophooks").extendPropHooks;
-exports.frameManager = frameManager;
+exports.extendEasing = easing_1.easing.extendEasing;
+exports.frameManager = _frameManager;
 exports.fx = effects;
 if (!paper.Item.prototype.animate) {
     paper.Item.prototype.animate = function (animation) {
@@ -44,6 +47,15 @@ if (!paper.Item.prototype.stop) {
         return exports.stop(this, goToEnd, forceEnd);
     };
 }
-module.exports = exports;
+if (typeof module !== "undefined") {
+    module.exports = {
+        animate: exports.animate,
+        stop: exports.stop,
+        frameManager: exports.frameManager,
+        fx: exports.fx,
+        extendEasing: exports.extendEasing,
+        extendPropHooks: prophooks_1.extendPropHooks
+    };
+}
 
 //# sourceMappingURL=export.js.map

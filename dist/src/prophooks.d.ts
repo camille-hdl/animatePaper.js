@@ -1,45 +1,51 @@
-declare var dirRegexp: RegExp;
-declare function _pointDiff(a: any, b: any, operator: any): any;
-declare function _getColorType(color_obj: any): any;
-declare function _getColorComponentNames(color_obj: any): any;
-declare var _tweenPropHooks: {
+import { Tween } from "./tween";
+export declare const _tweenPropHooks: {
     _default: {
-        get: (tween: any) => any;
-        set: (tween: any) => void;
+        get: (tween: Tween) => any;
+        set: (tween: Tween) => void;
     };
     scale: {
-        get: (tween: any) => any;
-        set: (tween: any) => void;
+        get: (tween: Tween) => any;
+        set: (tween: Tween) => void;
     };
     rotate: {
-        get: (tween: any) => any;
-        set: (tween: any) => void;
+        get: (tween: Tween) => any;
+        set: (tween: Tween) => void;
     };
     translate: {
-        get: (tween: any) => any;
-        set: (tween: any) => void;
-        ease: (tween: any, eased: any) => any;
+        get: (tween: Tween) => any;
+        set: (tween: Tween) => void;
+        ease: (tween: Tween, eased: number) => any;
     };
     position: {
-        get: (tween: any) => {
+        get: (tween: Tween) => {
             x: any;
             y: any;
         };
-        set: (tween: any) => void;
-        ease: (tween: any, eased: any) => any;
+        set: (tween: Tween) => void;
+        ease: (tween: Tween, eased: number) => any;
     };
     pointPosition: {
-        get: (tween: any) => {
+        get: (tween: Tween) => {
             x: any;
             y: any;
         };
-        set: (tween: any) => void;
-        ease: (tween: any, eased: any) => any;
+        set: (tween: Tween) => void;
+        ease: (tween: Tween, eased: number) => any;
     };
     Color: {
-        get: (tween: any) => {};
-        set: (tween: any) => void;
-        ease: (tween: any, eased: any) => any;
+        get: (tween: Tween) => {};
+        set: (tween: Tween) => void;
+        ease: (tween: Tween, eased: number) => any;
     };
 };
-declare var _colorProperties: string[];
+export declare const _pointDiff: (a: {
+    x: number;
+    y: number;
+    add: Function;
+    subtract: Function;
+}, b: {
+    x: number;
+    y: number;
+}, operator: "+" | "-") => any;
+export declare const extendPropHooks: (customHooks: any) => void;

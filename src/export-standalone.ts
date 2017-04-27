@@ -1,1 +1,2 @@
-window.animatePaper = require("./export");
+import * as animatePaper from "./export";
+window.animatePaper = animatePaper;

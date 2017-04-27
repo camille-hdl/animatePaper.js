@@ -1,3 +1,8 @@
+# 1.2.1
+ * TS rewrite
+ * TODO negative position supported (relative values must be of string type)
+ * 
+
 # 1.1.1
  * Color support for `paper.Group` animation
  * rgb, gray, hsl, hbs Color formats are now supported

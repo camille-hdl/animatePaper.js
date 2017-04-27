@@ -5,27 +5,34 @@
  *  @class easing
  *  @static
  */
-var easing = {
-    linear: function(p) {
+export const easing: {} = {
+    extendEasing: (customEasings: {}) => {
+        for (var i in customEasings) {
+            if (customEasings.hasOwnProperty(i)) {
+                easing[i] = customEasings[i];
+            }
+        }
+    },
+    linear: (p: number) => {
         return p;
     },
-    swing: function(p) {
+    swing: (p: number) => {
         return 0.5 - Math.cos(p * Math.PI) / 2;
     },
-    Sine: function(p) {
+    Sine: (p: number) => {
         return 1 - Math.cos(p * Math.PI / 2);
     },
-    Circ: function(p) {
+    Circ: (p: number) => {
         return 1 - Math.sqrt(1 - p * p);
     },
-    Elastic: function(p) {
+    Elastic: (p: number) => {
         return p === 0 || p === 1 ? p :
             -Math.pow(2, 8 * (p - 1)) * Math.sin(((p - 1) * 80 - 7.5) * Math.PI / 15);
     },
-    Back: function(p) {
+    Back: (p: number) => {
         return p * p * (3 * p - 2);
     },
-    Bounce: function(p) {
+    Bounce: (p: number) => {
         var pow2,
             bounce = 4;
 
@@ -35,7 +42,7 @@ var easing = {
 };
 var __tempEasing = ["Quad", "Cubic", "Quart", "Quint", "Expo"];
 for (var i = 0, l = __tempEasing.length; i < l; i++) {
-    easing[__tempEasing[i]] = function(p) {
+    easing[__tempEasing[i]] = (p) => {
         return Math.pow(p, i + 2);
     };
 }
@@ -45,22 +52,13 @@ for (var name in easing) {
         var easeIn = easing[name];
 
         easing["easeIn" + name] = easeIn;
-        easing["easeOut" + name] = function(p) {
+        easing["easeOut" + name] = (p: number) => {
             return 1 - easeIn(1 - p);
         };
-        easing["easeInOut" + name] = function(p) {
+        easing["easeInOut" + name] = (p: number) => {
             return p < 0.5 ?
                 easeIn(p * 2) / 2 :
                 1 - easeIn(p * -2 + 2) / 2;
         };
     }
 }
-
-module.exports = easing;
-module.exports.extendEasing = function(customEasings) {
-    for (var i in customEasings) {
-        if (customEasings.hasOwnProperty(i)) {
-            easing[i] = customEasings[i];
-        }
-    }
-};

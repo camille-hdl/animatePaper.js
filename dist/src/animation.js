@@ -1,132 +1,141 @@
 "use strict";
+exports.__esModule = true;
 var paper = require("./getPaper");
-var Tween = require("./tween");
+var tween_1 = require("./tween");
 var frameManager = require("./frameManager");
-var easing = require("./easing");
-function Animation(item, properties, settings, _continue) {
-    var self = this;
-    self.stopped = false;
-    self.startTime = new Date().getTime();
-    self.settings = _initializeSettings(settings);
-    self.item = item;
-    self.itemForAnimations = self.settings.parentItem || self.item;
-    self.repeat = self.settings.repeat || 0;
-    if (typeof self.settings.repeat === "function") {
-        var _repeatCallback = self.settings.repeat;
-        self.repeatCallback = function () {
-            if (!!_repeatCallback(item, self)) {
-                return new Animation(item, properties, settings, _continue);
-            }
-            return null;
-        };
-    }
-    else {
-        if (self.repeat === true || self.repeat > 0) {
-            self.repeatCallback = function (newRepeat) {
-                settings.repeat = newRepeat;
-                return new Animation(item, properties, settings, _continue);
+var easing_1 = require("./easing");
+var Animation = (function () {
+    function Animation(item, properties, settings, _continue) {
+        var _this = this;
+        this.stopped = false;
+        this.startTime = new Date().getTime();
+        this.settings = _initializeSettings(settings);
+        this.item = item;
+        this.itemForAnimations = this.settings.parentItem || this.item;
+        this.repeat = this.settings.repeat || 0;
+        if (typeof this.settings.repeat === "function") {
+            var _repeatCallback = this.settings.repeat;
+            this.repeatCallback = function () {
+                if (!!_repeatCallback(item, _this)) {
+                    return new Animation(item, properties, settings, _continue);
+                }
+                return null;
             };
         }
-    }
-    self.tweens = [];
-    self.ticker = null;
-    self._continue = _continue;
-    if (typeof self.itemForAnimations.data === "undefined") {
-        self.itemForAnimations.data = {};
-    }
-    if (typeof self.itemForAnimations.data._animatePaperAnims === "undefined") {
-        self.itemForAnimations.data._animatePaperAnims = [];
-    }
-    self._dataIndex = self.itemForAnimations.data._animatePaperAnims.length;
-    self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = self;
-    for (var i in properties) {
-        if (properties.hasOwnProperty(i)) {
-            self.tweens.push(new Tween(i, properties[i], self));
+        else {
+            if (this.repeat === true || this.repeat > 0) {
+                this.repeatCallback = function (newRepeat) {
+                    settings.repeat = newRepeat;
+                    return new Animation(item, properties, settings, _continue);
+                };
+            }
+        }
+        this.tweens = [];
+        this.ticker = null;
+        this._continue = _continue;
+        if (typeof this.itemForAnimations.data === "undefined") {
+            this.itemForAnimations.data = {};
+        }
+        if (typeof this.itemForAnimations.data._animatePaperAnims === "undefined") {
+            this.itemForAnimations.data._animatePaperAnims = [];
+        }
+        this._dataIndex = this.itemForAnimations.data._animatePaperAnims.length;
+        this.itemForAnimations.data._animatePaperAnims[this._dataIndex] = this;
+        for (var i in properties) {
+            if (properties.hasOwnProperty(i)) {
+                this.tweens.push(new tween_1.Tween(i, properties[i], this));
+            }
+        }
+        if (this.settings.mode === "onFrame") {
+            this.ticker = frameManager.add(this.itemForAnimations, "_animate" + this.startTime + (Math.floor(Math.random() * (1000 - 1)) + 1), function () {
+                _this.tick();
+            });
         }
     }
-    if (self.settings.mode === "onFrame") {
-        self.ticker = frameManager.add(self.itemForAnimations, "_animate" + self.startTime + (Math.floor(Math.random() * (1000 - 1)) + 1), function () {
-            self.tick();
-        });
-    }
-}
-Animation.prototype.tick = function () {
-    var self = this;
-    if (!!self.stopped)
-        return false;
-    var currentTime = new Date().getTime();
-    if (self.startTime + self.settings.delay > currentTime) {
-        return false;
-    }
-    var remaining = Math.max(0, self.startTime + self.settings.delay + self.settings.duration - currentTime);
-    var temp = remaining / self.settings.duration || 0;
-    var percent = 1 - temp;
-    for (var i = 0, l = self.tweens.length; i < l; i++) {
-        self.tweens[i].run(percent);
-    }
-    if (typeof self.settings.step !== "undefined") {
-        self.settings.step.call(self.item, {
-            percent: percent,
-            remaining: remaining
-        });
-    }
-    if (typeof self.settings.parentItem !== "undefined") {
-        self.settings.parentItem.project.view.draw();
-    }
-    else {
-        self.item.project.view.draw();
-    }
-    if (self.settings.mode === "timeout") {
-    }
-    if (percent < 1 && l) {
-        return remaining;
-    }
-    else {
-        self.end();
-        return false;
-    }
-};
-Animation.prototype.stop = function (goToEnd, forceEnd) {
-    var self = this;
-    var i = 0;
-    var l = goToEnd ? self.tweens.length : 0;
-    if (!!self.stopped)
-        return self;
-    self.stopped = true;
-    for (; i < l; i++) {
-        self.tweens[i].run(1);
-    }
-    if (!!goToEnd) {
-        if (!!self._continue)
-            self._continue = null;
-        self.end(forceEnd);
-    }
-};
-Animation.prototype.end = function (forceEnd) {
-    var self = this;
-    if (self.settings.mode === "onFrame") {
-        frameManager.remove(self.itemForAnimations, self.ticker);
-    }
-    if (typeof self.settings.complete !== "undefined") {
-        self.settings.complete.call(self.item, this);
-    }
-    if (self.settings.mode === "timeout") {
-    }
-    if (typeof self._continue === "function") {
-        self._continue.call(self.item);
-    }
-    self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
-    if (!!forceEnd || typeof self.repeatCallback !== "function") {
-        self = null;
-    }
-    else {
-        var newRepeat = self.repeat;
-        if (self.repeat !== true) {
-            newRepeat = self.repeat - 1;
+    Animation.prototype.tick = function () {
+        var self = this;
+        if (!!self.stopped)
+            return false;
+        var currentTime = new Date().getTime();
+        if (self.startTime + self.settings.delay > currentTime) {
+            return false;
         }
-        return self.repeatCallback(newRepeat);
-    }
-};
+        var remaining = Math.max(0, self.startTime + self.settings.delay + self.settings.duration - currentTime);
+        var temp = remaining / self.settings.duration || 0;
+        var percent = 1 - temp;
+        for (var i = 0, l = self.tweens.length; i < l; i++) {
+            self.tweens[i].run(percent);
+        }
+        if (typeof self.settings.step !== "undefined") {
+            self.settings.step.call(self.item, {
+                percent: percent,
+                remaining: remaining
+            });
+        }
+        if (typeof self.settings.parentItem !== "undefined") {
+            self.settings.parentItem.project.view.draw();
+        }
+        else {
+            self.item.project.view.draw();
+        }
+        if (self.settings.mode === "timeout") {
+        }
+        if (percent < 1 && l) {
+            return remaining;
+        }
+        else {
+            self.end();
+            return false;
+        }
+    };
+    Animation.prototype.stop = function (goToEnd, forceEnd) {
+        if (goToEnd === void 0) { goToEnd = false; }
+        if (forceEnd === void 0) { forceEnd = false; }
+        var self = this;
+        var i = 0;
+        var l = goToEnd ? self.tweens.length : 0;
+        if (!!self.stopped)
+            return self;
+        self.stopped = true;
+        for (; i < l; i++) {
+            self.tweens[i].run(1);
+        }
+        if (!!goToEnd) {
+            if (!!self._continue)
+                self._continue = null;
+            self.end(forceEnd);
+        }
+    };
+    Animation.prototype.end = function (forceEnd) {
+        if (forceEnd === void 0) { forceEnd = false; }
+        var self = this;
+        if (self.settings.mode === "onFrame") {
+            frameManager.remove(self.itemForAnimations, self.ticker);
+        }
+        if (typeof self.settings.complete !== "undefined") {
+            self.settings.complete.call(self.item, this);
+        }
+        if (self.settings.mode === "timeout") {
+        }
+        if (typeof self._continue === "function") {
+            self._continue.call(self.item);
+        }
+        self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
+        if (!!forceEnd || typeof self.repeatCallback !== "function") {
+            self = null;
+        }
+        else {
+            var newRepeat = self.repeat;
+            if (self.repeat !== true) {
+                newRepeat = self.repeat - 1;
+            }
+            return self.repeatCallback(newRepeat);
+        }
+    };
+    return Animation;
+}());
+exports.Animation = Animation;
+;
 function _initializeSettings(settings) {
     var defaults = {
         duration: 400,
@@ -174,12 +183,12 @@ function _initializeSettings(settings) {
     if (typeof settings.easing === "undefined") {
         settings.easing = defaults.easing;
     }
-    if (typeof easing[settings.easing] !== "undefined" && easing.hasOwnProperty(settings.easing)) {
-        settings.easingFunction = easing[settings.easing];
+    if (typeof easing_1.easing[settings.easing] !== "undefined" && easing_1.easing.hasOwnProperty(settings.easing)) {
+        settings.easingFunction = easing_1.easing[settings.easing];
     }
     else {
         settings.easing = defaults.easing;
-        settings.easingFunction = easing[defaults.easing];
+        settings.easingFunction = easing_1.easing[defaults.easing];
     }
     if (typeof settings.complete !== "function") {
         settings.complete = undefined;
@@ -192,6 +201,5 @@ function _initializeSettings(settings) {
     }
     return settings;
 }
-module.exports = Animation;
 
 //# sourceMappingURL=animation.js.map

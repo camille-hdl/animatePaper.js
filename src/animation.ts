@@ -1,10 +1,7 @@
-"use strict";
-
-
 var paper = require("./getPaper");
-var Tween = require("./tween");
-var frameManager = require("./frameManager");
-var easing = require("./easing");
+import { Tween } from "./tween";
+import * as frameManager from "./frameManager";
+import { easing } from "./easing";
 
 
 /**
@@ -32,37 +29,57 @@ var easing = require("./easing");
  *  @param {Function} settings.step Called on each `.tick()`
  *  @param {Mixed} settings.repeat function or true or an integer. The animation will repeat as long as function returns `true`, `true` or `repeat` > 0, decrementing by 1 each time.
  */
-function Animation(item, properties, settings, _continue) {
-        var self = this;
+export class Animation {
+    stopped: boolean;
+    startTime: number;
+    settings: {
+        parentItem?: paper.Item,
+        step?: Function,
+        complete?: () => any,
+        mode: "onFrame" | "timeout",
+        delay?: number,
+        duration?: number,
+        repeat?: Function,
+        easing: string
+    };
+    item: paper.Item;
+    itemForAnimations: paper.Item;
+    repeat?: Function | 0;
+    repeatCallback?: Function;
+    ticker: any;
+    _continue?: () => mixed;
+    tweens: Array<Tween>;
+    _dataIndex: number;
+    constructor(item: paper.Item, properties: {}, settings: { parentItem?: paper.Item, repeat?: Function, easing: string }, _continue: () => any) {
 
         /**
          *  True if the animation is stopped
          *  @property {Bool} stopped
          */
-        self.stopped = false;
+        this.stopped = false;
         /**
          *  Time when the Animation is created
          *  @property {Timestamp} startTime
          *  @readonly
          */
-        self.startTime = new Date().getTime();
+        this.startTime = new Date().getTime();
         /**
          *  Settings, after being normalized in {{#crossLink "_initializeSettings"}}{{/crossLink}}
          *  @property {Object} settings
          */
-        self.settings = _initializeSettings(settings);
+        this.settings = _initializeSettings(settings);
         /**
          *  The animated `paper.Item`
          *  @property {Object} item
          *  @readonly
          */
-        self.item = item;
+        this.item = item;
         /**
-         *  If provided, use parentItem to use .data and .onFrame. If not, use self.item;
+         *  If provided, use parentItem to use .data and .onFrame. If not, use this.item;
          *  @property {Object} itemForAnimations
          *  @readonly
          */
-        self.itemForAnimations = self.settings.parentItem || self.item;
+        this.itemForAnimations = this.settings.parentItem || this.item;
 
         /**
          * Repeat parameter.
@@ -72,18 +89,18 @@ function Animation(item, properties, settings, _continue) {
          * Default `0`  
          * @property {Mixed} repeat
          */
-        self.repeat = self.settings.repeat || 0;
-        if (typeof self.settings.repeat === "function") {
-            var _repeatCallback = self.settings.repeat;
-            self.repeatCallback = function() {
-                if (!!_repeatCallback(item, self)) {
+        this.repeat = this.settings.repeat || 0;
+        if (typeof this.settings.repeat === "function") {
+            var _repeatCallback = this.settings.repeat;
+            this.repeatCallback = () => {
+                if (!!_repeatCallback(item, this)) {
                     return new Animation(item, properties, settings, _continue);
                 }
                 return null;
             };
         } else {
-            if (self.repeat === true || self.repeat > 0) {
-                self.repeatCallback = function(newRepeat) {
+            if (<number | boolean>this.repeat === true || this.repeat > 0) {
+                this.repeatCallback = (newRepeat) => {
                     settings.repeat = newRepeat;
                     // used for the repeat feature
                     return new Animation(item, properties, settings, _continue);
@@ -97,28 +114,28 @@ function Animation(item, properties, settings, _continue) {
          *  {{#crossLink "Tween"}}{{/crossLink}}s used by the Animation.
          *  @property {Array} tweens
          */
-        self.tweens = [];
+        this.tweens = [];
         /**
          *  If the Animation is in `onFrame` mode :
          *  Identifier of the {{#crossLink "frameMamanger"}}{{/crossLink}} callback called on every tick.
          *  @property {String} ticker
          *  @readonly
          */
-        self.ticker = null;
+        this.ticker = null;
         /**
          *  Callback used when queueing animations.
          *  @property {Function} _continue
          *  @readonly
          *  @private
          */
-        self._continue = _continue;
+        this._continue = _continue;
 
         // store the reference to the animation in the item's data
-        if (typeof self.itemForAnimations.data === "undefined") {
-            self.itemForAnimations.data = {};
+        if (typeof this.itemForAnimations.data === "undefined") {
+            this.itemForAnimations.data = {};
         }
-        if (typeof self.itemForAnimations.data._animatePaperAnims === "undefined") {
-            self.itemForAnimations.data._animatePaperAnims = [];
+        if (typeof this.itemForAnimations.data._animatePaperAnims === "undefined") {
+            this.itemForAnimations.data._animatePaperAnims = [];
         }
         /**
          *  Index of the animation in the item's queue.
@@ -126,18 +143,18 @@ function Animation(item, properties, settings, _continue) {
          *  @readonly
          *  @private
          */
-        self._dataIndex = self.itemForAnimations.data._animatePaperAnims.length;
-        self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = self;
+        this._dataIndex = this.itemForAnimations.data._animatePaperAnims.length;
+        this.itemForAnimations.data._animatePaperAnims[this._dataIndex] = this;
 
         for (var i in properties) {
             if (properties.hasOwnProperty(i)) {
-                self.tweens.push(new Tween(i, properties[i], self));
+                this.tweens.push(new Tween(i, properties[i], this));
             }
         }
 
-        if (self.settings.mode === "onFrame") {
-            self.ticker = frameManager.add(self.itemForAnimations, "_animate" + self.startTime + (Math.floor(Math.random() * (1000 - 1)) + 1), function() {
-                self.tick();
+        if (this.settings.mode === "onFrame") {
+            this.ticker = frameManager.add(this.itemForAnimations, "_animate" + this.startTime + (Math.floor(Math.random() * (1000 - 1)) + 1), () => {
+                this.tick();
             });
         }
     }
@@ -146,95 +163,96 @@ function Animation(item, properties, settings, _continue) {
      *
      *  @method tick
      */
-Animation.prototype.tick = function() {
-    var self = this;
-    if (!!self.stopped) return false;
-    var currentTime = new Date().getTime();
-    if( self.startTime + self.settings.delay > currentTime ){
-        return false;
-    }
-    var remaining = Math.max(0, self.startTime + self.settings.delay + self.settings.duration - currentTime);
-    var temp = remaining / self.settings.duration || 0;
-    var percent = 1 - temp;
-
-    for (var i = 0, l = self.tweens.length; i < l; i++) {
-        self.tweens[i].run(percent);
-    }
-    if (typeof self.settings.step !== "undefined") {
-        self.settings.step.call(self.item, {
-            percent: percent,
-            remaining: remaining
-        });
-    }
-    if (typeof self.settings.parentItem !== "undefined") {
-        self.settings.parentItem.project.view.draw();
-    } else {
-        self.item.project.view.draw();
-    }
-
-    // if the Animation is in timeout mode, we must force a View update
-    if (self.settings.mode === "timeout") {
-        //
-    }
-    if (percent < 1 && l) {
-        return remaining;
-    } else {
-        self.end();
-        return false;
-    }
-};
-/**
- *  Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.
- *  @method stop
- *  @param {Bool} goToEnd
- *  @param {Bool} forceEnd to prevent loops
- */
-Animation.prototype.stop = function(goToEnd, forceEnd) {
-    var self = this;
-    var i = 0;
-    var l = goToEnd ? self.tweens.length : 0;
-    if (!!self.stopped) return self;
-    self.stopped = true;
-    for (; i < l; i++) {
-        self.tweens[i].run(1);
-    }
-    if (!!goToEnd) {
-        // stop further animation
-        if (!!self._continue) self._continue = null;
-        self.end(forceEnd);
-    }
-};
-/**
- *  Called when the animations ends, naturally or using `.stop(true)`.
- *  @method end
- */
-Animation.prototype.end = function(forceEnd) {
-    var self = this;
-    if (self.settings.mode === "onFrame") {
-        frameManager.remove(self.itemForAnimations, self.ticker);
-    }
-    if (typeof self.settings.complete !== "undefined") {
-        self.settings.complete.call(self.item, this);
-    }
-
-    // if the Animation is in timeout mode, we must force a View update
-    if (self.settings.mode === "timeout") {
-        //
-    }
-    if (typeof self._continue === "function") {
-        self._continue.call(self.item);
-    }
-    // remove all references to the animation
-    self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
-    if (!!forceEnd || typeof self.repeatCallback !== "function") {
-        self = null;
-    } else {
-        // repeat
-        var newRepeat = self.repeat;
-        if (self.repeat !== true) {
-            newRepeat = self.repeat - 1;
+    tick() {
+        var self = this;
+        if (!!self.stopped) return false;
+        var currentTime = new Date().getTime();
+        if( self.startTime + self.settings.delay > currentTime ){
+            return false;
         }
-        return self.repeatCallback(newRepeat);
+        var remaining = Math.max(0, self.startTime + self.settings.delay + self.settings.duration - currentTime);
+        var temp = remaining / self.settings.duration || 0;
+        var percent = 1 - temp;
+
+        for (var i = 0, l = self.tweens.length; i < l; i++) {
+            self.tweens[i].run(percent);
+        }
+        if (typeof self.settings.step !== "undefined") {
+            self.settings.step.call(self.item, {
+                percent: percent,
+                remaining: remaining
+            });
+        }
+        if (typeof self.settings.parentItem !== "undefined") {
+            self.settings.parentItem.project.view.draw();
+        } else {
+            self.item.project.view.draw();
+        }
+
+        // if the Animation is in timeout mode, we must force a View update
+        if (self.settings.mode === "timeout") {
+            //
+        }
+        if (percent < 1 && l) {
+            return remaining;
+        } else {
+            self.end();
+            return false;
+        }
+    }
+    /**
+     *  Interrupts the animation. If `goToEnd` is true, all the properties are set to their final value.
+     *  @method stop
+     *  @param {Bool} goToEnd
+     *  @param {Bool} forceEnd to prevent loops
+     */
+    stop(goToEnd: boolean = false, forceEnd: boolean = false) {
+        var self = this;
+        var i = 0;
+        var l = goToEnd ? self.tweens.length : 0;
+        if (!!self.stopped) return self;
+        self.stopped = true;
+        for (; i < l; i++) {
+            self.tweens[i].run(1);
+        }
+        if (!!goToEnd) {
+            // stop further animation
+            if (!!self._continue) self._continue = null;
+            self.end(forceEnd);
+        }
+    }
+    /**
+     *  Called when the animations ends, naturally or using `.stop(true)`.
+     *  @method end
+     */
+    end(forceEnd: boolean = false) {
+        var self = this;
+        if (self.settings.mode === "onFrame") {
+            frameManager.remove(self.itemForAnimations, self.ticker);
+        }
+        if (typeof self.settings.complete !== "undefined") {
+            self.settings.complete.call(self.item, this);
+        }
+
+        // if the Animation is in timeout mode, we must force a View update
+        if (self.settings.mode === "timeout") {
+            //
+        }
+        if (typeof self._continue === "function") {
+            self._continue.call(self.item);
+        }
+        // remove all references to the animation
+        self.itemForAnimations.data._animatePaperAnims[self._dataIndex] = null;
+        if (!!forceEnd || typeof self.repeatCallback !== "function") {
+            self = null;
+        } else {
+            // repeat
+            var newRepeat = self.repeat;
+            if (self.repeat !== true) {
+                newRepeat = self.repeat - 1;
+            }
+            return self.repeatCallback(newRepeat);
+        }
     }
 };
 
@@ -321,5 +339,3 @@ function _initializeSettings(settings) {
 
     return settings;
 }
-
-module.exports = Animation;

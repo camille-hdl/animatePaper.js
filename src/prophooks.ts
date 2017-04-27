@@ -1,18 +1,17 @@
-'use strict';
-
 var dirRegexp = /^([+\-])(.+)/;
+import { Tween } from "./tween";
 /**
  *  Performs an operation on two paper.Point() objects.
  *  Returns the result of : ` a operator b`.
  *  @private
- *  @method _pointDiff
+ *  @method __pointDiff
  *  @param {Object} a a `paper.Point` object
  *  @param {Object} b a `paper.Point` object
  *  @param {String} operator either `+` or `-`
  *  @return {Object} `{x: (a.x operator b.x), y: (a.y operator b.y)}`
  *  @for Tween
  */
-function _pointDiff(a, b, operator) {
+const __pointDiff = (a: {x: number, y: number, add: Function, subtract: Function}, b: {x: number, y: number}, operator: "+" | "-") => {
     if (['+', '-'].indexOf(operator) === -1) return;
     if (typeof a === "undefined" || typeof b === "undefined") return;
 
@@ -38,7 +37,7 @@ function _pointDiff(a, b, operator) {
  *  @method _getColorType
  *  @param {Object} color_obj color_obj `paper.Color` object or compatible raw object
  *  @return {String} `color type as string`
- *  @for _tweenPropHooks.Color
+ *  @for __tweenPropHooks.Color
  */
 function _getColorType(color_obj) {
     let color_type;
@@ -65,7 +64,7 @@ function _getColorType(color_obj) {
  *  @method _getColorComponentNames
  *  @param {Object} color_obj color_obj `paper.Color` object or compatible raw object
  *  @return {Array} `color component labels`
- *  @for _tweenPropHooks.Color
+ *  @for __tweenPropHooks.Color
  */
 function _getColorComponentNames(color_obj) {
     let color_component_names;
@@ -98,13 +97,13 @@ function _getColorComponentNames(color_obj) {
 // inspired by https://github.com/jquery/jquery/blob/10399ddcf8a239acc27bdec9231b996b178224d3/src/effects/Tween.js
 /**
  *  Helpers to get, set and ease properties that behave differently from "normal" properties. e.g. `scale`.
- *  @class _tweenPropHooks
+ *  @class __tweenPropHooks
  *  @private
  *  @static
  */
-var _tweenPropHooks = {
+var __tweenPropHooks = {
     _default: {
-        get: function(tween) {
+        get: function(tween: Tween) {
             var output;
             if (tween.item[tween.prop] !== null) {
                 output = tween.item[tween.prop];
@@ -112,7 +111,7 @@ var _tweenPropHooks = {
 
             return output;
         },
-        set: function(tween) {
+        set: function(tween: Tween) {
 
             var toSet = {};
             toSet[tween.prop] = tween.now;
@@ -120,7 +119,7 @@ var _tweenPropHooks = {
         }
     },
     scale: {
-        get: function(tween) {
+        get: function(tween: Tween) {
             if (!tween.item.data._animatePaperVals) {
                 tween.item.data._animatePaperVals = {};
             }
@@ -130,7 +129,7 @@ var _tweenPropHooks = {
             var output = tween.item.data._animatePaperVals.scale;
             return output;
         },
-        set: function(tween) {
+        set: function(tween: Tween) {
 
             var curScaling = tween.item.data._animatePaperVals.scale;
             var trueScaling = tween.now / curScaling;
@@ -151,7 +150,7 @@ var _tweenPropHooks = {
         }
     },
     rotate: {
-        get: function(tween) {
+        get: function(tween: Tween) {
             if (!tween.item.data._animatePaperVals) {
                 tween.item.data._animatePaperVals = {};
             }
@@ -161,7 +160,7 @@ var _tweenPropHooks = {
             var output = tween.item.data._animatePaperVals.rotate;
             return output;
         },
-        set: function(tween) {
+        set: function(tween: Tween) {
             var curRotate = tween.item.data._animatePaperVals.rotate;
             var trueRotate = tween.now - curRotate;
 
@@ -182,7 +181,7 @@ var _tweenPropHooks = {
         }
     },
     translate: {
-        get: function(tween) {
+        get: function(tween: Tween) {
             if (!tween.item.data._animatePaperVals) {
                 tween.item.data._animatePaperVals = {};
             }
@@ -193,40 +192,40 @@ var _tweenPropHooks = {
 
             return output;
         },
-        set: function(tween) {
+        set: function(tween: Tween) {
             var cur = tween.item.data._animatePaperVals.translate;
-            var actual = _pointDiff(tween.now, cur, "-");
+            var actual = __pointDiff(tween.now, cur, "-");
 
 
             tween.item.data._animatePaperVals.translate = tween.now;
 
             tween.item.translate(actual);
         },
-        ease: function(tween, eased) {
+        ease: function(tween: Tween, eased: number) {
 
-            var temp = _pointDiff(tween.end, tween.start, "-");
+            var temp = __pointDiff(tween.end, tween.start, "-");
             temp.x = temp.x * eased;
             temp.y = temp.y * eased;
 
-            tween.now = _pointDiff(temp, tween.start, "+");
+            tween.now = __pointDiff(temp, tween.start, "+");
 
             return tween.now;
         }
     },
     position: {
-        get: function(tween) {
+        get: function(tween: Tween) {
             return {
                 x: tween.item.position.x,
                 y: tween.item.position.y
             };
         },
-        set: function(tween) {
+        set: function(tween: Tween) {
 
             tween.item.position.x += tween.now.x;
             tween.item.position.y += tween.now.y;
 
         },
-        ease: function(tween, eased) {
+        ease: function(tween: Tween, eased: number) {
             // If the values start with + or -,
             // the values are relative to the current pos
             var dirX = "";
@@ -309,17 +308,17 @@ var _tweenPropHooks = {
         }
     },
     pointPosition: {
-        get: function(tween) {
+        get: function(tween: Tween) {
             return {
                 x: tween.item.x,
                 y: tween.item.y
             };
         },
-        set: function(tween) {
+        set: function(tween: Tween) {
             tween.item.x += tween.now.x;
             tween.item.y += tween.now.y;
         },
-        ease: function(tween, eased) {
+        ease: function(tween: Tween, eased: number) {
             // If the values start with + or -,
             // the values are relative to the current pos
             var dirX = "";
@@ -401,7 +400,7 @@ var _tweenPropHooks = {
         }
     },
     Color: {
-            get: function(tween) {
+            get: function(tween: Tween) {
                 // 'should' work but does not:
                 // return tween.item[tween.prop];
                 // this creates a unlinked copy of only the color component values.
@@ -416,7 +415,7 @@ var _tweenPropHooks = {
                 // console.log("result", result);
                 return result;
             },
-            set: function(tween) {
+            set: function(tween: Tween) {
                 // this creates a unlinked copy of only the color component values first.
                 // this seems to be nessesecary to avoid a bug in
                 // paper.js Color class in combinaiton with Groups and setting single properties
@@ -435,7 +434,7 @@ var _tweenPropHooks = {
                 // console.log("color_new", color_new);
                 tween.item[tween.prop] = color_new;
             },
-            ease: function(tween, eased) {
+            ease: function(tween: Tween, eased: number) {
                 // const color_type = _getColorType(tween.End);
                 const component_names = _getColorComponentNames(tween.item[tween.prop]);
                 // const props = _getColorComponentNames(tween.item[tween.prop]);
@@ -446,7 +445,7 @@ var _tweenPropHooks = {
                 for (const component_name of component_names) {
                     var curProp = component_name;
                     var dir = "";
-                    var r = "";
+                    var r = [];
                     if (typeof tween._easeColorCache === "undefined") {
                         tween._easeColorCache = {};
                     }
@@ -483,16 +482,22 @@ var _tweenPropHooks = {
 };
 var _colorProperties = [ "fill", "stroke" ];
 for (var i = 0, l = _colorProperties.length; i < l; i++) {
-    _tweenPropHooks[_colorProperties[i] + "Color"] = _tweenPropHooks.Color;
+    __tweenPropHooks[_colorProperties[i] + "Color"] = __tweenPropHooks.Color;
 }
-module.exports = {
-    _tweenPropHooks: _tweenPropHooks,
-    _pointDiff: _pointDiff,
-    extendPropHooks: function(customHooks) {
-        for (var i in customHooks) {
-            if (customHooks.hasOwnProperty(i)) {
-                _tweenPropHooks[i] = customHooks[i];
-            }
+
+export const _tweenPropHooks = __tweenPropHooks;
+export const _pointDiff = __pointDiff;
+export const extendPropHooks = (customHooks) => {
+    for (var i in customHooks) {
+        if (customHooks.hasOwnProperty(i)) {
+            __tweenPropHooks[i] = customHooks[i];
         }
     }
 };
+if (typeof module !== "undefined") {
+    module.exports = {
+        _tweenPropHooks: __tweenPropHooks,
+        __pointDiff: __pointDiff,
+        extendPropHooks: extendPropHooks
+    };
+}

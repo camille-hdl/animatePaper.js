@@ -1,2 +1,1 @@
-declare var easing: any;
-declare var __tempEasing: string[];
+export declare const easing: {};

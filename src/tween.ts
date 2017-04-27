@@ -1,5 +1,6 @@
-var _tweenPropHooks = require("./prophooks")._tweenPropHooks;
-var easing = require("./easing");
+import { _tweenPropHooks}  from "./prophooks";
+import { easing } from "./easing";
+import { Animation } from "./animation";
 /**
  *  Tween class. TODO : figure out a way to add support for extra arguments to pass to the Tweens (like for rotate() )
  *  
@@ -9,7 +10,19 @@ var easing = require("./easing");
  *  @param {mixed} Final value
  *  @param {Object} animation
  */
-function Tween(property, value, animation) {
+export class Tween {
+    A: Animation;
+    item: paper.Item;
+    prop: string;
+    end: any;
+    start: any;
+    now: any;
+    direction: "+" | "-";
+    duration: number;
+    pos: number;
+    _easePositionCache: any;
+    _easeColorCache: any;
+    constructor(property: string, value: any, animation: Animation) {
         var self = this;
         
         /**
@@ -67,48 +80,47 @@ function Tween(property, value, animation) {
      *  @method cur
      *  @return {mixed} Current value
      */
-Tween.prototype.cur = function() {
-    var self = this;
-    
-    // should we use a special way to get the current value ? if not just use item[prop]
-    var hooks = _tweenPropHooks[self.prop];
+    cur() {
+        var self = this;
+        
+        // should we use a special way to get the current value ? if not just use item[prop]
+        var hooks = _tweenPropHooks[self.prop];
 
-    return hooks && hooks.get ? hooks.get(self) : _tweenPropHooks._default.get(self);
+        return hooks && hooks.get ? hooks.get(self) : _tweenPropHooks._default.get(self);
+    }
+    /**
+     *  Called on each {{#crossLink "Animation/tick:method"}}{{/crossLink}}. Set the value of the property
+     *  to the eased value. Uses {{#crossLink "_tweenPropHooks"}}{{/crossLink}} if available.
+     *  It takes the percentage of the animation duration as argument.
+     *  @method run
+     *  @param {Number} percent 
+     *  @return {Object} self
+     *  @chainable
+     */
+    run(percent: number) {
+        var self = this;
+        var eased;
+        var hooks = _tweenPropHooks[self.prop];
+
+        var settings = self.A.settings;
+        if (settings.duration) {
+            self.pos = eased = easing[settings.easing](percent, settings.duration * percent, 0, 1, self.duration);
+        } else {
+            self.pos = eased = percent;
+        }
+        // refresh current value
+        if (hooks && hooks.ease) {
+            hooks.ease(self, eased);
+        } else {
+            self.now = (self.end - self.start) * eased + self.start;
+        }
+
+        if (hooks && hooks.set) {
+            hooks.set(self);
+        } else {
+            _tweenPropHooks._default.set(self);
+        }
+
+        return self;
+    }
 };
-/**
- *  Called on each {{#crossLink "Animation/tick:method"}}{{/crossLink}}. Set the value of the property
- *  to the eased value. Uses {{#crossLink "_tweenPropHooks"}}{{/crossLink}} if available.
- *  It takes the percentage of the animation duration as argument.
- *  @method run
- *  @param {Number} percent 
- *  @return {Object} self
- *  @chainable
- */
-Tween.prototype.run = function(percent) {
-    var self = this;
-    var eased;
-    var hooks = _tweenPropHooks[self.prop];
-
-    var settings = self.A.settings;
-    if (settings.duration) {
-        self.pos = eased = easing[settings.easing](percent, settings.duration * percent, 0, 1, self.duration);
-    } else {
-        self.pos = eased = percent;
-    }
-    // refresh current value
-    if (hooks && hooks.ease) {
-        hooks.ease(self, eased);
-    } else {
-        self.now = (self.end - self.start) * eased + self.start;
-    }
-
-    if (hooks && hooks.set) {
-        hooks.set(self);
-    } else {
-        _tweenPropHooks._default.set(self);
-    }
-
-    return self;
-};
-
-module.exports = Tween;

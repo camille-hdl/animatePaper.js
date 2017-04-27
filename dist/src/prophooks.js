@@ -1,6 +1,7 @@
-'use strict';
+"use strict";
+exports.__esModule = true;
 var dirRegexp = /^([+\-])(.+)/;
-function _pointDiff(a, b, operator) {
+var __pointDiff = function (a, b, operator) {
     if (['+', '-'].indexOf(operator) === -1)
         return;
     if (typeof a === "undefined" || typeof b === "undefined")
@@ -17,7 +18,7 @@ function _pointDiff(a, b, operator) {
         return a.subtract(b);
     }
     throw new Error('Unknown operator');
-}
+};
 function _getColorType(color_obj) {
     var color_type;
     if (color_obj.type) {
@@ -70,7 +71,7 @@ function _getColorComponentNames(color_obj) {
     }
     return color_component_names;
 }
-var _tweenPropHooks = {
+var __tweenPropHooks = {
     _default: {
         get: function (tween) {
             var output;
@@ -158,15 +159,15 @@ var _tweenPropHooks = {
         },
         set: function (tween) {
             var cur = tween.item.data._animatePaperVals.translate;
-            var actual = _pointDiff(tween.now, cur, "-");
+            var actual = __pointDiff(tween.now, cur, "-");
             tween.item.data._animatePaperVals.translate = tween.now;
             tween.item.translate(actual);
         },
         ease: function (tween, eased) {
-            var temp = _pointDiff(tween.end, tween.start, "-");
+            var temp = __pointDiff(tween.end, tween.start, "-");
             temp.x = temp.x * eased;
             temp.y = temp.y * eased;
-            tween.now = _pointDiff(temp, tween.start, "+");
+            tween.now = __pointDiff(temp, tween.start, "+");
             return tween.now;
         }
     },
@@ -361,7 +362,7 @@ var _tweenPropHooks = {
                 var component_name = component_names_3[_i];
                 var curProp = component_name;
                 var dir = "";
-                var r = "";
+                var r = [];
                 if (typeof tween._easeColorCache === "undefined") {
                     tween._easeColorCache = {};
                 }
@@ -401,18 +402,23 @@ var _tweenPropHooks = {
 };
 var _colorProperties = ["fill", "stroke"];
 for (var i = 0, l = _colorProperties.length; i < l; i++) {
-    _tweenPropHooks[_colorProperties[i] + "Color"] = _tweenPropHooks.Color;
+    __tweenPropHooks[_colorProperties[i] + "Color"] = __tweenPropHooks.Color;
 }
-module.exports = {
-    _tweenPropHooks: _tweenPropHooks,
-    _pointDiff: _pointDiff,
-    extendPropHooks: function (customHooks) {
-        for (var i in customHooks) {
-            if (customHooks.hasOwnProperty(i)) {
-                _tweenPropHooks[i] = customHooks[i];
-            }
+exports._tweenPropHooks = __tweenPropHooks;
+exports._pointDiff = __pointDiff;
+exports.extendPropHooks = function (customHooks) {
+    for (var i in customHooks) {
+        if (customHooks.hasOwnProperty(i)) {
+            __tweenPropHooks[i] = customHooks[i];
         }
     }
 };
+if (typeof module !== "undefined") {
+    module.exports = {
+        _tweenPropHooks: __tweenPropHooks,
+        __pointDiff: __pointDiff,
+        extendPropHooks: exports.extendPropHooks
+    };
+}
 
 //# sourceMappingURL=prophooks.js.map
