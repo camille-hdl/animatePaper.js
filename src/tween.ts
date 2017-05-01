@@ -104,7 +104,13 @@ export class Tween {
 
         var settings = self.A.settings;
         if (settings.duration) {
-            self.pos = eased = easing[settings.easing](percent, settings.duration * percent, 0, 1, self.duration);
+            let easingFunc: Function;
+            if (typeof settings.easing === "function") {
+                easingFunc = settings.easing;
+            } else {
+                easingFunc = easing[settings.easing];
+            }
+            self.pos = eased = easingFunc(percent, settings.duration * percent, 0, 1, self.duration);
         } else {
             self.pos = eased = percent;
         }

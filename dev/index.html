@@ -5,6 +5,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.10.3/paper-core.min.js"></script>
   <!-- <script src="../node_modules/paper/dist/paper-core.min.js"></script> -->
   <script src="../dist/paper-animate-browser.min.js"></script>
+  <script src="./bezier.js"></script>
   <meta charset="utf-8">
   <title>animatePaper.js demo</title>
   <script>
@@ -243,8 +244,8 @@
             }
         },
         settings: {
-            duration: 1000,
-            easing: "linear"
+            duration: 3000,
+            easing: _bezier(1,-0.76,.15,1.55)
         }
     });
 	});

@@ -14,8 +14,9 @@ TypeScript declarations are available as of 1.2.1, in `dist/src/animatePaper.d.t
  * `settings.complete` callback takes the `Animation`object as 1st argument.
  * Color support for `paper.Group` animation (1.1.*)
  * rgb, gray, hsl, hbs Color formats are now supported (1.1.*)
- * bug fix : negative absolute position supported (relative values must be of string type)
- * bug fix : allow 0 duration
+ * bug fix : negative absolute position supported (relative values must be of string type) (1.2.*)
+ * bug fix : allow 0 duration (1.2.*)
+ * custom easings : you can now pass a `function` `(p: number) => number` to `settings.easing` (1.2.*)
 
 ## How to use :
 ### npm and browserify
@@ -203,9 +204,24 @@ The `stop` method can take a `goToEnd` argument.
 If true, all the animations will take their final value and `complete` callbacks will be called.
 
 
-### Add custom easing functions
+### Easing
 
-You can use `animatePaper.extendEasing(myEasingFunctions)` method to add your own easing functions or override any existing easing.
+By default, the supported easing functions are : linear, swing, easeInSine, easeOutSine, easeInOutSine, easeInCirc, easeOutCirc, easeInOutCirc, easeInElastic, easeOutElastic, easeInOutElastic, easeInBack, easeOutBack, easeInOutBack, easeInBounce, easeOutBounce, easeInOutBounce, easeInQuad, easeOutQuad, easeInOutQuad, easeInCubic, easeOutCubic, easeInOutCubic, easeInQuart, easeOutQuart, easeInOutQuart, easeInQuint, easeOutQuint, easeInOutQuint, easeInExpo, easeOutExpo, easeInOutExpo.
+
+If you want to use more easing functions, `settings.easing` can take a `(p: number) => number` function as a value, so that you can use your own or use some from an external library such as [bezier-easing](https://github.com/gre/bezier-easing).
+```js
+animatePaper.animate(item,{
+    properties: {
+      /** ... **/
+    },
+    settings: {
+      /** ... **/
+      easing: BezierEasing(0, 0, 1, 0.5)
+    }
+});
+```
+
+Alternatively, you can use the `animatePaper.extendEasing(myEasingFunctions)` method to add your own easing functions or override any existing easing.
 
 The method takes only one argument : an object in which keys are easing names, and values are easing functions:
 
@@ -216,6 +232,8 @@ animatePaper.extendEasing({
     }
 });
 ```
+
+Learn more about easing [here](http://easings.net/).
 
 ### Extend property hooks
 
@@ -264,7 +282,8 @@ as of 1.2.1 the lib uses TypeScript, so make your changes in src/*.ts then build
 
 ## TODOS
  * Change how `item.data._animatePaperVals` works to allow multiple animations of the same property at the same time.
- * tests
+ * Change `Tween` so that we garantee values are right at `0`and `1` positions, to avoid problems with imprecise numbers (floating point). See "Negative position" in tests.js.
+ * Add tests
 
 ## Help needed !
 

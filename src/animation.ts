@@ -3,7 +3,6 @@ import { Tween } from "./tween";
 import * as frameManager from "./frameManager";
 import { easing } from "./easing";
 
-
 /**
  *  Animation class. Default settings are :
  *
@@ -40,7 +39,7 @@ export class Animation {
         delay?: number,
         duration?: number,
         repeat?: Function,
-        easing: string,
+        easing: string | Function,
         center?: { x: number, y: number},
         rotateCenter?: { x: number, y: number },
         scaleCenter?: { x: number, y: number }
@@ -50,10 +49,10 @@ export class Animation {
     repeat?: Function | 0;
     repeatCallback?: Function;
     ticker: any;
-    _continue?: () => mixed;
+    _continue?: () => any;
     tweens: Array<Tween>;
     _dataIndex: number;
-    constructor(item: paper.Item, properties: {}, settings: { parentItem?: paper.Item, repeat?: Function, easing: string }, _continue: () => any) {
+    constructor(item: paper.Item, properties: {}, settings: { parentItem?: paper.Item, repeat?: Function, easing: string | Function }, _continue: () => any) {
 
         /**
          *  True if the animation is stopped
@@ -319,11 +318,15 @@ function _initializeSettings(settings) {
     if (typeof settings.easing === "undefined") {
         settings.easing = defaults.easing;
     }
-    if (typeof easing[settings.easing] !== "undefined" && easing.hasOwnProperty(settings.easing)) {
-        settings.easingFunction = easing[settings.easing];
+    if (typeof settings.easing === "function") {
+        settings.easingFunction = settings.easing;
     } else {
-        settings.easing = defaults.easing;
-        settings.easingFunction = easing[defaults.easing];
+        if (typeof easing[settings.easing] !== "undefined" && easing.hasOwnProperty(settings.easing)) {
+            settings.easingFunction = easing[settings.easing];
+        } else {
+            settings.easing = defaults.easing;
+            settings.easingFunction = easing[defaults.easing];
+        }
     }
 
 

@@ -183,12 +183,17 @@ function _initializeSettings(settings) {
     if (typeof settings.easing === "undefined") {
         settings.easing = defaults.easing;
     }
-    if (typeof easing_1.easing[settings.easing] !== "undefined" && easing_1.easing.hasOwnProperty(settings.easing)) {
-        settings.easingFunction = easing_1.easing[settings.easing];
+    if (typeof settings.easing === "function") {
+        settings.easingFunction = settings.easing;
     }
     else {
-        settings.easing = defaults.easing;
-        settings.easingFunction = easing_1.easing[defaults.easing];
+        if (typeof easing_1.easing[settings.easing] !== "undefined" && easing_1.easing.hasOwnProperty(settings.easing)) {
+            settings.easingFunction = easing_1.easing[settings.easing];
+        }
+        else {
+            settings.easing = defaults.easing;
+            settings.easingFunction = easing_1.easing[defaults.easing];
+        }
     }
     if (typeof settings.complete !== "function") {
         settings.complete = undefined;

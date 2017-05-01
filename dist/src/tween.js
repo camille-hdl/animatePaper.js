@@ -30,7 +30,14 @@ var Tween = (function () {
         var hooks = prophooks_1._tweenPropHooks[self.prop];
         var settings = self.A.settings;
         if (settings.duration) {
-            self.pos = eased = easing_1.easing[settings.easing](percent, settings.duration * percent, 0, 1, self.duration);
+            var easingFunc = void 0;
+            if (typeof settings.easing === "function") {
+                easingFunc = settings.easing;
+            }
+            else {
+                easingFunc = easing_1.easing[settings.easing];
+            }
+            self.pos = eased = easingFunc(percent, settings.duration * percent, 0, 1, self.duration);
         }
         else {
             self.pos = eased = percent;

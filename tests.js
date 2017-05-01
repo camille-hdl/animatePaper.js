@@ -171,6 +171,41 @@ QUnit.test( "0 duration", function( assert ) {
         square.remove();
     }, expectedTime + 1);
 });
+QUnit.test( "custom easing (callback)", function( assert ) {
+    resetCanvas();
+    var scope = paper.setup('defCanvas');
+    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+    var myBezier = _bezier(0, 0, 1, 0.5);
+    var myEasingUsed = 0;
+    var myEasing = function(p) {
+        myEasingUsed++;
+        return myBezier(p);
+    }
+    square.strokeColor = "black";
+    var expectedTime = 300;
+    var completed = false;
+    animatePaper.animate(square,{
+        properties: {
+            position: {
+                x: 100
+            }
+        },
+        settings: {
+            duration: expectedTime,
+            easing: myEasing,
+            complete: function() {
+                completed = true;
+            }
+        }
+    });
+    var done = assert.async();
+    setTimeout(function() {
+        var easingUsed = myEasingUsed;
+        assert.ok(myEasingUsed > 0, "Custom easing should be used. Used : " + myEasingUsed + " times");
+        done();
+        square.remove();
+    }, expectedTime + 1);
+});
 
 
 function resetCanvas() {

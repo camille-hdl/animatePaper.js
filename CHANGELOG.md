@@ -1,5 +1,6 @@
 # 1.2.1
  * TS rewrite : TS declaration is available in dist/src/animatePaper.d.ts
+ * custom easings : you can now pass a `function` `(p: number) => number` to `settings.easing`
  * bug fix : negative absolute position supported (relative values must be of string type)
  * bug fix : allow 0 duration
 
