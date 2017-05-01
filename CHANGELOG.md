@@ -1,7 +1,7 @@
 # 1.2.1
  * TS rewrite : TS declaration is available in dist/src/animatePaper.d.ts
- * TODO negative position supported (relative values must be of string type)
- * 
+ * bug fix : negative absolute position supported (relative values must be of string type)
+ * bug fix : allow 0 duration
 
 # 1.1.1
  * Color support for `paper.Group` animation
