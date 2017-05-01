@@ -91,9 +91,14 @@ var __tweenPropHooks = {
             }
             return output;
         },
-        set: function (tween) {
+        set: function (tween, percent) {
             var toSet = {};
-            toSet[tween.prop] = tween.now;
+            if (percent === 1) {
+                toSet[tween.prop] = tween.end;
+            }
+            else {
+                toSet[tween.prop] = tween.now;
+            }
             tween.item.set(toSet);
         }
     },
@@ -108,7 +113,7 @@ var __tweenPropHooks = {
             var output = tween.item.data._animatePaperVals.scale;
             return output;
         },
-        set: function (tween) {
+        set: function (tween, percent) {
             var curScaling = tween.item.data._animatePaperVals.scale;
             var trueScaling = tween.now / curScaling;
             tween.item.data._animatePaperVals.scale = tween.now;
@@ -189,9 +194,37 @@ var __tweenPropHooks = {
                 y: tween.item.position.y
             };
         },
-        set: function (tween) {
-            tween.item.position.x += tween.now.x;
-            tween.item.position.y += tween.now.y;
+        set: function (tween, percent) {
+            if (percent === 1) {
+                var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+                var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
+                if (typeof tween.end.x !== "undefined") {
+                    if (dirX === "+") {
+                        tween.item.position.x = tween.start.x + endX;
+                    }
+                    else if (dirX === "-") {
+                        tween.item.position.x = tween.start.x - endX;
+                    }
+                    else {
+                        tween.item.position.x = tween.end.x;
+                    }
+                }
+                if (typeof tween.end.y !== "undefined") {
+                    if (dirY === "+") {
+                        tween.item.position.y = tween.start.y + endY;
+                    }
+                    else if (dirY === "-") {
+                        tween.item.position.y = tween.start.y - endY;
+                    }
+                    else {
+                        tween.item.position.y = tween.end.y;
+                    }
+                }
+            }
+            else {
+                tween.item.position.x += tween.now.x;
+                tween.item.position.y += tween.now.y;
+            }
         },
         ease: function (tween, eased) {
             if (typeof tween._easePositionCache === "undefined") {
@@ -251,9 +284,37 @@ var __tweenPropHooks = {
                 y: tween.item.y
             };
         },
-        set: function (tween) {
-            tween.item.x += tween.now.x;
-            tween.item.y += tween.now.y;
+        set: function (tween, percent) {
+            if (percent === 1) {
+                var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+                var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
+                if (typeof tween.end.x !== "undefined") {
+                    if (dirX === "+") {
+                        tween.item.x = tween.start.x + endX;
+                    }
+                    else if (dirX === "-") {
+                        tween.item.x = tween.start.x - endX;
+                    }
+                    else {
+                        tween.item.x = tween.end.x;
+                    }
+                }
+                if (typeof tween.end.y !== "undefined") {
+                    if (dirY === "+") {
+                        tween.item.y = tween.start.y + endY;
+                    }
+                    else if (dirY === "-") {
+                        tween.item.y = tween.start.y - endY;
+                    }
+                    else {
+                        tween.item.y = tween.end.y;
+                    }
+                }
+            }
+            else {
+                tween.item.x += tween.now.x;
+                tween.item.y += tween.now.y;
+            }
         },
         ease: function (tween, eased) {
             if (typeof tween._easePositionCache === "undefined") {

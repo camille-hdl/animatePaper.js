@@ -198,6 +198,10 @@ export class Animation {
         if (percent < 1 && l) {
             return remaining;
         } else {
+            for (var i = 0, l = self.tweens.length; i < l; i++) {
+                // ensure final value accuracy
+                self.tweens[i].run(1);
+            }
             self.end();
             return false;
         }

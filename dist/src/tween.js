@@ -49,10 +49,10 @@ var Tween = (function () {
             self.now = (self.end - self.start) * eased + self.start;
         }
         if (hooks && hooks.set) {
-            hooks.set(self);
+            hooks.set(self, percent);
         }
         else {
-            prophooks_1._tweenPropHooks._default.set(self);
+            prophooks_1._tweenPropHooks._default.set(self, percent);
         }
         return self;
     };

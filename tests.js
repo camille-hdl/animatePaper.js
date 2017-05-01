@@ -123,7 +123,8 @@ QUnit.test( "Negative position", function( assert ) {
     animatePaper.animate(square,{
         properties: {
             position: {
-                x: -100
+                x: -100,
+                y: 100
             }
         },
         settings: {
@@ -134,11 +135,12 @@ QUnit.test( "Negative position", function( assert ) {
     var done = assert.async();
     setTimeout(function() {
         let newX = square.position.x;
-        assert.ok(newX > -101, "new position.x should be around -100");
-        assert.ok(newX < -99, "new position.x should be around -100");
+        assert.equal(newX, -100, "new position.x should be -100");
+        let newY = square.position.y;
+        assert.equal(newY, 100, "new position.y should be 100");
         done();
         square.remove();
-    }, expectedTime + 10);
+    }, expectedTime + 100);
 });
 QUnit.test( "0 duration", function( assert ) {
     resetCanvas();
@@ -150,7 +152,8 @@ QUnit.test( "0 duration", function( assert ) {
     animatePaper.animate(square,{
         properties: {
             position: {
-                x: 100
+                x: 100,
+                y: "+50"
             }
         },
         settings: {
@@ -161,15 +164,21 @@ QUnit.test( "0 duration", function( assert ) {
             }
         }
     });
+    var expected = {
+        x: 100,
+        y: square.position.y + 50
+    }
     var done = assert.async();
     setTimeout(function() {
         var isCompleted = completed;
         assert.ok(isCompleted, "Sould be already finished");
         let newX = square.position.x;
-        assert.equal(newX, 100, "new position.x should be 100");
+        assert.equal(newX, expected.x, "new position.x should be " + expected.x);
+        let newY = square.position.y;
+        assert.equal(newY, expected.y, "new position.y should be " + expected.y);
         done();
         square.remove();
-    }, expectedTime + 1);
+    }, expectedTime + 100);
 });
 QUnit.test( "custom easing (callback)", function( assert ) {
     resetCanvas();
@@ -204,7 +213,7 @@ QUnit.test( "custom easing (callback)", function( assert ) {
         assert.ok(myEasingUsed > 0, "Custom easing should be used. Used : " + myEasingUsed + " times");
         done();
         square.remove();
-    }, expectedTime + 1);
+    }, expectedTime + 100);
 });
 
 

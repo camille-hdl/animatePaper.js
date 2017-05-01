@@ -84,6 +84,9 @@ var Animation = (function () {
             return remaining;
         }
         else {
+            for (var i = 0, l = self.tweens.length; i < l; i++) {
+                self.tweens[i].run(1);
+            }
             self.end();
             return false;
         }

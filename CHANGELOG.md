@@ -1,3 +1,6 @@
+# 1.2.2
+ * bug fix : final value in `position` and `pointPosition` animations should now always be accurate (hopefully no more floating-point errors)
+
 # 1.2.1
  * TS rewrite : TS declaration is available in dist/src/animatePaper.d.ts
  * custom easings : you can now pass a `function` `(p: number) => number` to `settings.easing`

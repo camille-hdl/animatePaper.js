@@ -2,11 +2,11 @@ import { Tween } from "./tween";
 export declare const _tweenPropHooks: {
     _default: {
         get: (tween: Tween) => any;
-        set: (tween: Tween) => void;
+        set: (tween: Tween, percent: number) => void;
     };
     scale: {
         get: (tween: Tween) => any;
-        set: (tween: Tween) => void;
+        set: (tween: Tween, percent: number) => void;
     };
     rotate: {
         get: (tween: Tween) => any;
@@ -22,7 +22,7 @@ export declare const _tweenPropHooks: {
             x: any;
             y: any;
         };
-        set: (tween: Tween) => void;
+        set: (tween: Tween, percent: number) => void;
         ease: (tween: Tween, eased: number) => any;
     };
     pointPosition: {
@@ -30,7 +30,7 @@ export declare const _tweenPropHooks: {
             x: any;
             y: any;
         };
-        set: (tween: Tween) => void;
+        set: (tween: Tween, percent: number) => void;
         ease: (tween: Tween, eased: number) => any;
     };
     Color: {

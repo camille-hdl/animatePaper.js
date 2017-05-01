@@ -130,7 +130,7 @@ function _getColorComponentNames(color_obj) {
  */
 var __tweenPropHooks = {
     _default: {
-        get: function(tween: Tween) {
+        get: (tween: Tween) => {
             var output;
             if (tween.item[tween.prop] !== null) {
                 output = tween.item[tween.prop];
@@ -138,11 +138,14 @@ var __tweenPropHooks = {
 
             return output;
         },
-        set: function(tween: Tween) {
-
+        set: (tween: Tween, percent: number) => {
             var toSet = {};
-            toSet[tween.prop] = tween.now;
-            tween.item.set(toSet);
+            if (percent === 1) {
+                toSet[tween.prop] = tween.end;
+            } else {
+                toSet[tween.prop] = tween.now;
+            }
+            tween.item.set(toSet)
         }
     },
     scale: {
@@ -156,7 +159,7 @@ var __tweenPropHooks = {
             var output = tween.item.data._animatePaperVals.scale;
             return output;
         },
-        set: function(tween: Tween) {
+        set: function(tween: Tween, percent: number) {
 
             var curScaling = tween.item.data._animatePaperVals.scale;
             var trueScaling = tween.now / curScaling;
@@ -239,6 +242,7 @@ var __tweenPropHooks = {
             return tween.now;
         }
     },
+    // used to move Item() objects
     position: {
         get: function(tween: Tween) {
             return {
@@ -246,11 +250,35 @@ var __tweenPropHooks = {
                 y: tween.item.position.y
             };
         },
-        set: function(tween: Tween) {
-
-            tween.item.position.x += tween.now.x;
-            tween.item.position.y += tween.now.y;
-
+        set: function(tween: Tween, percent: number) {
+            if (percent === 1) {
+                // ensure final value is accurate
+                const { value: endX, direction: dirX} = _parseAbsoluteOrRelative(tween.end.x || 0);
+                const { value: endY, direction: dirY} = _parseAbsoluteOrRelative(tween.end.y || 0);
+                if (typeof tween.end.x !== "undefined") {
+                    if (dirX === "+") {
+                        tween.item.position.x = tween.start.x + endX;
+                    } else if (dirX === "-") {
+                        tween.item.position.x = tween.start.x - endX;
+                    }
+                    else {
+                        tween.item.position.x = tween.end.x;
+                    }
+                }
+                if (typeof tween.end.y !== "undefined") {
+                    if (dirY === "+") {
+                        tween.item.position.y = tween.start.y + endY;
+                    } else if (dirY === "-") {
+                        tween.item.position.y = tween.start.y - endY;
+                    }
+                    else {
+                        tween.item.position.y = tween.end.y;
+                    }
+                }
+            } else {
+                tween.item.position.x += tween.now.x;
+                tween.item.position.y += tween.now.y;
+            }
         },
         ease: function(tween: Tween, eased: number) {
             // used to store value progess
@@ -311,6 +339,7 @@ var __tweenPropHooks = {
             return tween.now;
         }
     },
+    // used to move Point() objects
     pointPosition: {
         get: function(tween: Tween) {
             return {
@@ -318,9 +347,35 @@ var __tweenPropHooks = {
                 y: tween.item.y
             };
         },
-        set: function(tween: Tween) {
-            tween.item.x += tween.now.x;
-            tween.item.y += tween.now.y;
+        set: function(tween: Tween, percent: number) {
+            if (percent === 1) {
+                // ensure final value is accurate
+                const { value: endX, direction: dirX} = _parseAbsoluteOrRelative(tween.end.x || 0);
+                const { value: endY, direction: dirY} = _parseAbsoluteOrRelative(tween.end.y || 0);
+                if (typeof tween.end.x !== "undefined") {
+                    if (dirX === "+") {
+                        tween.item.x = tween.start.x + endX;
+                    } else if (dirX === "-") {
+                        tween.item.x = tween.start.x - endX;
+                    }
+                    else {
+                        tween.item.x = tween.end.x;
+                    }
+                }
+                if (typeof tween.end.y !== "undefined") {
+                    if (dirY === "+") {
+                        tween.item.y = tween.start.y + endY;
+                    } else if (dirY === "-") {
+                        tween.item.y = tween.start.y - endY;
+                    }
+                    else {
+                        tween.item.y = tween.end.y;
+                    }
+                }
+            } else {
+                tween.item.x += tween.now.x;
+                tween.item.y += tween.now.y;
+            }
         },
         ease: function(tween: Tween, eased: number) {
             // used to store value progess

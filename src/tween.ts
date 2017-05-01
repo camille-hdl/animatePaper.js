@@ -114,17 +114,19 @@ export class Tween {
         } else {
             self.pos = eased = percent;
         }
+        
         // refresh current value
         if (hooks && hooks.ease) {
             hooks.ease(self, eased);
         } else {
             self.now = (self.end - self.start) * eased + self.start;
         }
+    
 
         if (hooks && hooks.set) {
-            hooks.set(self);
+            hooks.set(self, percent);
         } else {
-            _tweenPropHooks._default.set(self);
+            _tweenPropHooks._default.set(self, percent);
         }
 
         return self;
