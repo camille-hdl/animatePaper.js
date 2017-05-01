@@ -3,16 +3,23 @@ An animation library for [paper.js](http://paperjs.org/).
 
 See a live demo [on jsbin](http://jsbin.com/naketikuve/edit?js,output).
 
+## TypeScript
+TypeScript declarations are available as of 1.2.1, in `dist/src/animatePaper.d.ts`.
+
 ## Changelog from 0.x to 1.x
  * `paper` is now a peerDependency, this should remove unnecessary code from your dependency tree.
  * The `segmentGrow` property and `grow` effect have been removed (this feature was very buggy).
  * When using `rotate` or `scale` properties, you can provide a new setting : `center` (or `rotateCenter`/`scaleCenter`) (default is `item.position`).
  * `Animation` supports a new option `repeat` (defaults to `0`).
  * `settings.complete` callback takes the `Animation`object as 1st argument.
+ * Color support for `paper.Group` animation (1.1.*)
+ * rgb, gray, hsl, hbs Color formats are now supported (1.1.*)
 
 ## How to use :
 ### npm and browserify
 `npm install --save paper-animate`  
+then  
+`import * as animatePaper from "paper-animate";` or `var animatePaper = require("paper-animate")`
 
 
 ### bower
@@ -32,12 +39,12 @@ Get the minified file in `dist/paper-animate-browser.min.js`, and include it in 
 
 This is a work in progress, and any help or feedback is more than welcome.
 
-So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor` and `strokeColor` are supported, but I add a bit more whenever I have the time.
+So far, only `opacity`, `position`, `scale`, `rotate`, `translate`, `fillColor` and `strokeColor` are supported, but I add more whenever I have the time.
 
 
 ### Animate an Item
 
-(you can animate a `Group` too, but it's up to what property will be changed: while you can animate a group's `position` or `scale`, you can't animate it's `fillColor`)
+(you can animate a `Group` too)
 
 You can either use a predefined animation :
 ```js
@@ -86,6 +93,8 @@ square.animate({
   }
 });
 ```
+
+> Note : Relative values must be strings.
 
 ### Repeat
 If you want your `Animation` to run more than once, you can use the `settings.repeat` option (defaults to `0`).  
@@ -247,11 +256,12 @@ animatePaper.fx.wave = function(item,settings) {
 animatePaper.fx.wave(myItem);
 ```
 
+## Contributing
+as of 1.2.1 the lib uses TypeScript, so make your changes in src/*.ts then build with `gulp build-paper-animate` and `gulp build-paper-animate-browser`
+ 
 
-## TODOS for 1.0.2
- * rewrite in ES6 ?
+## TODOS
  * Change how `item.data._animatePaperVals` works to allow multiple animations of the same property at the same time.
- * feature from #9
  * tests
 
 ## Help needed !
@@ -263,8 +273,8 @@ any help would be appreciated :-)
 ## Author
 camille dot hodoul at gmail dot com
 
-## Thanks
+## Contributors
  * User [pueding](https://github.com/pueding) for bug fixes and delay feature.
- * Users [s-light](https://github.com/s-light) and [StratusBase](https://github.com/StratusBase) for feedback, ideas and contributions.
+ * Users [s-light](https://github.com/s-light) and [StratusBase](https://github.com/StratusBase) for feedback, ideas and contributions (Group Color support, bug fixes).
 
 @Eartz_HC

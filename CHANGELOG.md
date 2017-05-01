@@ -1,5 +1,5 @@
 # 1.2.1
- * TS rewrite
+ * TS rewrite : TS declaration is available in dist/src/animatePaper.d.ts
  * TODO negative position supported (relative values must be of string type)
  * 
 
