@@ -140,6 +140,37 @@ QUnit.test( "Negative position", function( assert ) {
         square.remove();
     }, expectedTime + 10);
 });
+QUnit.test( "0 duration", function( assert ) {
+    resetCanvas();
+    var scope = paper.setup('defCanvas');
+    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+    square.strokeColor = "black";
+    var expectedTime = 0;
+    var completed = false;
+    animatePaper.animate(square,{
+        properties: {
+            position: {
+                x: 100
+            }
+        },
+        settings: {
+            duration: expectedTime,
+            easing: "linear",
+            complete: function() {
+                completed = true;
+            }
+        }
+    });
+    var done = assert.async();
+    setTimeout(function() {
+        var isCompleted = completed;
+        assert.ok(isCompleted, "Sould be already finished");
+        let newX = square.position.x;
+        assert.equal(newX, 100, "new position.x should be 100");
+        done();
+        square.remove();
+    }, expectedTime + 1);
+});
 
 
 function resetCanvas() {

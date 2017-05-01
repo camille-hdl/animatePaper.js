@@ -154,7 +154,7 @@ function _initializeSettings(settings) {
     }
     else {
         settings.duration = Number(settings.duration);
-        if (settings.duration < 1) {
+        if (settings.duration < 0) {
             settings.duration = defaults.duration;
         }
     }
