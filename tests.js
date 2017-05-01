@@ -114,6 +114,32 @@ QUnit.test( "settings.delay", function( assert ) {
         square.remove();
     }, 250);
 });
+QUnit.test( "Negative position", function( assert ) {
+    resetCanvas();
+    var scope = paper.setup('defCanvas');
+    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+    square.strokeColor = "black";
+    var expectedTime = 2000;
+    animatePaper.animate(square,{
+        properties: {
+            position: {
+                x: -100
+            }
+        },
+        settings: {
+            duration: expectedTime,
+            easing: "linear"
+        }
+    });
+    var done = assert.async();
+    setTimeout(function() {
+        let newX = square.position.x;
+        assert.ok(newX > -101, "new position.x should be around -100");
+        assert.ok(newX < -99, "new position.x should be around -100");
+        done();
+        square.remove();
+    }, expectedTime + 10);
+});
 
 
 function resetCanvas() {

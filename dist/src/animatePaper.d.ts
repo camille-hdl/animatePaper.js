@@ -58,7 +58,10 @@ declare namespace animatePaper {
         delay?: number;
         duration?: number;
         repeat?: Function | number;
-        easing: string;
+        easing?: string;
+        center?: { x: number, y: number};
+        rotateCenter?: { x: number, y: number };
+        scaleCenter?: { x: number, y: number };
     }
     interface paperItem {
         

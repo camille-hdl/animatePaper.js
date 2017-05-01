@@ -1,6 +1,17 @@
 "use strict";
 exports.__esModule = true;
 var dirRegexp = /^([+\-])(.+)/;
+function _parseAbsoluteOrRelative(value) {
+    var valueNumber = null;
+    var valueDirection = "";
+    valueNumber = Number(value);
+    if (typeof value === "string") {
+        var valueMatch = value.match(dirRegexp);
+        valueDirection = valueMatch[1];
+        valueNumber = Number(valueMatch[2]);
+    }
+    return { value: valueNumber, direction: valueDirection };
+}
 var __pointDiff = function (a, b, operator) {
     if (['+', '-'].indexOf(operator) === -1)
         return;
@@ -183,32 +194,14 @@ var __tweenPropHooks = {
             tween.item.position.y += tween.now.y;
         },
         ease: function (tween, eased) {
-            var dirX = "";
-            var dirY = "";
-            var rX = null;
-            var rY = null;
             if (typeof tween._easePositionCache === "undefined") {
                 tween._easePositionCache = {
                     x: 0,
                     y: 0
                 };
             }
-            var endX = Number(tween.end.x || 0);
-            var endY = Number(tween.end.y || 0);
-            if (!!tween.end.x) {
-                rX = ("" + tween.end.x).match(dirRegexp);
-            }
-            if (!!tween.end.y) {
-                rY = ("" + tween.end.y).match(dirRegexp);
-            }
-            if (!!rX) {
-                dirX = rX[1];
-                endX = Number(rX[2]);
-            }
-            if (!!rY) {
-                dirY = rY[1];
-                endY = Number(rY[2]);
-            }
+            var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+            var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
             var _ease = function (val) {
                 return ((val || 0) * eased);
             };
@@ -263,32 +256,14 @@ var __tweenPropHooks = {
             tween.item.y += tween.now.y;
         },
         ease: function (tween, eased) {
-            var dirX = "";
-            var dirY = "";
-            var rX = null;
-            var rY = null;
             if (typeof tween._easePositionCache === "undefined") {
                 tween._easePositionCache = {
                     x: 0,
                     y: 0
                 };
             }
-            var endX = Number(tween.end.x || 0);
-            var endY = Number(tween.end.y || 0);
-            if (!!tween.end.x) {
-                rX = ("" + tween.end.x).match(dirRegexp);
-            }
-            if (!!tween.end.y) {
-                rY = ("" + tween.end.y).match(dirRegexp);
-            }
-            if (!!rX) {
-                dirX = rX[1];
-                endX = Number(rX[2]);
-            }
-            if (!!rY) {
-                dirY = rY[1];
-                endY = Number(rY[2]);
-            }
+            var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+            var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
             var _ease = function (val) {
                 return ((val || 0) * eased);
             };
@@ -361,22 +336,13 @@ var __tweenPropHooks = {
             for (var _i = 0, component_names_3 = component_names; _i < component_names_3.length; _i++) {
                 var component_name = component_names_3[_i];
                 var curProp = component_name;
-                var dir = "";
-                var r = [];
                 if (typeof tween._easeColorCache === "undefined") {
                     tween._easeColorCache = {};
                 }
                 if (typeof tween._easeColorCache[curProp] === "undefined") {
                     tween._easeColorCache[curProp] = 0;
                 }
-                var end = Number(tween.end[curProp] || 0);
-                if (!!tween.end[curProp]) {
-                    r = ("" + tween.end[curProp]).match(dirRegexp);
-                }
-                if (!!r) {
-                    dir = r[1];
-                    end = Number(r[2]);
-                }
+                var _a = _parseAbsoluteOrRelative(tween.end[curProp] || 0), end = _a.value, dir = _a.direction;
                 if (typeof tween.end[curProp] !== "undefined") {
                     if (dir === "+") {
                         tween.now[curProp] = _ease(end) - tween._easeColorCache[curProp];

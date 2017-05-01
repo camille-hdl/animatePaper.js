@@ -221,6 +221,32 @@
 	  });
 	  animatePaper.fx.splash(squareSplash);
 
+		var negativeSquare = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+    negativeSquare.strokeColor = "black";
+    animatePaper.animate(negativeSquare,{
+        properties: {
+            position: {
+                x: -100
+            }
+        },
+        settings: {
+            duration: 1000,
+            easing: "linear"
+        }
+    });
+		var negativeRelSquare = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+    negativeRelSquare.strokeColor = "black";
+    animatePaper.animate(negativeRelSquare,{
+        properties: {
+            position: {
+                x: "-100"
+            }
+        },
+        settings: {
+            duration: 1000,
+            easing: "linear"
+        }
+    });
 	});
   </script>
 </head>

@@ -1,6 +1,33 @@
 var dirRegexp = /^([+\-])(.+)/;
 import { Tween } from "./tween";
 /**
+ *  check if value is relative or absolute
+ *  by : https://github.com/s-light/
+ *  https://github.com/Eartz/animatePaper.js/pull/15
+ *  @private
+ *  @method _parseAbsoluteOrRelative
+ *  @param {Number} | {String} value to check
+ *  @return {Object} `{value: Number, dir: String}`
+ *  @for Tween
+ */
+function _parseAbsoluteOrRelative(value: string | number): { value: number, direction: string } {
+    let valueNumber = null;
+    let valueDirection = "";
+
+    // handle absolute values
+    valueNumber = Number(value);
+
+    // check for relative values
+    if (typeof value === "string") {
+        const valueMatch = value.match(dirRegexp);
+        valueDirection = valueMatch[1];
+        valueNumber = Number(valueMatch[2]);
+    }
+
+    return { value: valueNumber, direction: valueDirection };
+}
+
+/**
  *  Performs an operation on two paper.Point() objects.
  *  Returns the result of : ` a operator b`.
  *  @private
@@ -135,7 +162,7 @@ var __tweenPropHooks = {
             var trueScaling = tween.now / curScaling;
 
             tween.item.data._animatePaperVals.scale = tween.now;
-            var center = false;
+            var center: any = false;
             if (typeof tween.A.settings.center !== "undefined") {
                 center = tween.A.settings.center;
             }
@@ -166,7 +193,7 @@ var __tweenPropHooks = {
 
             tween.item.data._animatePaperVals.rotate = tween.now;
 
-            var center = false;
+            var center: any = false;
             if (typeof tween.A.settings.center !== "undefined") {
                 center = tween.A.settings.center;
             }
@@ -226,13 +253,6 @@ var __tweenPropHooks = {
 
         },
         ease: function(tween: Tween, eased: number) {
-            // If the values start with + or -,
-            // the values are relative to the current pos
-            var dirX = "";
-            var dirY = "";
-            var rX = null;
-            var rY = null;
-
             // used to store value progess
             if(typeof tween._easePositionCache === "undefined") {
                 tween._easePositionCache = {
@@ -240,25 +260,9 @@ var __tweenPropHooks = {
                     y: 0
                 };
             }
-
-
-            var endX = Number(tween.end.x || 0);
-            var endY = Number(tween.end.y || 0);
-
-            if(!!tween.end.x) {
-                rX = (""+tween.end.x).match(dirRegexp);
-            }
-            if(!!tween.end.y) {
-                rY = (""+tween.end.y).match(dirRegexp);
-            }
-            if(!!rX) {
-                dirX = rX[1];
-                endX = Number(rX[2]);
-            }
-            if(!!rY) {
-                dirY = rY[1];
-                endY = Number(rY[2]);
-            }
+ 
+            const { value: endX, direction: dirX} = _parseAbsoluteOrRelative(tween.end.x || 0);
+            const { value: endY, direction: dirY} = _parseAbsoluteOrRelative(tween.end.y || 0);
 
             var _ease = function(val) {
                 return ((val || 0) * eased);
@@ -319,13 +323,6 @@ var __tweenPropHooks = {
             tween.item.y += tween.now.y;
         },
         ease: function(tween: Tween, eased: number) {
-            // If the values start with + or -,
-            // the values are relative to the current pos
-            var dirX = "";
-            var dirY = "";
-            var rX = null;
-            var rY = null;
-
             // used to store value progess
             if(typeof tween._easePositionCache === "undefined") {
                 tween._easePositionCache = {
@@ -333,24 +330,8 @@ var __tweenPropHooks = {
                     y: 0
                 };
             }
-
-            var endX = Number(tween.end.x || 0);
-            var endY = Number(tween.end.y || 0);
-
-            if(!!tween.end.x) {
-                rX = (""+tween.end.x).match(dirRegexp);
-            }
-            if(!!tween.end.y) {
-                rY = (""+tween.end.y).match(dirRegexp);
-            }
-            if(!!rX) {
-                dirX = rX[1];
-                endX = Number(rX[2]);
-            }
-            if(!!rY) {
-                dirY = rY[1];
-                endY = Number(rY[2]);
-            }
+            const { value: endX, direction: dirX} = _parseAbsoluteOrRelative(tween.end.x || 0);
+            const { value: endY, direction: dirY} = _parseAbsoluteOrRelative(tween.end.y || 0);
 
             var _ease = function(val) {
                 return ((val || 0) * eased);
@@ -444,22 +425,17 @@ var __tweenPropHooks = {
                 };
                 for (const component_name of component_names) {
                     var curProp = component_name;
-                    var dir = "";
-                    var r = [];
                     if (typeof tween._easeColorCache === "undefined") {
                         tween._easeColorCache = {};
                     }
                     if (typeof tween._easeColorCache[curProp] === "undefined") {
                         tween._easeColorCache[curProp] = 0;
                     }
-                    var end = Number(tween.end[curProp] || 0);
-                    if (!!tween.end[curProp]) {
-                        r = ("" + tween.end[curProp]).match(dirRegexp);
-                    }
-                    if (!!r) {
-                        dir = r[1];
-                        end = Number(r[2]);
-                    }
+
+                    // If the values are strings and start with + or -,
+                    // the values are relative to the current pos
+                    const {value: end, direction: dir} = _parseAbsoluteOrRelative(tween.end[curProp] || 0);
+
                     if (typeof tween.end[curProp] !== "undefined") {
                         if (dir === "+") {
                             tween.now[curProp] = _ease(end) - tween._easeColorCache[curProp];

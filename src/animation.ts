@@ -40,7 +40,10 @@ export class Animation {
         delay?: number,
         duration?: number,
         repeat?: Function,
-        easing: string
+        easing: string,
+        center?: { x: number, y: number},
+        rotateCenter?: { x: number, y: number },
+        scaleCenter?: { x: number, y: number }
     };
     item: paper.Item;
     itemForAnimations: paper.Item;
