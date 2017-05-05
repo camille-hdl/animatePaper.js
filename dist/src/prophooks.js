@@ -388,12 +388,12 @@ var __tweenPropHooks = {
                     var _a = _parseAbsoluteOrRelative(tween.end[component_name] || 0), end = _a.value, dir = _a.direction;
                     if (typeof tween.end[component_name] !== "undefined") {
                         if (dir === "+") {
-                            tween.now[component_name] = tween.start[component_name] + tween.end[component_name];
-                            tween._easeColorCache[component_name] = tween.start[component_name] + tween.end[component_name];
+                            tween.now[component_name] = tween.start[component_name] + end;
+                            tween._easeColorCache[component_name] = tween.start[component_name] + end;
                         }
                         else if (dir === "-") {
-                            tween.now[component_name] = tween.start[component_name] - tween.end[component_name];
-                            tween._easeColorCache[component_name] = tween.start[component_name] - tween.end[component_name];
+                            tween.now[component_name] = tween.start[component_name] - end;
+                            tween._easeColorCache[component_name] = tween.start[component_name] - end;
                         }
                         else {
                             tween.now[component_name] = tween.end[component_name];
@@ -403,11 +403,10 @@ var __tweenPropHooks = {
                     else {
                         tween.now[component_name] = tween.start[component_name];
                     }
-                    color_new[component_name] = (tween.now[component_name]);
+                    color_new[component_name] = tween.now[component_name];
                 }
                 else {
-                    color_new[component_name] = (current_color[component_name] +
-                        tween.now[component_name]);
+                    color_new[component_name] = current_color[component_name] + tween.now[component_name];
                 }
             }
             tween.item[tween.prop] = color_new;

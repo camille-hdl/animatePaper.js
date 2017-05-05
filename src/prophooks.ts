@@ -455,7 +455,6 @@ var __tweenPropHooks = {
                 // this seems to be nessesecary to avoid a bug in
                 // paper.js Color class in combinaiton with Groups and setting single properties
                 const component_names = _getColorComponentNames(tween.item[tween.prop]);
-
                 const current_color = tween.item[tween.prop];
                 const color_new = {};
                 
@@ -467,11 +466,11 @@ var __tweenPropHooks = {
                         const {value: end, direction: dir} = _parseAbsoluteOrRelative(tween.end[component_name] || 0);
                         if (typeof tween.end[component_name] !== "undefined") {
                             if (dir === "+") {
-                                tween.now[component_name] = tween.start[component_name] + tween.end[component_name];
-                                tween._easeColorCache[component_name] = tween.start[component_name] + tween.end[component_name];
+                                tween.now[component_name] = tween.start[component_name] + end;
+                                tween._easeColorCache[component_name] = tween.start[component_name] + end;
                             } else if (dir === "-") {
-                                tween.now[component_name] = tween.start[component_name] - tween.end[component_name];
-                                tween._easeColorCache[component_name] = tween.start[component_name] - tween.end[component_name];
+                                tween.now[component_name] = tween.start[component_name] - end;
+                                tween._easeColorCache[component_name] = tween.start[component_name] - end;
                             } else {
                                 tween.now[component_name] = tween.end[component_name];
                                 tween._easeColorCache[component_name] = tween.end[component_name];
@@ -479,14 +478,9 @@ var __tweenPropHooks = {
                         } else {
                             tween.now[component_name] = tween.start[component_name];
                         }
-                        color_new[component_name] = (
-                            tween.now[component_name]
-                        );
+                        color_new[component_name] = tween.now[component_name];
                     } else {
-                        color_new[component_name] = (
-                            current_color[component_name] +
-                            tween.now[component_name]
-                        );
+                        color_new[component_name] = current_color[component_name] + tween.now[component_name];
                     }
                 }
                 // console.log(percent, color_new);
