@@ -1,61 +1,6 @@
 
-QUnit.test( "Rotation", function( assert ) {
-    resetCanvas();
-    var scope = paper.setup('defCanvas');
-    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
-    square.strokeColor = "black";
-    var expectedTime = 2000;
-    animatePaper.animate(square,{
-        properties: {
-            rotate: '+160'
-        },
-        settings: {
-            duration: expectedTime,
-            easing: "linear"
-        }
-    });
-    var done = assert.async();
-    setTimeout(function() {
-        assert.equal(parseInt(square.segments[0].getCurve().bounds.x), 189, "rotation checking position of 1st segment x");
-        assert.equal(parseInt(square.segments[0].getCurve().bounds.y), 342, "rotation checking position of 1st segment y");
-        done();
-        square.remove();
-    }, expectedTime + 1);
-});
-QUnit.test( "settings.complete", function( assert ) {
-    resetCanvas();
-    var scope = paper.setup('defCanvas');
-    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
-    square.strokeColor = "black";
-    var expectedTime = 2000;
-    var done = assert.async();
-    var callbackCalled = false;
-    var setCallbackCalled = function(val) {
-        callbackCalled = val;
-    }
-    var getCallbackCalled = function() {
-        return callbackCalled;
-    }
-    animatePaper.animate(square,{
-        properties: {
-            rotate: '+160'
-        },
-        settings: {
-            duration: expectedTime,
-            easing: "linear",
-            complete: function() {
-                setCallbackCalled(true);
-            }
-        }
-    });
-    assert.ok(!getCallbackCalled(), "complete callback shouldn't be called right away");
-    setTimeout(function() {
-        assert.ok(getCallbackCalled(), "complete callback should be called at the end");
-        done();
-        square.remove();
-    }, expectedTime + 20);
-});
-QUnit.test( "settings.repeat", function( assert ) {
+QUnit.module( "Settings" );
+QUnit.test( "settings.repeat: integer", function( assert ) {
     resetCanvas();
     var scope = paper.setup('defCanvas');
     var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
@@ -81,6 +26,33 @@ QUnit.test( "settings.repeat", function( assert ) {
         done();
         square.remove();
     }, (expectedTime * 4) + 20);
+});
+QUnit.test( "settings.repeat: function", function( assert ) {
+    resetCanvas();
+    var scope = paper.setup('defCanvas');
+    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
+    square.strokeColor = "black";
+    var expectedTime = 200;
+    var done = assert.async();
+    var c = 0;
+    animatePaper.animate(square,{
+        properties: {
+            rotate: '+160'
+        },
+        settings: {
+            duration: expectedTime,
+            repeat: function() {
+                c++;
+                return c < 2;
+            },
+            easing: "linear"
+        }
+    });
+    setTimeout(function() {
+        assert.equal(c, 2, "animation should have run 2 times total");
+        done();
+        square.remove();
+    }, (expectedTime * 3) + 20);
 });
 QUnit.test( "settings.delay", function( assert ) {
     resetCanvas();
@@ -114,34 +86,7 @@ QUnit.test( "settings.delay", function( assert ) {
         square.remove();
     }, 250);
 });
-QUnit.test( "Negative position", function( assert ) {
-    resetCanvas();
-    var scope = paper.setup('defCanvas');
-    var square = new paper.Path.Rectangle(new paper.Point(150, 350), new paper.Size(50,50));
-    square.strokeColor = "black";
-    var expectedTime = 2000;
-    animatePaper.animate(square,{
-        properties: {
-            position: {
-                x: -100,
-                y: 100
-            }
-        },
-        settings: {
-            duration: expectedTime,
-            easing: "linear"
-        }
-    });
-    var done = assert.async();
-    setTimeout(function() {
-        let newX = square.position.x;
-        assert.equal(newX, -100, "new position.x should be -100");
-        let newY = square.position.y;
-        assert.equal(newY, 100, "new position.y should be 100");
-        done();
-        square.remove();
-    }, expectedTime + 100);
-});
+
 QUnit.test( "0 duration", function( assert ) {
     resetCanvas();
     var scope = paper.setup('defCanvas');
@@ -172,10 +117,6 @@ QUnit.test( "0 duration", function( assert ) {
     setTimeout(function() {
         var isCompleted = completed;
         assert.ok(isCompleted, "Sould be already finished");
-        let newX = square.position.x;
-        assert.equal(newX, expected.x, "new position.x should be " + expected.x);
-        let newY = square.position.y;
-        assert.equal(newY, expected.y, "new position.y should be " + expected.y);
         done();
         square.remove();
     }, expectedTime + 100);
@@ -215,10 +156,3 @@ QUnit.test( "custom easing (callback)", function( assert ) {
         square.remove();
     }, expectedTime + 100);
 });
-
-
-function resetCanvas() {
-    $('#defCanvas').remove();
-    var $c = $('<canvas width="1000px" height="700px" style="visibility:hidden;" id="defCanvas"></canvas>');
-    $('body').append($c);
-}
