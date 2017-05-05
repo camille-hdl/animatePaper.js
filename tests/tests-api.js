@@ -209,12 +209,53 @@ QUnit.test( "fillColor : hsb relative", function( assert ) {
     };
     var done = assert.async();
     setTimeout(function() {
-        console.log(square.fillColor);
         assert.equal(square.fillColor.hue, expected.hue, "new color.hue should be " + expected.hue);
         assert.equal(square.fillColor.saturation, expected.saturation, "new color.saturation should be " + expected.saturation);
         assert.equal(square.fillColor.brightness, expected.brightness, "new color.brightness should be " + expected.brightness);
         done();
         square.remove();
+    }, expectedTime + 100);
+});
+QUnit.test( "Group color animation", function( assert ) {
+    resetCanvas();
+    var scope = paper.setup('defCanvas');
+    var square = new paper.Path.Rectangle(new paper.Point(10, 60), new paper.Size(50,50));
+    var square2 = new paper.Path.Rectangle(new paper.Point(20, 120), new paper.Size(50,50));
+    var group = new paper.Group([square, square2]);
+    var color = new paper.Color({
+        alpha: 1,
+        hue: 60,
+        saturation: 0.7,
+        brightness: 1
+    });
+    var expectedTime = 200;
+    group.fillColor = color;
+    animatePaper.animate(group, {
+        properties: {
+            fillColor: {
+                hue: 90,
+                brightness: "-0.3"
+            }
+        },
+        settings: {
+            duration: expectedTime,
+            easing: "linear",
+        }
+    });
+    var expected = {
+        hue: 90,
+        saturation: 0.7,
+        brightness: 0.7
+    };
+    var done = assert.async();
+    setTimeout(function() {
+        assert.equal(group.fillColor.hue, expected.hue, "new color.hue should be " + expected.hue);
+        assert.equal(group.fillColor.saturation, expected.saturation, "new color.saturation should be " + expected.saturation);
+        assert.equal(group.fillColor.brightness, expected.brightness, "new color.brightness should be " + expected.brightness);
+        done();
+        square.remove();
+        square2.remove();
+        group.remove();
     }, expectedTime + 100);
 });
 
