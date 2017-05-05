@@ -448,10 +448,9 @@ var __tweenPropHooks = {
                 for (const component_name of component_names) {
                     result[component_name] = current_color[component_name];
                 }
-                // console.log("result", result);
                 return result;
             },
-            set: function(tween: Tween) {
+            set: function(tween: Tween, percent: number) {
                 // this creates a unlinked copy of only the color component values first.
                 // this seems to be nessesecary to avoid a bug in
                 // paper.js Color class in combinaiton with Groups and setting single properties
@@ -459,21 +458,42 @@ var __tweenPropHooks = {
 
                 const current_color = tween.item[tween.prop];
                 const color_new = {};
-
-                // console.log("tween.now", tween.now);
+                
+                    
                 for (const component_name of component_names) {
-                    color_new[component_name] = (
-                        current_color[component_name] +
-                        tween.now[component_name]
-                    );
+                    if (percent === 1) {
+                        // make sure the final value is accurate :
+                        // use directly the end value, bypassing intermediary computations
+                        const {value: end, direction: dir} = _parseAbsoluteOrRelative(tween.end[component_name] || 0);
+                        if (typeof tween.end[component_name] !== "undefined") {
+                            if (dir === "+") {
+                                tween.now[component_name] = tween.start[component_name] + tween.end[component_name];
+                                tween._easeColorCache[component_name] = tween.start[component_name] + tween.end[component_name];
+                            } else if (dir === "-") {
+                                tween.now[component_name] = tween.start[component_name] - tween.end[component_name];
+                                tween._easeColorCache[component_name] = tween.start[component_name] - tween.end[component_name];
+                            } else {
+                                tween.now[component_name] = tween.end[component_name];
+                                tween._easeColorCache[component_name] = tween.end[component_name];
+                            }
+                        } else {
+                            tween.now[component_name] = tween.start[component_name];
+                        }
+                        color_new[component_name] = (
+                            tween.now[component_name]
+                        );
+                    } else {
+                        color_new[component_name] = (
+                            current_color[component_name] +
+                            tween.now[component_name]
+                        );
+                    }
                 }
-                // console.log("color_new", color_new);
+                // console.log(percent, color_new);
                 tween.item[tween.prop] = color_new;
             },
             ease: function(tween: Tween, eased: number) {
-                // const color_type = _getColorType(tween.End);
                 const component_names = _getColorComponentNames(tween.item[tween.prop]);
-                // const props = _getColorComponentNames(tween.item[tween.prop]);
 
                 var _ease = function(val) {
                     return (val || 0) * eased;

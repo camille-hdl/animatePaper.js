@@ -378,14 +378,37 @@ var __tweenPropHooks = {
             }
             return result;
         },
-        set: function (tween) {
+        set: function (tween, percent) {
             var component_names = _getColorComponentNames(tween.item[tween.prop]);
             var current_color = tween.item[tween.prop];
             var color_new = {};
             for (var _i = 0, component_names_2 = component_names; _i < component_names_2.length; _i++) {
                 var component_name = component_names_2[_i];
-                color_new[component_name] = (current_color[component_name] +
-                    tween.now[component_name]);
+                if (percent === 1) {
+                    var _a = _parseAbsoluteOrRelative(tween.end[component_name] || 0), end = _a.value, dir = _a.direction;
+                    if (typeof tween.end[component_name] !== "undefined") {
+                        if (dir === "+") {
+                            tween.now[component_name] = tween.start[component_name] + tween.end[component_name];
+                            tween._easeColorCache[component_name] = tween.start[component_name] + tween.end[component_name];
+                        }
+                        else if (dir === "-") {
+                            tween.now[component_name] = tween.start[component_name] - tween.end[component_name];
+                            tween._easeColorCache[component_name] = tween.start[component_name] - tween.end[component_name];
+                        }
+                        else {
+                            tween.now[component_name] = tween.end[component_name];
+                            tween._easeColorCache[component_name] = tween.end[component_name];
+                        }
+                    }
+                    else {
+                        tween.now[component_name] = tween.start[component_name];
+                    }
+                    color_new[component_name] = (tween.now[component_name]);
+                }
+                else {
+                    color_new[component_name] = (current_color[component_name] +
+                        tween.now[component_name]);
+                }
             }
             tween.item[tween.prop] = color_new;
         },

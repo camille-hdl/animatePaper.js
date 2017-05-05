@@ -101,6 +101,6 @@ gulp.task('build-' + MODULE_NOM + '-browser', function () {
         .pipe(notify("" + MODULE_NOM + " OK"));
 });
 gulp.task('watch-' + MODULE_NOM + '', function() {   
-    var watcher = gulp.watch(files, ["build-" + MODULE_NOM + "-dev"]);
+    var watcher = gulp.watch(files, ["build-" + MODULE_NOM + "-browser"]);
 });
 module.exports = exports;

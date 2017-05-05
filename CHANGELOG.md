@@ -1,5 +1,5 @@
 # 1.2.2
- * bug fix : final value in `position` and `pointPosition` animations should now always be accurate (hopefully no more floating-point errors)
+ * bug fix : final value in `Color`, `position` and `pointPosition` animations should now always be accurate (hopefully no more floating-point errors)
 
 # 1.2.1
  * TS rewrite : TS declaration is available in dist/src/animatePaper.d.ts

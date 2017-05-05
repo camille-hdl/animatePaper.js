@@ -35,7 +35,7 @@ export declare const _tweenPropHooks: {
     };
     Color: {
         get: (tween: Tween) => {};
-        set: (tween: Tween) => void;
+        set: (tween: Tween, percent: number) => void;
         ease: (tween: Tween, eased: number) => any;
     };
 };

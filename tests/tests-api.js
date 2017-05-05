@@ -145,39 +145,39 @@ QUnit.test( "pointPosition relative", function( assert ) {
         square.remove();
     }, expectedTime + 100);
 });
-// QUnit.test( "strokeColor : rgb absolute", function( assert ) {
-//     resetCanvas();
-//     var scope = paper.setup('defCanvas');
-//     var square = new paper.Path.Rectangle(new paper.Point(10, 60), new paper.Size(50,50));
-//     square.strokeColor = new paper.Color(1, 0, 1);
-//     var expectedTime = 200;
-//     animatePaper.animate(square, {
-//         properties: {
-//             strokeColor: {
-//                 red: 0.5,
-//                 green: 0.4,
-//                 blue: 0.1
-//             }
-//         },
-//         settings: {
-//             duration: expectedTime,
-//             easing: "linear",
-//         }
-//     });
-//     var expected = {
-//         red: 0.5,
-//         green: 0.4,
-//         blue: 0.1
-//     };
-//     var done = assert.async();
-//     setTimeout(function() {
-//         assert.equal(square.strokeColor.green, expected.green, "new color.g should be " + expected.green);
-//         assert.equal(square.strokeColor.red, expected.red, "new color.r should be " + expected.red);
-//         assert.equal(square.strokeColor.blue, expected.blue, "new color.y should be " + expected.blue);
-//         done();
-//         square.remove();
-//     }, expectedTime + 100);
-// });
+QUnit.test( "strokeColor : rgb absolute", function( assert ) {
+    resetCanvas();
+    var scope = paper.setup('defCanvas');
+    var square = new paper.Path.Rectangle(new paper.Point(10, 60), new paper.Size(50,50));
+    square.strokeColor = new paper.Color(1, 0, 1);
+    var expectedTime = 200;
+    animatePaper.animate(square, {
+        properties: {
+            strokeColor: {
+                red: 0.5,
+                green: 0.4,
+                blue: 0.1
+            }
+        },
+        settings: {
+            duration: expectedTime,
+            easing: "linear",
+        }
+    });
+    var expected = {
+        red: 0.5,
+        green: 0.4,
+        blue: 0.1
+    };
+    var done = assert.async();
+    setTimeout(function() {
+        assert.equal(square.strokeColor.green, expected.green, "new color.g should be " + expected.green);
+        assert.equal(square.strokeColor.red, expected.red, "new color.r should be " + expected.red);
+        assert.equal(square.strokeColor.blue, expected.blue, "new color.y should be " + expected.blue);
+        done();
+        square.remove();
+    }, expectedTime + 100);
+});
 
 
 
