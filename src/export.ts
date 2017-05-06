@@ -1,9 +1,14 @@
-import { Animation } from "./animation";
+import { Animation, AnimationSettings } from "./animation";
 import * as effects from "./effects";
 import { easing } from "./easing";
 import * as _frameManager from "./frameManager";
 import { extendPropHooks } from "./prophooks";
 var paper = require("./getPaper");
+
+export interface AnimationArguments {
+    settings: AnimationSettings;
+    properties: {}
+}
 /**
  *  The main animation interface.
  *  It can take a single option object or an array of option objects
@@ -13,7 +18,7 @@ var paper = require("./getPaper");
  *  @chainable
  *  @for animatePaper
  */
-export const animate = (item: paper.Item, animation) => {
+export const animate = (item: paper.Item, animation: AnimationArguments | Array<AnimationArguments>) => {
     var animations = [];
     var output;
 

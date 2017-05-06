@@ -3,10 +3,24 @@ import { Tween } from "./tween";
 import * as frameManager from "./frameManager";
 import { easing } from "./easing";
 
+export interface AnimationSettings {
+    parentItem?: paper.Item;
+    step?: Function;
+    complete?: () => any;
+    mode: "onFrame" | "timeout";
+    delay?: number;
+    duration?: number;
+    repeat?: Function;
+    easing: string | Function;
+    center?: { x: number, y: number};
+    rotateCenter?: { x: number, y: number };
+    scaleCenter?: { x: number, y: number };
+}
+
 /**
  *  Animation class. Default settings are :
  *
- *  ````
+ *  ```
  *      var defaults = {
  *           duration: 400,
  *           easing: "linear",
@@ -15,7 +29,7 @@ import { easing } from "./easing";
  *           delay: 0,
  *           repeat: 0
  *      };
- *  ````
+ *  ```
  *  @class Animation
  *  @constructor
  *  @param {Object} item a paper.js Item instance, which will be animated.
@@ -31,19 +45,7 @@ import { easing } from "./easing";
 export class Animation {
     stopped: boolean;
     startTime: number;
-    settings: {
-        parentItem?: paper.Item,
-        step?: Function,
-        complete?: () => any,
-        mode: "onFrame" | "timeout",
-        delay?: number,
-        duration?: number,
-        repeat?: Function,
-        easing: string | Function,
-        center?: { x: number, y: number},
-        rotateCenter?: { x: number, y: number },
-        scaleCenter?: { x: number, y: number }
-    };
+    settings: AnimationSettings;
     item: paper.Item;
     itemForAnimations: paper.Item;
     repeat?: Function | 0;
@@ -52,7 +54,7 @@ export class Animation {
     _continue?: () => any;
     tweens: Array<Tween>;
     _dataIndex: number;
-    constructor(item: paper.Item, properties: {}, settings: { parentItem?: paper.Item, repeat?: Function, easing: string | Function }, _continue: () => any) {
+    constructor(item: paper.Item, properties: {}, settings: AnimationSettings, _continue: () => any) {
 
         /**
          *  True if the animation is stopped
@@ -270,7 +272,7 @@ export class Animation {
  *  @param {mixed} settings a `settings` object or undefined
  *  @private
  */
-function _initializeSettings(settings) {
+function _initializeSettings(settings): AnimationSettings {
     var defaults = {
         duration: 400,
         delay: 0,
