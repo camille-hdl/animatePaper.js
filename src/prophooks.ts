@@ -10,7 +10,7 @@ import { Tween } from "./tween";
  *  @return {Object} `{value: Number, dir: String}`
  *  @for Tween
  */
-function _parseAbsoluteOrRelative(value: string | number): { value: number, direction: string } {
+export const _parseAbsoluteOrRelative = (value: string | number): { value: number, direction: string } => {
     let valueNumber = null;
     let valueDirection = "";
 
@@ -38,7 +38,7 @@ function _parseAbsoluteOrRelative(value: string | number): { value: number, dire
  *  @return {Object} `{x: (a.x operator b.x), y: (a.y operator b.y)}`
  *  @for Tween
  */
-const __pointDiff = (a: {x: number, y: number, add: Function, subtract: Function}, b: {x: number, y: number}, operator: "+" | "-") => {
+export const __pointDiff = (a: {x: number, y: number, add: Function, subtract: Function}, b: {x: number, y: number}, operator: "+" | "-") => {
     if (['+', '-'].indexOf(operator) === -1) return;
     if (typeof a === "undefined" || typeof b === "undefined") return;
 
@@ -66,19 +66,19 @@ const __pointDiff = (a: {x: number, y: number, add: Function, subtract: Function
  *  @return {String} `color type as string`
  *  @for __tweenPropHooks.Color
  */
-function _getColorType(color_obj) {
+export const _getColorType = (color_obj) => {
     let color_type;
     // if the color_obj is created with paper.Color it has an 'type' propertie.
     if (color_obj.type) {
         color_type = color_obj.type;
     // if color_obj is a 'raw' object we search for an propertie name
-    } else if (typeof (color_obj.red !== "undefined")) {
+    } else if (typeof color_obj.red !== "undefined") {
         color_type = "rgb";
-    } else if (typeof (color_obj.lightness !== "undefined")) {
+    } else if (typeof color_obj.lightness !== "undefined") {
         color_type = "hsl";
-    } else if (typeof (color_obj.brightness !== "undefined")) {
+    } else if (typeof color_obj.brightness !== "undefined") {
         color_type = "hsb";
-    } else if (typeof (color_obj.gray !== "undefined")) {
+    } else if (typeof color_obj.gray !== "undefined") {
             color_type = "gray";
     }
     return color_type;
@@ -93,7 +93,7 @@ function _getColorType(color_obj) {
  *  @return {Array} `color component labels`
  *  @for __tweenPropHooks.Color
  */
-function _getColorComponentNames(color_obj) {
+export const _getColorComponentNames = (color_obj) => {
     let color_component_names;
     if (color_obj._properties) {
         color_component_names = color_obj._properties;
@@ -543,6 +543,9 @@ if (typeof module !== "undefined") {
     module.exports = {
         _tweenPropHooks: __tweenPropHooks,
         __pointDiff: __pointDiff,
-        extendPropHooks: extendPropHooks
+        extendPropHooks: extendPropHooks,
+        _parseAbsoluteOrRelative: _parseAbsoluteOrRelative,
+        _getColorType: _getColorType,
+        _getColorComponentNames: _getColorComponentNames
     };
 }

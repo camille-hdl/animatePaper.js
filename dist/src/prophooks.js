@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var dirRegexp = /^([+\-])(.+)/;
-function _parseAbsoluteOrRelative(value) {
+exports._parseAbsoluteOrRelative = function (value) {
     var valueNumber = null;
     var valueDirection = "";
     valueNumber = Number(value);
@@ -11,8 +11,8 @@ function _parseAbsoluteOrRelative(value) {
         valueNumber = Number(valueMatch[2]);
     }
     return { value: valueNumber, direction: valueDirection };
-}
-var __pointDiff = function (a, b, operator) {
+};
+exports.__pointDiff = function (a, b, operator) {
     if (['+', '-'].indexOf(operator) === -1)
         return;
     if (typeof a === "undefined" || typeof b === "undefined")
@@ -30,32 +30,32 @@ var __pointDiff = function (a, b, operator) {
     }
     throw new Error('Unknown operator');
 };
-function _getColorType(color_obj) {
+exports._getColorType = function (color_obj) {
     var color_type;
     if (color_obj.type) {
         color_type = color_obj.type;
     }
-    else if (typeof (color_obj.red !== "undefined")) {
+    else if (typeof color_obj.red !== "undefined") {
         color_type = "rgb";
     }
-    else if (typeof (color_obj.lightness !== "undefined")) {
+    else if (typeof color_obj.lightness !== "undefined") {
         color_type = "hsl";
     }
-    else if (typeof (color_obj.brightness !== "undefined")) {
+    else if (typeof color_obj.brightness !== "undefined") {
         color_type = "hsb";
     }
-    else if (typeof (color_obj.gray !== "undefined")) {
+    else if (typeof color_obj.gray !== "undefined") {
         color_type = "gray";
     }
     return color_type;
-}
-function _getColorComponentNames(color_obj) {
+};
+exports._getColorComponentNames = function (color_obj) {
     var color_component_names;
     if (color_obj._properties) {
         color_component_names = color_obj._properties;
     }
     else {
-        var color_type = _getColorType(color_obj);
+        var color_type = exports._getColorType(color_obj);
         switch (color_type) {
             case "gray":
                 {
@@ -81,7 +81,7 @@ function _getColorComponentNames(color_obj) {
         }
     }
     return color_component_names;
-}
+};
 var __tweenPropHooks = {
     _default: {
         get: function (tween) {
@@ -175,15 +175,15 @@ var __tweenPropHooks = {
         },
         set: function (tween) {
             var cur = tween.item.data._animatePaperVals.translate;
-            var actual = __pointDiff(tween.now, cur, "-");
+            var actual = exports.__pointDiff(tween.now, cur, "-");
             tween.item.data._animatePaperVals.translate = tween.now;
             tween.item.translate(actual);
         },
         ease: function (tween, eased) {
-            var temp = __pointDiff(tween.end, tween.start, "-");
+            var temp = exports.__pointDiff(tween.end, tween.start, "-");
             temp.x = temp.x * eased;
             temp.y = temp.y * eased;
-            tween.now = __pointDiff(temp, tween.start, "+");
+            tween.now = exports.__pointDiff(temp, tween.start, "+");
             return tween.now;
         }
     },
@@ -196,8 +196,8 @@ var __tweenPropHooks = {
         },
         set: function (tween, percent) {
             if (percent === 1) {
-                var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
-                var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
+                var _a = exports._parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+                var _b = exports._parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
                 if (typeof tween.end.x !== "undefined") {
                     if (dirX === "+") {
                         tween.item.position.x = tween.start.x + endX;
@@ -233,8 +233,8 @@ var __tweenPropHooks = {
                     y: 0
                 };
             }
-            var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
-            var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
+            var _a = exports._parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+            var _b = exports._parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
             var _ease = function (val) {
                 return ((val || 0) * eased);
             };
@@ -286,8 +286,8 @@ var __tweenPropHooks = {
         },
         set: function (tween, percent) {
             if (percent === 1) {
-                var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
-                var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
+                var _a = exports._parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+                var _b = exports._parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
                 if (typeof tween.end.x !== "undefined") {
                     if (dirX === "+") {
                         tween.item.x = tween.start.x + endX;
@@ -323,8 +323,8 @@ var __tweenPropHooks = {
                     y: 0
                 };
             }
-            var _a = _parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
-            var _b = _parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
+            var _a = exports._parseAbsoluteOrRelative(tween.end.x || 0), endX = _a.value, dirX = _a.direction;
+            var _b = exports._parseAbsoluteOrRelative(tween.end.y || 0), endY = _b.value, dirY = _b.direction;
             var _ease = function (val) {
                 return ((val || 0) * eased);
             };
@@ -370,7 +370,7 @@ var __tweenPropHooks = {
     Color: {
         get: function (tween) {
             var current_color = tween.item[tween.prop];
-            var component_names = _getColorComponentNames(current_color);
+            var component_names = exports._getColorComponentNames(current_color);
             var result = {};
             for (var _i = 0, component_names_1 = component_names; _i < component_names_1.length; _i++) {
                 var component_name = component_names_1[_i];
@@ -379,13 +379,13 @@ var __tweenPropHooks = {
             return result;
         },
         set: function (tween, percent) {
-            var component_names = _getColorComponentNames(tween.item[tween.prop]);
+            var component_names = exports._getColorComponentNames(tween.item[tween.prop]);
             var current_color = tween.item[tween.prop];
             var color_new = {};
             for (var _i = 0, component_names_2 = component_names; _i < component_names_2.length; _i++) {
                 var component_name = component_names_2[_i];
                 if (percent === 1) {
-                    var _a = _parseAbsoluteOrRelative(tween.end[component_name] || 0), end = _a.value, dir = _a.direction;
+                    var _a = exports._parseAbsoluteOrRelative(tween.end[component_name] || 0), end = _a.value, dir = _a.direction;
                     if (typeof tween.end[component_name] !== "undefined") {
                         if (dir === "+") {
                             tween.now[component_name] = tween.start[component_name] + end;
@@ -412,7 +412,7 @@ var __tweenPropHooks = {
             tween.item[tween.prop] = color_new;
         },
         ease: function (tween, eased) {
-            var component_names = _getColorComponentNames(tween.item[tween.prop]);
+            var component_names = exports._getColorComponentNames(tween.item[tween.prop]);
             var _ease = function (val) {
                 return (val || 0) * eased;
             };
@@ -425,7 +425,7 @@ var __tweenPropHooks = {
                 if (typeof tween._easeColorCache[curProp] === "undefined") {
                     tween._easeColorCache[curProp] = 0;
                 }
-                var _a = _parseAbsoluteOrRelative(tween.end[curProp] || 0), end = _a.value, dir = _a.direction;
+                var _a = exports._parseAbsoluteOrRelative(tween.end[curProp] || 0), end = _a.value, dir = _a.direction;
                 if (typeof tween.end[curProp] !== "undefined") {
                     if (dir === "+") {
                         tween.now[curProp] = _ease(end) - tween._easeColorCache[curProp];
@@ -454,7 +454,7 @@ for (var i = 0, l = _colorProperties.length; i < l; i++) {
     __tweenPropHooks[_colorProperties[i] + "Color"] = __tweenPropHooks.Color;
 }
 exports._tweenPropHooks = __tweenPropHooks;
-exports._pointDiff = __pointDiff;
+exports._pointDiff = exports.__pointDiff;
 exports.extendPropHooks = function (customHooks) {
     for (var i in customHooks) {
         if (customHooks.hasOwnProperty(i)) {
@@ -465,8 +465,11 @@ exports.extendPropHooks = function (customHooks) {
 if (typeof module !== "undefined") {
     module.exports = {
         _tweenPropHooks: __tweenPropHooks,
-        __pointDiff: __pointDiff,
-        extendPropHooks: exports.extendPropHooks
+        __pointDiff: exports.__pointDiff,
+        extendPropHooks: exports.extendPropHooks,
+        _parseAbsoluteOrRelative: exports._parseAbsoluteOrRelative,
+        _getColorType: exports._getColorType,
+        _getColorComponentNames: exports._getColorComponentNames
     };
 }
 

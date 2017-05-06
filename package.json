@@ -12,7 +12,9 @@
     "paper": ">= 0.9.0"
   },
   "devDependencies": {
+    "@types/jest": "^19.2.3",
     "@types/node": "^7.0.13",
+    "@types/paper": "^0.9.1",
     "browserify": "^14.3.0",
     "gulp": "^3.8.11",
     "gulp-notify": "^2.2.0",
@@ -21,16 +23,20 @@
     "gulp-typescript": "^3.1.6",
     "gulp-uglify": "^2.1.2",
     "gulp-yuidoc": "^0.1.2",
+    "jest": "^20.0.0",
     "jquery": "^3.2.1",
     "merge2": "^1.0.3",
     "qunit": "^1.0.0",
+    "ts-jest": "^19.0.14",
     "tsify": "^3.0.1",
     "typescript": "^2.2.2",
     "uglify-js": "^2.8.22",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Eartz/animatePaper.js.git"
@@ -46,5 +52,17 @@
   "bugs": {
     "url": "https://github.com/Eartz/animatePaper.js/issues"
   },
-  "homepage": "https://github.com/Eartz/animatePaper.js"
+  "homepage": "https://github.com/Eartz/animatePaper.js",
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  }
 }

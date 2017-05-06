@@ -1,4 +1,19 @@
 import { Tween } from "./tween";
+export declare const _parseAbsoluteOrRelative: (value: string | number) => {
+    value: number;
+    direction: string;
+};
+export declare const __pointDiff: (a: {
+    x: number;
+    y: number;
+    add: Function;
+    subtract: Function;
+}, b: {
+    x: number;
+    y: number;
+}, operator: "+" | "-") => any;
+export declare const _getColorType: (color_obj: any) => any;
+export declare const _getColorComponentNames: (color_obj: any) => any;
 export declare const _tweenPropHooks: {
     _default: {
         get: (tween: Tween) => any;
