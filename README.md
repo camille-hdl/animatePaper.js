@@ -277,7 +277,9 @@ animatePaper.fx.wave(myItem);
 ```
 
 ## Contributing
-as of 1.2.1 the lib uses TypeScript, so make your changes in src/*.ts then build with `gulp build-paper-animate` and `gulp build-paper-animate-browser`
+ * as of 1.2.1 the lib uses TypeScript, so make your changes in src/*.ts then build with `gulp build-paper-animate` and `gulp build-paper-animate-browser`.
+ * run unit tests with `npm test`.
+ * open tests/test.html in a browser to run integration tests.
  
 
 ## TODOS
