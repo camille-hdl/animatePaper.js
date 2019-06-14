@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-var paper = require("./getPaper");
 var tween_1 = require("./tween");
 var frameManager = require("./frameManager");
 var easing_1 = require("./easing");

@@ -1,4 +1,4 @@
-var paper = require("./getPaper");
+import paper from "./getPaper";
 import { Tween } from "./tween";
 import * as frameManager from "./frameManager";
 import { easing } from "./easing";

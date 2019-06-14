@@ -5,7 +5,7 @@ var effects = require("./effects");
 var easing_1 = require("./easing");
 var _frameManager = require("./frameManager");
 var prophooks_1 = require("./prophooks");
-var paper = require("./getPaper");
+var getPaper_1 = require("./getPaper");
 exports.animate = function (item, animation) {
     var animations = [];
     var output;
@@ -37,13 +37,13 @@ exports.stop = function (item, goToEnd, forceEnd) {
 exports.extendEasing = easing_1.easing.extendEasing;
 exports.frameManager = _frameManager;
 exports.fx = effects;
-if (!paper.Item.prototype.animate) {
-    paper.Item.prototype.animate = function (animation) {
+if (!getPaper_1["default"].Item.prototype.animate) {
+    getPaper_1["default"].Item.prototype.animate = function (animation) {
         return exports.animate(this, animation);
     };
 }
-if (!paper.Item.prototype.stop) {
-    paper.Item.prototype.stop = function (goToEnd, forceEnd) {
+if (!getPaper_1["default"].Item.prototype.stop) {
+    getPaper_1["default"].Item.prototype.stop = function (goToEnd, forceEnd) {
         return exports.stop(this, goToEnd, forceEnd);
     };
 }

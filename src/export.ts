@@ -3,7 +3,7 @@ import * as effects from "./effects";
 import { easing } from "./easing";
 import * as _frameManager from "./frameManager";
 import { extendPropHooks } from "./prophooks";
-var paper = require("./getPaper");
+import paper from "./getPaper";
 
 export interface AnimationArguments {
     settings: AnimationSettings;

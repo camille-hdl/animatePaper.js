@@ -14,25 +14,25 @@
   "devDependencies": {
     "@types/jest": "^19.2.3",
     "@types/node": "^7.0.13",
-    "@types/paper": "^0.9.1",
+    "@types/paper": "^0.11.14",
     "browserify": "^14.3.0",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.1",
     "gulp-notify": "^2.2.0",
-    "gulp-sourcemaps": "^2.6.0",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-streamify": "^1.0.2",
-    "gulp-typescript": "^3.1.6",
+    "gulp-typescript": "^3.2.4",
     "gulp-uglify": "^2.1.2",
     "gulp-yuidoc": "^0.1.2",
-    "jest": "^20.0.0",
-    "jquery": "^3.2.1",
+    "jest": "^19.0.0",
+    "jquery": "^3.4.1",
     "merge2": "^1.0.3",
     "qunit": "^1.0.0",
     "ts-jest": "^19.0.14",
     "tsify": "^3.0.1",
     "typescript": "^2.2.2",
     "uglify-js": "^2.8.22",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^1.1.2"
   },
   "scripts": {
     "test": "jest"
